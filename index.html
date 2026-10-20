@@ -1,0 +1,1134 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>FertAmapá - Cálculos de Calagem e Adubação Mineral de NPK</title>
+  <style>
+    :root {
+      /* Verde mantido para Tela de Início e Faixa Superior */
+      --green-header: #2e7d32;
+      --green-header-hover: #1b5e20;
+      
+      /* Azul Embrapa para o Corpo das Abas */
+      --primary-color: #003b70;
+      --primary-hover: #00284d;
+      --secondary-color: #f5f5f5;
+      --accent-color: #64b5f6;
+      --light-blue-bg: #e3f2fd;
+      --text-color: #333;
+      --border-color: #ccc;
+    }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      -webkit-tap-highlight-color: transparent;
+    }
+    body {
+      background-color: #f8f9fa;
+      color: var(--text-color);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    /* Tela de Apresentação (Hero) - Verde Mantido */
+    .hero-container {
+      position: relative;
+      width: 100%;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+      color: white;
+      text-align: center;
+      padding: 20px 15px;
+    }
+    .hero-bg {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: var(--green-header);
+      filter: blur(6px);
+      transform: scale(1.08);
+      z-index: 1;
+    }
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      background: rgba(0, 0, 0, 0.5);
+      padding: 30px 20px;
+      border-radius: 20px;
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+      box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+      width: 100%;
+      max-width: 400px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .hero-title {
+      font-size: 2.8rem;
+      font-weight: 800;
+      letter-spacing: 1px;
+      margin-bottom: 8px;
+      text-shadow: 2px 2px 8px rgba(0,0,0,0.6);
+    }
+    .hero-subtitle {
+      font-size: 1rem;
+      margin-bottom: 25px;
+      font-weight: 300;
+      opacity: 0.95;
+      line-height: 1.4;
+    }
+    .hero-buttons {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      width: 100%;
+      align-items: center;
+    }
+    .btn-square {
+      width: 100%;
+      max-width: 280px;
+      height: 70px;
+      background-color: rgba(255, 255, 255, 0.95);
+      color: var(--green-header);
+      border: 2px solid var(--green-header);
+      border-radius: 14px;
+      font-size: 1rem;
+      font-weight: bold;
+      cursor: pointer;
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
+      gap: 12px;
+      transition: all 0.2s ease;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    }
+    .btn-square svg {
+      width: 32px;
+      height: 32px;
+      fill: var(--green-header);
+      transition: transform 0.2s ease;
+    }
+    .btn-square:active {
+      background-color: var(--green-header);
+      color: white;
+      transform: scale(0.98);
+    }
+    .btn-square:active svg {
+      fill: white;
+    }
+    /* Faixa Fixa Superior (Header) - Verde Mantido */
+    .app-header {
+      background-color: var(--green-header);
+      color: white;
+      padding: 12px 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+    .app-title {
+      font-size: 1.3rem;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+    .btn-action {
+      background-color: #ffffff;
+      color: var(--green-header);
+      border: none;
+      padding: 6px 10px;
+      border-radius: 6px;
+      font-size: 0.8rem;
+      font-weight: bold;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      transition: background-color 0.2s ease;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    .btn-action:hover {
+      background-color: #f0f0f0;
+    }
+    .btn-action svg {
+      width: 16px;
+      height: 16px;
+      fill: var(--green-header);
+    }
+    /* Navegação das Abas - Azul Embrapa */
+    .nav-tabs {
+      display: flex;
+      background-color: #e0e0e0;
+      border-bottom: 2px solid var(--border-color);
+      padding: 0 5px;
+      overflow-x: auto;
+      white-space: nowrap;
+      -webkit-overflow-scrolling: touch;
+    }
+    .nav-tabs::-webkit-scrollbar {
+      display: none;
+    }
+    .tab-button {
+      padding: 12px 16px;
+      border: none;
+      background: none;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: #555;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      border-bottom: 3px solid transparent;
+      flex-shrink: 0;
+    }
+    .tab-button.active {
+      color: var(--primary-color);
+      border-bottom-color: var(--primary-color);
+      background-color: white;
+    }
+    .main-content {
+      padding: 15px 12px;
+      width: 100%;
+      max-width: 650px;
+      margin: 0 auto;
+      flex: 1;
+    }
+    .tab-content {
+      display: none;
+      background: white;
+      padding: 18px 14px;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    }
+    .tab-content.active {
+      display: block !important;
+    }
+    h2 {
+      color: var(--primary-color);
+      font-size: 1.25rem;
+      margin-bottom: 16px;
+      border-bottom: 2px solid var(--accent-color);
+      padding-bottom: 6px;
+      line-height: 1.3;
+    }
+    h3 {
+      font-size: 1.05rem;
+    }
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 14px;
+      margin-bottom: 20px;
+    }
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .form-group-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+      gap: 10px;
+    }
+    .sub-group-title {
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: var(--primary-color);
+      background-color: var(--light-blue-bg);
+      padding: 5px 8px;
+      border-radius: 4px;
+      margin-top: 6px;
+      border-left: 3px solid var(--primary-color);
+    }
+    .side-bar-container {
+      display: flex;
+      flex-direction: row;
+      border-radius: 8px;
+      overflow: hidden;
+      border: 1px solid #e0e0e0;
+      background-color: #fafafa;
+    }
+    .side-bar-label {
+      background-color: var(--primary-color);
+      color: white;
+      writing-mode: vertical-rl;
+      transform: rotate(180deg);
+      text-align: center;
+      font-weight: bold;
+      font-size: 0.78rem;
+      letter-spacing: 1px;
+      padding: 10px 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      user-select: none;
+      flex-shrink: 0;
+    }
+    .side-bar-content {
+      flex: 1;
+      padding: 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      background-color: #ffffff;
+    }
+    .section-title {
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: var(--primary-color);
+      margin-bottom: 8px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    label {
+      font-weight: 600;
+      font-size: 0.8rem;
+      color: #444;
+    }
+    input, select {
+      padding: 7px 9px;
+      border: 1px solid var(--border-color);
+      border-radius: 6px;
+      font-size: 0.88rem;
+      outline: none;
+      width: 100%;
+      background-color: #fff;
+    }
+    input[readonly] {
+      background-color: #e9ecef;
+      color: #495057;
+      font-weight: bold;
+      cursor: not-allowed;
+      border-color: #ced4da;
+    }
+    input:focus:not([readonly]), select:focus {
+      border-color: var(--primary-color);
+    }
+    .table-container {
+      overflow-x: auto;
+      margin-top: 12px;
+      -webkit-overflow-scrolling: touch;
+      border-radius: 6px;
+      border: 1px solid var(--border-color);
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      table-layout: auto;
+    }
+    th, td {
+      border: 1px solid #e0e0e0;
+      padding: 6px 8px;
+      font-size: 0.8rem;
+      text-align: left;
+      word-break: break-word;
+    }
+    th {
+      background-color: var(--light-blue-bg);
+      color: var(--primary-color);
+      font-weight: bold;
+    }
+    tr:nth-child(even) {
+      background-color: #fafafa;
+    }
+    .table-compact th,
+    .table-compact td {
+      padding: 5px 6px;
+      font-size: 0.76rem;
+    }
+    #tab-INSUMOS table th:nth-child(3),
+    #tab-INSUMOS table td:nth-child(3) {
+      text-align: center;
+    }
+    .input-table-price {
+      padding: 5px 6px;
+      font-size: 0.8rem;
+      border: 1px solid var(--primary-color);
+      border-radius: 4px;
+      width: 80px;
+      font-weight: bold;
+      color: var(--primary-hover);
+      background-color: var(--light-blue-bg);
+      text-align: center;
+    }
+    .info-card {
+      background-color: var(--light-blue-bg);
+      border-left: 4px solid var(--primary-color);
+      padding: 10px;
+      margin-bottom: 15px;
+      border-radius: 4px;
+    }
+    .info-card p {
+      margin-bottom: 6px;
+      line-height: 1.35;
+      font-size: 0.82rem;
+    }
+    footer {
+      text-align: center;
+      padding: 12px;
+      background-color: #e0e0e0;
+      font-size: 0.75rem;
+      color: #666;
+      margin-top: auto;
+    }
+    
+    /* Configuração de Impressão / PDF - Suprime a URL e Mantém Apenas a Numeração da Página no Rodapé */
+    @media print {
+      @page {
+        size: portrait;
+        margin: 12mm 15mm;
+        @bottom-left {
+          content: "" !important;
+        }
+        @bottom-center {
+          content: "" !important;
+        }
+        @bottom-right {
+          content: counter(page) !important;
+        }
+      }
+      html, body { 
+        height: auto !important;
+        min-height: 0 !important;
+        background-color: white !important; 
+        color: black !important; 
+        margin: 0 !important;
+        padding: 0 !important;
+      }
+      .hero-container, .app-header, .nav-tabs, footer, .header-actions { 
+        display: none !important; 
+      }
+      #app { 
+        display: block !important; 
+        min-height: 0 !important;
+        height: auto !important;
+      }
+      .main-content { 
+        max-width: 100% !important; 
+        padding: 0 !important; 
+        margin: 0 !important; 
+      }
+      .tab-content { 
+        box-shadow: none !important; 
+        padding: 0 !important; 
+        border-radius: 0 !important; 
+      }
+      input, select { 
+        border: none !important; 
+        background: transparent !important; 
+        padding: 0 !important; 
+      }
+      .side-bar-container { border: 1px solid #ccc !important; }
+      .table-container { border: none !important; }
+      th, td { border: 1px solid #999 !important; }
+      .print-only { display: block !important; }
+    }
+    .print-only { display: none; }
+  </style>
+</head>
+<body>
+  <!-- HERO -->
+  <div id="hero" class="hero-container">
+    <div class="hero-bg"></div>
+    <div class="hero-content">
+      <h1 class="hero-title">FertAmapá</h1>
+      <p class="hero-subtitle">Sistema de Cálculos para Calagem e Adubação Mineral de NPK nas Condições do Amapá e Região (Plantio/Semeio)</p>
+      <div class="hero-buttons">
+        <button type="button" class="btn-square" id="btn-start-analise" onclick="openModule('ANALISE')">
+          <svg viewBox="0 0 24 24"><path d="M19,3H5C3.9,3 3,3.9 3,5V19C3,20.1 3.9,21 5,21H19C20.1,21 21,20.1 21,19V5C21,3.9 20.1,3 19,3M19,19H5V5H19V19M6.25,7.72H11.25V9.22H6.25V7.72M12.75,7.72H17.75V9.22H12.75V7.72M6.25,11.72H11.25V13.22H6.25V11.72M12.75,11.72H17.75V13.22H12.75V11.72M6.25,15.72H11.25V17.22H6.25V15.72M12.75,15.72H17.75V17.22H12.75V15.72Z"/></svg>
+          Análise de Solo
+        </button>
+        
+        <button type="button" class="btn-square" id="btn-start-insumos" onclick="openModule('INSUMOS')">
+          <svg viewBox="0 0 24 24"><path d="M7,18C5.9,18 5,18.9 5,20C5,21.1 5.9,22 7,22C8.1,22 9,21.1 9,20C9,18.9 8.1,18 7,18M1,2V4H3L6.6,11.59L5.25,14.04C5.09,14.32 5,14.65 5,15C5,16.1 5.9,17 7,17H19V15H7.42C7.28,15 7.17,14.89 7.17,14.75L7.2,14.63L8.1,13H15.55C16.3,13 16.96,12.59 17.3,11.97L20.88,5.5C20.96,5.34 21,5.17 21,5C21,4.45 20.55,4 20,4H5.21L4.27,2H1M17,18C15.9,18 15,18.9 15,20C15,21.1 15.9,22 17,22C18.1,22 19,21.1 19,20C19,18.9 18.1,18 17,18Z"/></svg>
+          Insumos
+        </button>
+        <button type="button" class="btn-square" id="btn-start-dizeres" onclick="openModule('DIZERES')">
+          <svg viewBox="0 0 24 24">
+            <path d="M14,2H6A2,2 0 0,0 4,4V20A2,2 0 0,0 6,22H18A2,2 0 0,0 20,20V8L14,2M18,20H6V4H13V9H18V20M8,12V14H16V12H8M8,16V18H13V16H8Z"/>
+          </svg>
+          Dizeres Técnicos
+        </button>
+      </div>
+    </div>
+  </div>
+  <!-- APP -->
+  <div id="app" style="display: none; flex-direction: column; min-height: 100vh;">
+    <header class="app-header">
+      <div class="app-title" onclick="showHero()">🌱 FertAmapá</div>
+      <div class="header-actions">
+        <button type="button" class="btn-action" onclick="window.print()" title="Imprimir ou Salvar PDF">
+          <svg viewBox="0 0 24 24"><path d="M19,8H5C3.34,8 2,9.34 2,11V17H6V21H18V17H22V11C22,9.34 20.66,8 19,8M16,19H8V15H16V19M19,12C18.45,12 18,11.55 18,11C18,10.45 18.45,10 19,10C19.55,10 20,10.45 20,11C20,11.55 19.55,12 19,12M18,3H6V7H18V3Z"/></svg>
+          PDF
+        </button>
+        <button type="button" class="btn-action" onclick="compartilharRelatorio()" title="Compartilhar Relatório">
+          <svg viewBox="0 0 24 24"><path d="M18,16.08C17.24,16.08 16.56,16.38 16.04,16.85L8.91,12.7C8.96,12.47 9,12.24 9,12C9,11.76 8.96,11.53 8.91,11.3L15.96,7.19C16.5,7.69 17.21,8 18,8A3,3 0 0,0 21,5A3,3 0 0,0 18,2A3,3 0 0,0 15,5C15,5.24 15.04,5.47 15.09,5.7L8.04,9.81C7.5,9.31 6.79,9 6,9A3,3 0 0,0 3,12A3,3 0 0,0 6,15C6.79,15 7.5,14.69 8.04,14.19L15.16,18.34C15.11,18.55 15.08,18.77 15.08,19A3,3 0 0,0 18.08,22A3,3 0 0,0 21.08,19A3,3 0 0,0 18,16.08Z"/></svg>
+          Enviar
+        </button>
+        <button type="button" onclick="showHero()" style="background:none; border:1px solid white; color:white; padding: 5px 8px; border-radius:4px; font-size:0.8rem; cursor:pointer; margin-left: 2px;">
+          Início
+        </button>
+      </div>
+    </header>
+    <nav class="nav-tabs">
+      <button type="button" class="tab-button active" onclick="switchTab('ANALISE')">ANÁLISE DE SOLO</button>
+      <button type="button" class="tab-button" onclick="switchTab('RELATORIO')">RELATÓRIO</button>
+      <button type="button" class="tab-button" onclick="switchTab('INSUMOS')">INSUMOS</button>
+      <button type="button" class="tab-button" onclick="switchTab('DIZERES')">DIZERES TÉCNICOS</button>
+    </nav>
+    <main class="main-content">
+      <!-- ABA ANÁLISE DE SOLO -->
+      <section id="tab-ANALISE" class="tab-content active">
+        <h2>Análise de Solo (0 - 20 cm)</h2>
+        
+        <div class="form-group" style="margin-bottom: 16px;">
+          <label for="cultura">Cultura Desejada:</label>
+          <select id="cultura" onchange="atualizarCultura()">
+            <option value="ABACAXI" selected>ABACAXI</option>
+            <option value="AÇAÍ">AÇAÍ</option>
+            <option value="BANANA">BANANA</option>
+            <option value="CACAU">CACAU</option>
+            <option value="CAFÉ CANÉFORA">CAFÉ CANÉFORA</option>
+            <option value="CITROS">CITROS</option>
+            <option value="COCO">COCO</option>
+            <option value="CUPUAÇU">CUPUAÇU</option>
+            <option value="FEIJÃO-CAUPI">FEIJÃO-CAUPI</option>
+            <option value="FORRAGEIRA">FORRAGEIRA</option>
+            <option value="MANDIOCA">MANDIOCA</option>
+            <option value="MARACUJÁ">MARACUJÁ</option>
+            <option value="MELANCIA">MELANCIA</option>
+            <option value="MILHO">MILHO</option>
+            <option value="PIMENTA-DO-REINO">PIMENTA-DO-REINO</option>
+            <option value="SOJA">SOJA</option>
+          </select>
+        </div>
+        
+        <div class="form-grid">
+          <div class="side-bar-container">
+            <div class="side-bar-label">CALAGEM</div>
+            <div class="side-bar-content">
+              <div class="sub-group-title">Método Elevação da Saturação por Bases</div>
+              <div class="form-group-row">
+                <!-- Campo V2 Desejada Ocultado -->
+                <div class="form-group" style="display: none;">
+                  <label for="v2_input">V2 Desejada (%):</label>
+                  <input type="text" id="v2_input" value="60%" readonly>
+                </div>
+                <!-- Inversão entre CTC e V1 Atual -->
+                <div class="form-group">
+                  <label for="ctc">CTC (pH 7,0):</label>
+                  <input type="number" id="ctc" value="2.1" step="0.1" oninput="calcular()">
+                </div>
+                <div class="form-group">
+                  <label for="v1">V (%):</label>
+                  <input type="number" id="v1" value="6.0" step="0.1" oninput="calcular()">
+                </div>
+              </div>
+              <div class="sub-group-title">Método Neutralização do Al e Elevação de Ca+Mg</div>
+              <div class="form-group-row">
+                <div class="form-group">
+                  <label for="solo_al">Al³⁺ (cmol_c/dm³):</label>
+                  <input type="number" id="solo_al" value="0.8" step="0.1" oninput="calcular()">
+                </div>
+                <div class="form-group">
+                  <label for="solo_ca">Ca (cmol_c/dm³):</label>
+                  <input type="number" id="solo_ca" value="0.6" step="0.1" oninput="calcular()">
+                </div>
+                <div class="form-group">
+                  <label for="solo_mg">Mg (cmol_c/dm³):</label>
+                  <input type="number" id="solo_mg" value="0.6" step="0.1" oninput="calcular()">
+                </div>
+              </div>
+              <div class="sub-group-title">Especificação do Insumo</div>
+              <div class="form-group-row">
+                <div class="form-group">
+                  <label for="prnt">PRNT Calcário (%):</label>
+                  <input type="number" id="prnt" value="83.0" step="0.1" oninput="calcular()">
+                </div>
+              </div>
+              <div class="sub-group-title">Resultados da Calagem por Método Comercial (kg/ha)</div>
+              <div class="form-group-row">
+                <div class="form-group">
+                  <label for="nc_sat_bases_kgha">Saturação por Bases:</label>
+                  <input type="text" id="nc_sat_bases_kgha" value="0.00 kg/ha" readonly>
+                </div>
+                <div class="form-group">
+                  <label for="nc_al_camg_kgha">Neutralização Al + Ca/Mg:</label>
+                  <input type="text" id="nc_al_camg_kgha" value="0.00 kg/ha" readonly>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div style="margin-top: 10px;">
+           
+          </div>
+          <div class="side-bar-container">
+            <div class="side-bar-label">FONTES MINERAIS</div>
+            <div class="side-bar-content">
+              <div class="sub-group-title">Fertilidade do Solo</div>
+              <div class="form-group-row">
+                <div class="form-group">
+                  <label for="soloN">N no Solo:</label>
+                  <input type="text" id="soloN" value="Não estimado" readonly style="font-size:0.8rem;">
+                </div>
+                <div class="form-group">
+                  <label for="soloP">P (mg/dm³):</label>
+                  <input type="number" id="soloP" value="5.4" step="0.1" oninput="calcular()">
+                </div>
+                <div class="form-group">
+                  <label for="soloK">K (cmol_c/dm³):</label>
+                  <input type="number" id="soloK" value="0.39" step="0.01" oninput="calcular()">
+                </div>
+              </div>
+              <div class="sub-group-title">Recomendação Teórica para a Cultura</div>
+              <div class="form-group-row">
+                <div class="form-group">
+                  <label for="dose_n">N (kg/ha):</label>
+                  <input type="number" id="dose_n" value="120" step="1" readonly>
+                </div>
+                <div class="form-group">
+                  <label for="dose_p2o5">P₂O₅ (kg/ha):</label>
+                  <input type="number" id="dose_p2o5" value="80" step="1" readonly>
+                </div>
+                <div class="form-group">
+                  <label for="dose_k2o">K₂O (kg/ha):</label>
+                  <input type="number" id="dose_k2o" value="320" step="1" readonly>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Botão ao final do formulário direcionado para a aba RELATÓRIO -->
+        <div style="margin-top: 20px; text-align: center;">
+          <button type="button" onclick="switchTab('RELATORIO'); window.scrollTo(0, 0);" style="background-color: var(--primary-color); color: white; border: none; padding: 10px 20px; border-radius: 8px; font-size: 0.88rem; font-weight: bold; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; box-shadow: 0 2px 6px rgba(0,0,0,0.15); transition: background-color 0.2s ease;">
+            <svg viewBox="0 0 24 24" style="width:18px; height:18px; fill:white;"><path d="M14,2H6A2,2 0 0,0 4,4V20A2,2 0 0,0 6,22H18A2,2 0 0,0 20,20V8L14,2M18,20H6V4H13V9H18V20M8,12V14H16V12H8M8,16V18H13V16H8Z"/></svg>
+            Gerar Relatório
+          </button>
+        </div>
+      </section>
+      <!-- ABA RELATÓRIO -->
+      <section id="tab-RELATORIO" class="tab-content">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/e/ec/Embrapa_-_Marca.png" alt="Marca Embrapa" style="width: 150px; height: auto; display: block; margin: 0 auto 20px auto;">
+        <h2>Recomendações Sugeridas</h2>
+        <div class="form-group" style="margin-bottom: 20px;">
+          <label for="relatorio_cultura">Cultura Desejada:</label>
+          <input type="text" id="relatorio_cultura" value="ABACAXI" readonly style="font-weight: bold; color: var(--primary-color);">
+        </div>
+        <h3 style="margin-top: 20px; color: var(--primary-color);">Calagem</h3>
+        <div class="table-container">
+          <table class="table-compact">
+            <thead>
+              <tr>
+                <th>Parâmetro</th>
+                <th>Valor Calculado</th>
+                <th>Custo Estimado (R$)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr style="display: none;">
+                <td>Saturação de Bases Recomendada (V2 %)</td>
+                <td id="res-v2">60%</td>
+                <td>-</td>
+              </tr>
+              <tr>
+                <td>Necessidade de Calcário (PRNT 100%)</td>
+                <td id="res-nc100">0.00 kg/ha</td>
+                <td>-</td>
+              </tr>
+              <tr>
+                <td>Calcário Comercial Requerido [Maior valor entre métodos]</td>
+                <td id="res-ncprnt">0.00 kg/ha</td>
+                <td id="res-custo-calcario">R$ 0,00</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <h3 style="margin-top: 20px; color: var(--primary-color);">Fertilizantes Calculados Individualmente</h3>
+        <div class="table-container">
+          <table class="table-compact">
+            <thead>
+              <tr>
+                <th>Fertilizante Comercial</th>
+                <th>Quantidade (kg/ha)</th>
+                <th>Valor (R$)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Sulfato de Amônio</td>
+                <td id="fc-samonio-peso">0.00 kg/ha</td>
+                <td id="fc-samonio-valor">R$ 0,00</td>
+              </tr>
+              <tr>
+                <td>Ureia</td>
+                <td id="fc-ureia-peso">0.00 kg/ha</td>
+                <td id="fc-ureia-valor">R$ 0,00</td>
+              </tr>
+              <tr>
+                <td>Superfosfato Simples (SFS)</td>
+                <td id="fc-sfs-peso">0.00 kg/ha</td>
+                <td id="fc-sfs-valor">R$ 0,00</td>
+              </tr>
+              <tr>
+                <td>Superfosfato Triplo (SFT)</td>
+                <td id="fc-sft-peso">0.00 kg/ha</td>
+                <td id="fc-sft-valor">R$ 0,00</td>
+              </tr>
+              <tr>
+                <td>Cloreto de Potássio (KCl)</td>
+                <td id="fc-kcl-peso">0.00 kg/ha</td>
+                <td id="fc-kcl-valor">R$ 0,00</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <h3 style="margin-top: 20px; color: var(--primary-color);">Formulação e Adubação Agrupada (Plantio/Semeio/Cobertura)</h3>
+        <div class="table-container">
+          <table class="table-compact">
+            <thead>
+              <tr>
+                <th>Grupo / Fontes Utilizadas</th>
+                <th>Formulação N-P-K</th>
+                <th>Qtd (kg/ha)</th>
+                <th>Custo Total (R$)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Grupo 1:</strong> Sulfato de Amônio + SFT + KCl</td>
+                <td id="g1-formula" style="text-align: center;">0 - 0 - 0</td>
+                <td id="g1-qtd">0,00 kg/ha</td>
+                <td id="g1-custo">R$ 0,00</td>
+              </tr>
+              <tr>
+                <td><strong>Grupo 2:</strong> Ureia + SFS + KCl</td>
+                <td id="g2-formula" style="text-align: center;">0 - 0 - 0</td>
+                <td id="g2-qtd">0,00 kg/ha</td>
+                <td id="g2-custo">R$ 0,00</td>
+              </tr>
+            </tbody>
+          </table>
+          <div id="nota-cobertura" style="padding: 8px 10px; font-size: 0.78rem; color: #003b70; font-weight: 600; background-color: var(--light-blue-bg); border-top: 1px solid var(--border-color); display: none;"></div>
+        </div>
+      </section>
+      <!-- ABA INSUMOS -->
+      <section id="tab-INSUMOS" class="tab-content">
+        <h2>Preços de Mercado dos Insumos</h2>
+        <div class="table-container">
+          <table class="table-compact">
+            <thead>
+              <tr>
+                <th>Insumo</th>
+                <th>Especificação</th>
+                <th>Preço / kg (R$)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Calcário</td>
+                <td>PRNT</td>
+                <td><input type="number" class="input-table-price" id="preco_calcario" placeholder="" step="0.01" oninput="salvarEcalcular()"></td>
+              </tr>
+              <tr>
+                <td>Sulfato de Amônio</td>
+                <td>20% N, 22% S</td>
+                <td><input type="number" class="input-table-price" id="preco_samonio" placeholder="" step="0.01" oninput="salvarEcalcular()"></td>
+              </tr>
+              <tr>
+                <td>Ureia</td>
+                <td>45% N</td>
+                <td><input type="number" class="input-table-price" id="preco_ureia" placeholder="" step="0.01" oninput="salvarEcalcular()"></td>
+              </tr>
+              <tr>
+                <td>Superfosfato Simples</td>
+                <td>18% P₂O₅, 16% Ca, 10% S</td>
+                <td><input type="number" class="input-table-price" id="preco_sfs" placeholder="" step="0.01" oninput="salvarEcalcular()"></td>
+              </tr>
+              <tr>
+                <td>Superfosfato Triplo</td>
+                <td>41% P₂O₅, 10% Ca</td>
+                <td><input type="number" class="input-table-price" id="preco_sft" placeholder="" step="0.01" oninput="salvarEcalcular()"></td>
+              </tr>
+              <tr>
+                <td>Cloreto de Potássio</td>
+                <td>50% K₂O</td>
+                <td><input type="number" class="input-table-price" id="preco_kcl" placeholder="" step="0.01" oninput="salvarEcalcular()"></td>
+              </tr>
+            </tbody>
+          </table>
+          <div style="padding: 2px;"> 
+            <span style="color: var(--primary-color); font-size: 0.75rem;">&nbsp;Garantias mínimas de concentração definidas pela Instrução Normativa nº 39, de 08/08/2018, do Ministério da Agricultura e Pecuária.</span> 
+          </div>
+        </div>
+      </section>
+      <!-- ABA DIZERES -->
+      <section id="tab-DIZERES" class="tab-content">
+        <h2>Dizeres Técnicos e Recomendações</h2>
+        <div class="info-card">
+          <p>📌 <strong>Necessidades nutricionais (N, P₂O₅ e K₂O):</strong> As dosagens teóricas sugeridas aplicam-se exclusivamente às etapas de plantio ou semeio, a depender da cultura, visando o seu desenvolvimento inicial e/ou estabelecimento, com base em tabelas oficiais e na literatura científica. As demais e subsequentes adubações ficam condicionadas ao acompanhamento contínuo do estado nutricional das plantas e do solo ao longo do ciclo. Contudo, o ajuste preciso de todas as doses exige a orientação de um profissional qualificado, considerando o histórico da área e as metas de produtividade.</p>
+          <p>📌 <strong>Bibliografia recomendada:</strong></p>
+          <div style="padding-left: 24px; font-size: 0.75rem; word-break: break-all; margin-bottom: 6px;">
+            <p style="margin-bottom: 3px;"><a href="https://www.embrapa.br/busca-de-publicacoes/-/publicacao/1125022/recomendacoes-de-calagem-e-adubacao-para-o-estado-do-para" target="_blank" rel="noopener noreferrer" style="color: var(--primary-color); text-decoration: underline;">https://www.embrapa.br/busca-de-publicacoes/-/publicacao/1125022/recomendacoes-de-calagem-e-adubacao-para-o-estado-do-para</a></p>
+            <p style="margin-bottom: 0;"><a href="https://www.embrapa.br/busca-de-publicacoes/-/publicacao/1177228/melhores-espacamentos-e-numero-de-estipes-para-o-cultivo-do-acaizeiro-no-cerrado-do-amapa" target="_blank" rel="noopener noreferrer" style="color: var(--primary-color); text-decoration: underline;">https://www.embrapa.br/busca-de-publicacoes/-/publicacao/1177228/melhores-espacamentos-e-numero-de-estipes-para-o-cultivo-do-acaizeiro-no-cerrado-do-amapa</a></p>
+          </div>
+          <p>📌 <strong>Combinação de fertilizantes:</strong> Recomenda-se combinar fertilizantes mais concentrados com os de menor concentração (Ex: Sulfato de Amônio + Superfosfato Triplo ou Ureia + Superfosfato Simples).</p>
+          <p>📌 <strong>Parcelamento:</strong> Fertilizantes nitrogenados e potássicos devem ser parcelados durante o ano, conforme recomendação técnica específica da cultura.</p>
+          <p>📌 <strong>Aplicação de fósforo:</strong> Fertilizantes fosfatados devem ser aplicados em dose única por ocasião do plantio/semeadura.</p>
+          <p>📌 <strong>Fator de incorporação do calcário:</strong> Para a aplicação superficial ou incorporada até 20 cm de profundidade — método observado nestes cálculos —, utiliza-se o valor 1,0. Nos casos em que a incorporação for feita de 20 a 30 cm, o valor deve ser multiplicado por 1,5.</p>
+        </div>
+      </section>
+    </main>
+    <footer style="position: fixed; bottom: 0; left: 0; width: 100%; text-align: center; font-size: 0.75rem; background-color: #ffffff; padding: 5px 0; z-index: 1000; box-shadow: 0 -2px 5px rgba(0,0,0,0.05);">
+      <p style="margin: 0;">&copy; Embrapa 2026.</p>
+    </footer>
+  </div>
+  <script>
+    const tabelaV2 = {
+      "ABACAXI": 60,
+      "AÇAÍ": 60,
+      "BANANA": 60,
+      "CACAU": 60,
+      "CAFÉ CANÉFORA": 60,
+      "CITROS": 60,
+      "COCO": 60,
+      "CUPUAÇU": 50,
+      "FEIJÃO-CAUPI": 50,
+      "FORRAGEIRA": 50,
+      "MANDIOCA": 50,
+      "MARACUJÁ": 70,
+      "MELANCIA": 70,
+      "MILHO": 70,
+      "PIMENTA-DO-REINO": 70,
+      "SOJA": 60
+    };
+    // Tabelas de Nível com especificação da escala de solo para P (mg/dm³) e K (cmol_c/dm³), com 'n' (plantio/semeio), 'nCobertura' (cobertura), 'k' (plantio/semeio) e 'kCobertura' (cobertura)
+    const tabelaNivelBaixo = {
+      "ABACAXI": { pEscala: "0 – 10", kEscala: "<=0.15", pMin: 0, pMax: 10, kMin: 0, kMax: 0.15, n: 100, nCobertura: 20, p: 80, k: 80, kCobertura: 240 },
+      "AÇAÍ": { pEscala: "0 – 5", kEscala: "<=0.10", pMin: 0, pMax: 5, kMin: 0, kMax: 0.10, n: 20, nCobertura: 70, p: 40, k: 30, kCobertura: 70 },
+      "BANANA": { pEscala: "0 – 10", kEscala: "<=0.15", pMin: 0, pMax: 10, kMin: 0, kMax: 0.15, n: 27, nCobertura: 240, p: 167, k: 100, kCobertura: 400 },
+      "CACAU": { pEscala: "0 – 10", kEscala: "<=0.15", pMin: 0, pMax: 10, kMin: 0, kMax: 0.15, n: 4, nCobertura: 20, p: 90, k: 15, kCobertura: 20 },
+      "CAFÉ CANÉFORA": { pEscala: "0 – 10", kEscala: "<=0.15", pMin: 0, pMax: 10, kMin: 0, kMax: 0.15, n: 5, nCobertura: 20, p: 67, k: 15, kCobertura: 35 },
+      "CITROS": { pEscala: "0 – 10", kEscala: "<=0.15", pMin: 0, pMax: 10, kMin: 0, kMax: 0.15, n: 30, nCobertura: 180, p: 210, k: 30, kCobertura: 75 },
+      "COCO": { pEscala: "0 – 10", kEscala: "<=0.15", pMin: 0, pMax: 10, kMin: 0, kMax: 0.15, n: 30, nCobertura: 180, p: 210, k: 30, kCobertura: 75 },
+      "CUPUAÇU": { pEscala: "0 – 10", kEscala: "<=0.15", pMin: 0, pMax: 10, kMin: 0, kMax: 0.15, n: 5, nCobertura: 15, p: 20, k: 10, kCobertura: 22 },
+      "FEIJÃO-CAUPI": { pEscala: "0 – 10", kEscala: "<=0.15", pMin: 0, pMax: 10, kMin: 0, kMax: 0.15, n: 0, nCobertura: 0, p: 80, k: 30, kCobertura: 60 },
+      "FORRAGEIRA": { pEscala: "0 – 10", kEscala: "<=0.15", pMin: 0, pMax: 10, kMin: 0, kMax: 0.15, n: 0, nCobertura: 0, p: 80, k: 30, kCobertura: 60 },
+      "MANDIOCA": { pEscala: "0 – 10", kEscala: "<=0.15", pMin: 0, pMax: 10, kMin: 0, kMax: 0.15, n: 10, nCobertura: 30, p: 100, k: 30, kCobertura: 90 },
+      "MARACUJÁ": { pEscala: "0 – 10", kEscala: "<=0.15", pMin: 0, pMax: 10, kMin: 0, kMax: 0.15, n: 20, nCobertura: 60, p: 61, k: 20, kCobertura: 52 },
+      "MELANCIA": { pEscala: "0 – 10", kEscala: "<=0.15", pMin: 0, pMax: 10, kMin: 0, kMax: 0.15, n: 20, nCobertura: 60, p: 61, k: 20, kCobertura: 52 },
+      "MILHO": { pEscala: "0 – 10", kEscala: "<=0.15", pMin: 0, pMax: 10, kMin: 0, kMax: 0.15, n: 20, nCobertura: 110, p: 90, k: 20, kCobertura: 50 },
+      "PIMENTA-DO-REINO": { pEscala: "0 – 10", kEscala: "<=0.15", pMin: 0, pMax: 10, kMin: 0, kMax: 0.15, n: 20, nCobertura: 110, p: 90, k: 20, kCobertura: 50 },
+      "SOJA": { pEscala: "0 – 10", kEscala: "<=0.15", pMin: 0, pMax: 10, kMin: 0, kMax: 0.15, n: 0, nCobertura: 0, p: 90, k: 30, kCobertura: 40 }
+    };
+    const tabelaNivelMedio = {
+      "ABACAXI": { pEscala: "10.1 – 20", kEscala: "0.16 – 0.30", pMin: 10.01, pMax: 20, kMin: 0.151, kMax: 0.30, n: 20, nCobertura: 100, p: 60, k: 60, kCobertura: 180 },
+      "AÇAÍ": { pEscala: "5.1 – 10", kEscala: "0.11 – 0.20", pMin: 5.1, pMax: 10, kMin: 0.11, kMax: 0.20, n: 20, nCobertura: 70, p: 30, k: 20, kCobertura: 60 },
+      "BANANA": { pEscala: "10.1 – 20", kEscala: "0.16 – 0.30", pMin: 10.01, pMax: 20, kMin: 0.151, kMax: 0.30, n: 27, nCobertura: 240, p: 120, k: 80, kCobertura: 300 },
+      "CACAU": { pEscala: "10.1 – 20", kEscala: "0.16 – 0.30", pMin: 10.01, pMax: 20, kMin: 0.151, kMax: 0.30, n: 4, nCobertura: 20, p: 60, k: 10, kCobertura: 15 },
+      "CAFÉ CANÉFORA": { pEscala: "10.1 – 20", kEscala: "0.16 – 0.30", pMin: 10.01, pMax: 20, kMin: 0.151, kMax: 0.30, n: 5, nCobertura: 20, p: 45, k: 10, kCobertura: 25 },
+      "CITROS": { pEscala: "10.1 – 20", kEscala: "0.16 – 0.30", pMin: 10.01, pMax: 20, kMin: 0.151, kMax: 0.30, n: 30, nCobertura: 180, p: 150, k: 20, kCobertura: 60 },
+      "COCO": { pEscala: "10.1 – 20", kEscala: "0.16 – 0.30", pMin: 10.01, pMax: 20, kMin: 0.151, kMax: 0.30, n: 30, nCobertura: 180, p: 150, k: 20, kCobertura: 60 },
+      "CUPUAÇU": { pEscala: "10.1 – 20", kEscala: "0.16 – 0.30", pMin: 10.01, pMax: 20, kMin: 0.151, kMax: 0.30, n: 5, nCobertura: 15, p: 15, k: 8, kCobertura: 16 },
+      "FEIJÃO-CAUPI": { pEscala: "10.1 – 20", kEscala: "0.16 – 0.30", pMin: 10.01, pMax: 20, kMin: 0.151, kMax: 0.30, n: 0, nCobertura: 0, p: 50, k: 30, kCobertura: 30 },
+      "FORRAGEIRA": { pEscala: "10.1 – 20", kEscala: "0.16 – 0.30", pMin: 10.01, pMax: 20, kMin: 0.151, kMax: 0.30, n: 0, nCobertura: 0, p: 50, k: 30, kCobertura: 30 },
+      "MANDIOCA": { pEscala: "10.1 – 20", kEscala: "0.16 – 0.30", pMin: 10.01, pMax: 20, kMin: 0.151, kMax: 0.30, n: 10, nCobertura: 30, p: 70, k: 30, kCobertura: 60 },
+      "MARACUJÁ": { pEscala: "10.1 – 20", kEscala: "0.16 – 0.30", pMin: 10.01, pMax: 20, kMin: 0.151, kMax: 0.30, n: 20, nCobertura: 60, p: 40, k: 20, kCobertura: 30 },
+      "MELANCIA": { pEscala: "10.1 – 20", kEscala: "0.16 – 0.30", pMin: 10.01, pMax: 20, kMin: 0.151, kMax: 0.30, n: 20, nCobertura: 60, p: 40, k: 20, kCobertura: 30 },
+      "MILHO": { pEscala: "10.1 – 20", kEscala: "0.16 – 0.30", pMin: 10.01, pMax: 20, kMin: 0.151, kMax: 0.30, n: 20, nCobertura: 110, p: 60, k: 20, kCobertura: 30 },
+      "PIMENTA-DO-REINO": { pEscala: "10.1 – 20", kEscala: "0.16 – 0.30", pMin: 10.01, pMax: 20, kMin: 0.151, kMax: 0.30, n: 20, nCobertura: 110, p: 60, k: 20, kCobertura: 30 },
+      "SOJA": { pEscala: "10.1 – 20", kEscala: "0.16 – 0.30", pMin: 10.01, pMax: 20, kMin: 0.151, kMax: 0.30, n: 0, nCobertura: 0, p: 60, k: 30, kCobertura: 20 }
+    };
+    const tabelaNivelAlto = {
+      "ABACAXI": { pEscala: ">20", kEscala: ">0.30", pMin: 20.01, pMax: Infinity, kMin: 0.301, kMax: Infinity, n: 20, nCobertura: 100, p: 40, k: 40, kCobertura: 120 },
+      "AÇAÍ": { pEscala: ">10", kEscala: ">0.20", pMin: 10.01, pMax: Infinity, kMin: 0.20, kMax: Infinity, n: 20, nCobertura: 70, p: 20, k: 10, kCobertura: 40 },
+      "BANANA": { pEscala: ">20", kEscala: ">0.30", pMin: 20.01, pMax: Infinity, kMin: 0.301, kMax: Infinity, n: 27, nCobertura: 240, p: 80, k: 50, kCobertura: 200 },
+      "CACAU": { pEscala: ">20", kEscala: ">0.30", pMin: 20.01, pMax: Infinity, kMin: 0.301, kMax: Infinity, n: 4, nCobertura: 20, p: 30, k: 5, kCobertura: 10 },
+      "CAFÉ CANÉFORA": { pEscala: ">20", kEscala: ">0.30", pMin: 20.01, pMax: Infinity, kMin: 0.301, kMax: Infinity, n: 5, nCobertura: 20, p: 25, k: 5, kCobertura: 15 },
+      "CITROS": { pEscala: ">20", kEscala: ">0.30", pMin: 20.01, pMax: Infinity, kMin: 0.301, kMax: Infinity, n: 30, nCobertura: 180, p: 90, k: 10, kCobertura: 40 },
+      "COCO": { pEscala: ">20", kEscala: ">0.30", pMin: 20.01, pMax: Infinity, kMin: 0.301, kMax: Infinity, n: 30, nCobertura: 180, p: 90, k: 10, kCobertura: 40 },
+      "CUPUAÇU": { pEscala: ">20", kEscala: ">0.30", pMin: 20.01, pMax: Infinity, kMin: 0.301, kMax: Infinity, n: 5, nCobertura: 15, p: 10, k: 5, kCobertura: 10 },
+      "FEIJÃO-CAUPI": { pEscala: ">20", kEscala: ">0.30", pMin: 20.01, pMax: Infinity, kMin: 0.301, kMax: Infinity, n: 0, nCobertura: 0, p: 25, k: 30, kCobertura: 0 },
+      "FORRAGEIRA": { pEscala: ">20", kEscala: ">0.30", pMin: 20.01, pMax: Infinity, kMin: 0.301, kMax: Infinity, n: 0, nCobertura: 0, p: 25, k: 30, kCobertura: 0 },
+      "MANDIOCA": { pEscala: ">20", kEscala: ">0.30", pMin: 20.01, pMax: Infinity, kMin: 0.301, kMax: Infinity, n: 10, nCobertura: 30, p: 40, k: 30, kCobertura: 30 },
+      "MARACUJÁ": { pEscala: ">20", kEscala: ">0.30", pMin: 20.01, pMax: Infinity, kMin: 0.301, kMax: Infinity, n: 20, nCobertura: 60, p: 20, k: 10, kCobertura: 20 },
+      "MELANCIA": { pEscala: ">20", kEscala: ">0.30", pMin: 20.01, pMax: Infinity, kMin: 0.301, kMax: Infinity, n: 20, nCobertura: 60, p: 20, k: 10, kCobertura: 20 },
+      "MILHO": { pEscala: ">20", kEscala: ">0.30", pMin: 20.01, pMax: Infinity, kMin: 0.301, kMax: Infinity, n: 20, nCobertura: 110, p: 30, k: 20, kCobertura: 10 },
+      "PIMENTA-DO-REINO": { pEscala: ">20", kEscala: ">0.30", pMin: 20.01, pMax: Infinity, kMin: 0.301, kMax: Infinity, n: 20, nCobertura: 110, p: 30, k: 10, kCobertura: 20 },
+      "SOJA": { pEscala: ">20", kEscala: ">0.30", pMin: 20.01, pMax: Infinity, kMin: 0.301, kMax: Infinity, n: 0, nCobertura: 0, p: 30, k: 30, kCobertura: 0 }
+    };
+    function parseVal(id) {
+      const el = document.getElementById(id);
+      if (!el) return 0;
+      return parseFloat(el.value) || 0;
+    }
+    function formatNum(val, dec = 2) {
+      return val.toFixed(dec);
+    }
+    function formatMoeda(val) {
+      return val.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    }
+    function atualizarCultura() {
+      const sel = document.getElementById('cultura').value;
+      const v2 = tabelaV2[sel];
+      if (v2 !== undefined) {
+        document.getElementById('v2_input').value = v2 + "%";
+      }
+      const relCultura = document.getElementById('relatorio_cultura');
+      if (relCultura) {
+        relCultura.value = sel;
+      }
+      calcular();
+    }
+    window.openModule = function(tabName) {
+      const hero = document.getElementById('hero');
+      const app = document.getElementById('app');
+      if (hero) hero.style.display = 'none';
+      if (app) app.style.display = 'flex';
+      switchTab(tabName);
+      calcular();
+    };
+    window.showHero = function() {
+      const hero = document.getElementById('hero');
+      const app = document.getElementById('app');
+      if (app) app.style.display = 'none';
+      if (hero) hero.style.display = 'flex';
+    };
+    window.switchTab = function(tabName) {
+      document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+      document.querySelectorAll('.tab-button').forEach(el => el.classList.remove('active'));
+      
+      const targetTab = document.getElementById('tab-' + tabName);
+      if (targetTab) targetTab.classList.add('active');
+      const tabs = Array.from(document.querySelectorAll('.tab-button'));
+      const activeBtn = tabs.find(btn => btn.getAttribute('onclick').includes(tabName));
+      if (activeBtn) activeBtn.classList.add('active');
+    };
+    function calcular() {
+      const v2 = parseFloat(document.getElementById('v2_input').value) || 60;
+      const v1 = parseVal('v1');
+      const ctc = parseVal('ctc');
+      const prnt = parseVal('prnt') || 100;
+      // 1. Método Elevação da Saturação por Bases
+      let nc_sat_100_tha = (v2 - v1) * ctc / 100;
+      if (nc_sat_100_tha < 0) nc_sat_100_tha = 0;
+      
+      const nc_sat_100_kgha = nc_sat_100_tha * 1000;
+      const nc_sat_comercial_kgha = nc_sat_100_kgha * (100 / prnt);
+      // 2. Método Neutralização do Al e Elevação de Ca+Mg
+      const al = parseVal('solo_al');
+      const ca = parseVal('solo_ca');
+      const mg = parseVal('solo_mg');
+      let nc_neut_100_tha = ((2 * al) + (2 - (ca + mg)));
+      if (nc_neut_100_tha < 0) nc_neut_100_tha = 0;
+      const nc_neut_100_kgha = nc_neut_100_tha * 1000;
+      const nc_neut_comercial_kgha = nc_neut_100_kgha * (100 / prnt);
+      
+      const elemSat = document.getElementById('nc_sat_bases_kgha');
+      if (elemSat) elemSat.value = formatNum(nc_sat_comercial_kgha) + " kg/ha";
+      const elemNeut = document.getElementById('nc_al_camg_kgha');
+      if (elemNeut) elemNeut.value = formatNum(nc_neut_comercial_kgha) + " kg/ha";
+      const nc_final_100_kgha = Math.max(nc_sat_100_kgha, nc_neut_100_kgha);
+      const nc_final_comercial_kgha = Math.max(nc_sat_comercial_kgha, nc_neut_comercial_kgha);
+      
+      const preco_calcario = parseVal('preco_calcario');
+      const custo_calcario = (nc_final_comercial_kgha) * preco_calcario;
+      // Atualização da Tabela de Calagem
+      const elemV2 = document.getElementById('res-v2');
+      if (elemV2) elemV2.innerText = v2 + "%";
+      const elemNc100 = document.getElementById('res-nc100');
+      if (elemNc100) elemNc100.innerText = formatNum(nc_final_100_kgha) + " kg/ha";
+      const elemNcPrnt = document.getElementById('res-ncprnt');
+      if (elemNcPrnt) elemNcPrnt.innerText = formatNum(nc_final_comercial_kgha) + " kg/ha";
+      const elemCustoCalc = document.getElementById('res-custo-calcario');
+      if (elemCustoCalc) elemCustoCalc.innerText = "R$ " + formatMoeda(custo_calcario);
+      // Análise de Solo e Recomendação
+      const selCultura = document.getElementById('cultura').value;
+      const soloP = parseVal('soloP'); // mg/dm3
+      const soloK = parseVal('soloK'); // cmol_c/dm3
+      
+      // Busca dos valores de N (plantio e cobertura) exclusivamente na TABELA NÍVEL BAIXO
+      const dadosNivelBaixo = tabelaNivelBaixo[selCultura] || { n: 0, nCobertura: 0, p: 0, k: 0, kCobertura: 0 };
+      const dose_n_plantio = dadosNivelBaixo.n || 0;
+      const dose_n_cobertura = dadosNivelBaixo.nCobertura || 0;
+      const dose_n = dose_n_plantio + dose_n_cobertura; // Soma de n + nCobertura
+      
+      // Busca da recomendação de P2O5 com base na escala específica da cultura selecionada
+      const pMaxBaixo = (tabelaNivelBaixo[selCultura] || {}).pMax || 10;
+      const pMaxMedio = (tabelaNivelMedio[selCultura] || {}).pMax || 20;
+      let dose_p2o5 = 0;
+      if (soloP <= pMaxBaixo) {
+        dose_p2o5 = (tabelaNivelBaixo[selCultura] || {}).p || 0;
+      } else if (soloP <= pMaxMedio) {
+        dose_p2o5 = (tabelaNivelMedio[selCultura] || {}).p || 0;
+      } else {
+        dose_p2o5 = (tabelaNivelAlto[selCultura] || {}).p || 0;
+      }
+      // Busca da recomendação de K2O (plantio e cobertura) com base na escala específica da cultura selecionada
+      const kMaxBaixo = (tabelaNivelBaixo[selCultura] || {}).kMax || 0.15;
+      const kMaxMedio = (tabelaNivelMedio[selCultura] || {}).kMax || 0.30;
+      let dadosK = {};
+      if (soloK <= kMaxBaixo) {
+        dadosK = tabelaNivelBaixo[selCultura] || {};
+      } else if (soloK <= kMaxMedio) {
+        dadosK = tabelaNivelMedio[selCultura] || {};
+      } else {
+        dadosK = tabelaNivelAlto[selCultura] || {};
+      }
+      const dose_k2o_plantio = dadosK.k || 0;
+      const dose_k2o_cobertura = dadosK.kCobertura || 0;
+      const dose_k2o = dose_k2o_plantio + dose_k2o_cobertura; // Soma de k + kCobertura
+      
+      // Atualização dos campos da 'Recomendação Teórica para a Cultura'
+      const elemDoseN = document.getElementById('dose_n');
+      if (elemDoseN) elemDoseN.value = dose_n;
+      const elemDoseP = document.getElementById('dose_p2o5');
+      if (elemDoseP) elemDoseP.value = dose_p2o5;
+      const elemDoseK = document.getElementById('dose_k2o');
+      if (elemDoseK) elemDoseK.value = dose_k2o;
+      
+      // Cálculo dos Fertilizantes Individuais
+      const samonio_peso = dose_n / 0.20;
+      const samonio_plantio = dose_n_plantio / 0.20;
+      const samonio_cob = dose_n_cobertura / 0.20;
+      const ureia_peso = dose_n / 0.45;
+      const ureia_plantio = dose_n_plantio / 0.45;
+      const ureia_cob = dose_n_cobertura / 0.45;
+      const sfs_peso = dose_p2o5 / 0.18;
+      const sft_peso = dose_p2o5 / 0.41;
+      const kcl_peso = dose_k2o / 0.50;
+      const kcl_plantio = dose_k2o_plantio / 0.50;
+      const kcl_cob = dose_k2o_cobertura / 0.50;
+      
+      const culturasSemeio = ["FEIJÃO-CAUPI", "FORRAGEIRA", "MELANCIA", "MILHO", "SOJA"];
+      const rotuloEtapa = culturasSemeio.includes(selCultura) ? "Semeio:" : "Plantio:";
+
+      if (dose_n_cobertura > 0) {
+        document.getElementById('fc-samonio-peso').innerHTML = `${formatNum(samonio_peso)} kg/ha<br><span style="font-size:0.68rem; color:#555; font-weight:normal;">${rotuloEtapa} ${formatNum(samonio_plantio)} kg/ha<br>Cobertura: ${formatNum(samonio_cob)} kg/ha</span>`;
+        document.getElementById('fc-ureia-peso').innerHTML = `${formatNum(ureia_peso)} kg/ha<br><span style="font-size:0.68rem; color:#555; font-weight:normal;">${rotuloEtapa} ${formatNum(ureia_plantio)} kg/ha<br>Cobertura: ${formatNum(ureia_cob)} kg/ha</span>`;
+      } else {
+        document.getElementById('fc-samonio-peso').innerText = formatNum(samonio_peso) + " kg/ha";
+        document.getElementById('fc-ureia-peso').innerText = formatNum(ureia_peso) + " kg/ha";
+      }
+      document.getElementById('fc-samonio-valor').innerText = "R$ " + formatMoeda(samonio_peso * parseVal('preco_samonio'));
+      document.getElementById('fc-ureia-valor').innerText = "R$ " + formatMoeda(ureia_peso * parseVal('preco_ureia'));
+      document.getElementById('fc-sfs-peso').innerText = formatNum(sfs_peso) + " kg/ha";
+      document.getElementById('fc-sfs-valor').innerText = "R$ " + formatMoeda(sfs_peso * parseVal('preco_sfs'));
+      document.getElementById('fc-sft-peso').innerText = formatNum(sft_peso) + " kg/ha";
+      document.getElementById('fc-sft-valor').innerText = "R$ " + formatMoeda(sft_peso * parseVal('preco_sft'));
+      
+      if (dose_k2o_cobertura > 0) {
+        document.getElementById('fc-kcl-peso').innerHTML = `${formatNum(kcl_peso)} kg/ha<br><span style="font-size:0.68rem; color:#555; font-weight:normal;">${rotuloEtapa} ${formatNum(kcl_plantio)} kg/ha<br>Cobertura: ${formatNum(kcl_cob)} kg/ha</span>`;
+      } else {
+        document.getElementById('fc-kcl-peso').innerText = formatNum(kcl_peso) + " kg/ha";
+      }
+      document.getElementById('fc-kcl-valor').innerText = "R$ " + formatMoeda(kcl_peso * parseVal('preco_kcl'));
+      
+      // Formulação Agrupada
+      const g1_total = samonio_peso + sft_peso + kcl_peso;
+      const g2_total = ureia_peso + sfs_peso + kcl_peso;
+      if (g1_total > 0) {
+        const n_perc = Math.round((dose_n / g1_total) * 100);
+        const p_perc = Math.round((dose_p2o5 / g1_total) * 100);
+        const k_perc = Math.round((dose_k2o / g1_total) * 100);
+        document.getElementById('g1-formula').innerText = `${n_perc} - ${p_perc} - ${k_perc}`;
+        document.getElementById('g1-qtd').innerText = formatNum(g1_total) + " kg/ha";
+        document.getElementById('g1-custo').innerText = "R$ " + formatMoeda((samonio_peso * parseVal('preco_samonio')) + (sft_peso * parseVal('preco_sft')) + (kcl_peso * parseVal('preco_kcl')));
+      } else {
+        document.getElementById('g1-formula').innerText = "0 - 0 - 0";
+        document.getElementById('g1-qtd').innerText = "0.00 kg/ha";
+        document.getElementById('g1-custo').innerText = "R$ 0,00";
+      }
+      if (g2_total > 0) {
+        const n_perc = Math.round((dose_n / g2_total) * 100);
+        const p_perc = Math.round((dose_p2o5 / g2_total) * 100);
+        const k_perc = Math.round((dose_k2o / g2_total) * 100);
+        document.getElementById('g2-formula').innerText = `${n_perc} - ${p_perc} - ${k_perc}`;
+        document.getElementById('g2-qtd').innerText = formatNum(g2_total) + " kg/ha";
+        document.getElementById('g2-custo').innerText = "R$ " + formatMoeda((ureia_peso * parseVal('preco_ureia')) + (sfs_peso * parseVal('preco_sfs')) + (kcl_peso * parseVal('preco_kcl')));
+      } else {
+        document.getElementById('g2-formula').innerText = "0 - 0 - 0";
+        document.getElementById('g2-qtd').innerText = "0.00 kg/ha";
+        document.getElementById('g2-custo').innerText = "R$ 0,00";
+      }
+      // Exibição do Texto Informativo no Rodapé da Formulação Agrupada (para todas as culturas)
+      const notaElem = document.getElementById('nota-cobertura');
+      if (notaElem) {
+        notaElem.innerText = "📌Para maiores informações consultar os Dizeres Técnicos.";
+        notaElem.style.display = 'block';
+      }
+    }
+    function compartilharRelatorio() {
+      if (navigator.share) {
+        navigator.share({
+          title: 'Relatório',
+          text: 'Confira os resultados de calagem e adubação gerados pelo FertAmapá.'
+        }).catch(() => {});
+      } else {
+        alert("A função de compartilhamento não é suportada neste navegador.");
+      }
+    }
+    const camposPreco = [
+      'preco_calcario',
+      'preco_samonio',
+      'preco_ureia',
+      'preco_sfs',
+      'preco_sft',
+      'preco_kcl'
+    ];
+    function carregarPrecos() {
+      camposPreco.forEach(id => {
+        const valorSalvo = localStorage.getItem(id);
+        const campo = document.getElementById(id);
+        if (campo) {
+          campo.value = valorSalvo !== null ? valorSalvo : '';
+        }
+      });
+    }
+    function salvarPrecos() {
+      camposPreco.forEach(id => {
+        const campo = document.getElementById(id);
+        if (campo) {
+          localStorage.setItem(id, campo.value);
+        }
+      });
+    }
+    function salvarEcalcular() {
+      salvarPrecos();
+      calcular();
+    }
+    function atualizarDataFooter() {
+      const elemData = document.getElementById('data-footer');
+      if (elemData) {
+        const hoje = new Date();
+        const dia = String(hoje.getDate()).padStart(2, '0');
+        const mes = String(hoje.getMonth() + 1).padStart(2, '0');
+        const ano = hoje.getFullYear();
+        elemData.innerText = `${dia}/${mes}/${ano}`;
+      }
+    }
+    window.onload = function() {
+      carregarPrecos();
+      atualizarCultura();
+      atualizarDataFooter();
+    };
+  </script>
+</body>
+</html>
