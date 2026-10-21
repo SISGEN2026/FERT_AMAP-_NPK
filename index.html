@@ -508,7 +508,7 @@
             <option value="CACAU">CACAU</option>
             <option value="CAFÉ CANÉFORA">CAFÉ CANÉFORA</option>
             <option value="CITROS">CITROS</option>
-            <option value="COCO">COCO</option>
+            <option value="COCO-ANÃO">COCO-ANÃO</option>
             <option value="CUPUAÇU">CUPUAÇU</option>
             <option value="FEIJÃO-CAUPI">FEIJÃO-CAUPI</option>
             <option value="FORRAGEIRA">FORRAGEIRA</option>
@@ -807,71 +807,71 @@
       "CACAU": 60,
       "CAFÉ CANÉFORA": 60,
       "CITROS": 60,
-      "COCO": 60,
+      "COCO-ANÃO": 50,
       "CUPUAÇU": 50,
       "FEIJÃO-CAUPI": 50,
-      "FORRAGEIRA": 50,
+      "FORRAGEIRA": 60,
       "MANDIOCA": 50,
       "MARACUJÁ": 70,
       "MELANCIA": 70,
       "MILHO": 70,
-      "PIMENTA-DO-REINO": 70,
+      "PIMENTA-DO-REINO": 60,
       "SOJA": 60
     };
     // Tabelas de Nível com especificação da escala de solo para P (mg/dm³) e K (cmol_c/dm³), com 'n' (plantio/semeio), 'nCobertura' (cobertura), 'p' (plantio/semeio), 'pCobertura' (cobertura), 'k' (plantio/semeio) e 'kCobertura' (cobertura)
     const tabelaNivelBaixo = {
-      "ABACAXI": { ano: 1, pEscala: "0 – 10", kEscala: "<=0.15", pMin: 0, pMax: 10, kMin: 0, kMax: 0.15, n: 100, nCobertura: 20, p: 80, pCobertura: 0, k: 80, kCobertura: 240 },
-      "AÇAÍ": { ano: 1, pEscala: "0 – 5", kEscala: "<=0.10", pMin: 0, pMax: 5, kMin: 0, kMax: 0.10, n: 20, nCobertura: 70, p: 40, pCobertura: 40, k: 30, kCobertura: 70 },
-      "BANANA": { ano: 1, pEscala: "0 – 10", kEscala: "<=0.15", pMin: 0, pMax: 10, kMin: 0, kMax: 0.15, n: 27, nCobertura: 240, p: 167, pCobertura: 0, k: 100, kCobertura: 400 },
-      "CACAU": { ano: 1, pEscala: "0 – 10", kEscala: "<=0.15", pMin: 0, pMax: 10, kMin: 0, kMax: 0.15, n: 4, nCobertura: 20, p: 90, pCobertura: 0, k: 15, kCobertura: 20 },
-      "CAFÉ CANÉFORA": { ano: 1, pEscala: "0 – 10", kEscala: "<=0.15", pMin: 0, pMax: 10, kMin: 0, kMax: 0.15, n: 5, nCobertura: 20, p: 67, pCobertura: 0, k: 15, kCobertura: 35 },
-      "CITROS": { ano: 1, pEscala: "0 – 10", kEscala: "<=0.15", pMin: 0, pMax: 10, kMin: 0, kMax: 0.15, n: 30, nCobertura: 180, p: 210, pCobertura: 0, k: 30, kCobertura: 75 },
-      "COCO": { ano: 1, pEscala: "0 – 10", kEscala: "<=0.15", pMin: 0, pMax: 10, kMin: 0, kMax: 0.15, n: 30, nCobertura: 180, p: 210, pCobertura: 0, k: 30, kCobertura: 75 },
-      "CUPUAÇU": { ano: 1, pEscala: "0 – 10", kEscala: "<=0.15", pMin: 0, pMax: 10, kMin: 0, kMax: 0.15, n: 5, nCobertura: 15, p: 20, pCobertura: 0, k: 10, kCobertura: 22 },
-      "FEIJÃO-CAUPI": { pEscala: "0 – 10", kEscala: "<=0.15", pMin: 0, pMax: 10, kMin: 0, kMax: 0.15, n: 0, nCobertura: 0, p: 80, pCobertura: 0, k: 30, kCobertura: 60 },
-      "FORRAGEIRA": { ano: 1, pEscala: "0 – 10", kEscala: "<=0.15", pMin: 0, pMax: 10, kMin: 0, kMax: 0.15, n: 10, nCobertura: 30, p: 80, pCobertura: 0, k: 30, kCobertura: 60 },
-      "MANDIOCA": { ano: 1, pEscala: "0 – 10", kEscala: "<=0.15", pMin: 0, pMax: 10, kMin: 0, kMax: 0.15, n: 10, nCobertura: 30, p: 100, pCobertura: 0, k: 30, kCobertura: 90 },
-      "MARACUJÁ": { ano: 1, pEscala: "0 – 10", kEscala: "<=0.15", pMin: 0, pMax: 10, kMin: 0, kMax: 0.15, n: 20, nCobertura: 60, p: 61, pCobertura: 0, k: 20, kCobertura: 52 },
-      "MELANCIA": { pEscala: "0 – 10", kEscala: "<=0.15", pMin: 0, pMax: 10, kMin: 0, kMax: 0.15, n: 20, nCobertura: 60, p: 61, pCobertura: 0, k: 20, kCobertura: 52 },
-      "MILHO": { pEscala: "0 – 10", kEscala: "<=0.15", pMin: 0, pMax: 10, kMin: 0, kMax: 0.15, n: 20, nCobertura: 110, p: 90, pCobertura: 0, k: 20, kCobertura: 50 },
-      "PIMENTA-DO-REINO": { ano: 1, pEscala: "0 – 10", kEscala: "<=0.15", pMin: 0, pMax: 10, kMin: 0, kMax: 0.15, n: 20, nCobertura: 110, p: 90, pCobertura: 0, k: 20, kCobertura: 50 },
-      "SOJA": { pEscala: "0 – 10", kEscala: "<=0.15", pMin: 0, pMax: 10, kMin: 0, kMax: 0.15, n: 0, nCobertura: 0, p: 90, pCobertura: 0, k: 30, kCobertura: 40 }
+      "ABACAXI": { ano: 1, pEscala: "0 – 10", kEscala: "0 - 0.10", pMin: 0, pMax: 10, kMin: 0, kMax: 0.10, n: 60, nCobertura: 60, p: 80, pCobertura: 0, k: 160, kCobertura: 160 },
+      "AÇAÍ": { ano: 1, pEscala: "0 – 10", kEscala: "0 - 0.10", pMin: 0, pMax: 10, kMin: 0, kMax: 0.10, n: 18, nCobertura: 72, p: 40, pCobertura: 0, k: 20, kCobertura: 80 },
+      "BANANA": { ano: 1, pEscala: "0 – 10", kEscala: "0 - 0.10", pMin: 0, pMax: 10, kMin: 0, kMax: 0.10, n: 67, nCobertura: 200, p: 167, pCobertura: 0, k: 125, kCobertura: 375 },
+      "CACAU": { ano: 1, pEscala: "0 – 10", kEscala: "0 - 0.15", pMin: 0, pMax: 10, kMin: 0, kMax: 0.15, n: 11,11, nCobertura: 11,11, p: 90, pCobertura: 0, k: 8.3, kCobertura: 8.3 },
+      "CAFÉ CANÉFORA": { ano: 1, pEscala: "0 – 10", kEscala: "0 - 0.15", pMin: 0, pMax: 10, kMin: 0, kMax: 0.15, n: 8,3, nCobertura: 16,6, p: 66.7, pCobertura: 0, k: 16.7, kCobertura: 16.7 },
+      "CITROS": { ano: 1, pEscala: "0 – 6", kEscala: "0 - 0.10", pMin: 0, pMax: 6, kMin: 0, kMax: 0.10, n: 3,5, nCobertura: 13,7, p: 17.2, pCobertura: 0, k: 1.75, kCobertura: 6.85 },
+      "COCO-ANÃO": { ano: 1, pEscala: "<15", kEscala: "<0.15", pMin: 0, pMax: 14.9, kMin: 0, kMax: 0.149, n: 19, nCobertura: 19, p: 31, pCobertura: 0, k: 25, kCobertura: 25 },
+      "CUPUAÇU": { ano: 1, pEscala: "0 – 10", kEscala: "0 - 0.10", pMin: 0, pMax: 10, kMin: 0, kMax: 0.10, n: 8, nCobertura: 8, p: 20, pCobertura: 0, k: 16, kCobertura: 16 },
+      "FEIJÃO-CAUPI": { pEscala: "0 – 8", kEscala: "0 - 0.10", pMin: 0, pMax: 8, kMin: 0, kMax: 0.10, n: 0, nCobertura: 0, p: 80, pCobertura: 0, k: 90, kCobertura: 0 },
+      "FORRAGEIRA": { ano: 1, pEscala: "0 – 10", kEscala: "0 - 0.10", pMin: 0, pMax: 10, kMin: 0, kMax: 0.10, n: 0, nCobertura: 100, p: 50, pCobertura: 0, k: 0, kCobertura: 40 },
+      "MANDIOCA": { ano: 1, pEscala: "0 – 10", kEscala: "0 - 0.10", pMin: 0, pMax: 10, kMin: 0, kMax: 0.10, n: 0, nCobertura: 40, p: 100, pCobertura: 0, k: 0, kCobertura: 120 },
+      "MARACUJÁ": { ano: 1, pEscala: "0 – 10", kEscala: "0 - 0.10", pMin: 0, pMax: 10, kMin: 0, kMax: 0.10, n: 8, nCobertura: 72, p: 136, pCobertura: 0, k: 0, kCobertura: 72 },
+      "MELANCIA": { pEscala: "0 – 10", kEscala: "0 - 0.10", pMin: 0, pMax: 10, kMin: 0, kMax: 0.10, n: 0, nCobertura: 90, p: 190, pCobertura: 0, k: 0, kCobertura: 200 },
+      "MILHO": { pEscala: "0 – 8", kEscala: "0 - 0.10", pMin: 0, pMax: 8, kMin: 0, kMax: 0.10, n: 30, nCobertura: 100, p: 90, pCobertura: 0, k: 70, kCobertura: 0 },
+      "PIMENTA-DO-REINO": { ano: 1, pEscala: "0 – 10", kEscala: "0 - 0.10", pMin: 0, pMax: 10, kMin: 0, kMax: 0.10, n: 42, nCobertura: 0, p: 34, pCobertura: 0, k: 34, kCobertura: 0 },
+      "SOJA": { pEscala: "0 – 8", kEscala: "0 - 0.10", pMin: 0, pMax: 8, kMin: 0, kMax: 0.10, n: 5, nCobertura: 0, p: 100, pCobertura: 0, k: 45, kCobertura: 45 }
     };
     const tabelaNivelMedio = {
-      "ABACAXI": { ano: 1, pEscala: "10.1 – 20", kEscala: "0.16 – 0.30", pMin: 10.01, pMax: 20, kMin: 0.151, kMax: 0.30, n: 20, nCobertura: 100, p: 60, pCobertura: 0, k: 60, kCobertura: 180 },
-      "AÇAÍ": { ano: 1, pEscala: "5.1 – 10", kEscala: "0.11 – 0.20", pMin: 5.1, pMax: 10, kMin: 0.11, kMax: 0.20, n: 20, nCobertura: 70, p: 30, pCobertura: 40, k: 20, kCobertura: 60 },
-      "BANANA": { ano: 1, pEscala: "10.1 – 20", kEscala: "0.16 – 0.30", pMin: 10.01, pMax: 20, kMin: 0.151, kMax: 0.30, n: 27, nCobertura: 240, p: 120, pCobertura: 0, k: 80, kCobertura: 300 },
-      "CACAU": { ano: 1, pEscala: "10.1 – 20", kEscala: "0.16 – 0.30", pMin: 10.01, pMax: 20, kMin: 0.151, kMax: 0.30, n: 4, nCobertura: 20, p: 60, pCobertura: 0, k: 10, kCobertura: 15 },
-      "CAFÉ CANÉFORA": { ano: 1, pEscala: "10.1 – 20", kEscala: "0.16 – 0.30", pMin: 10.01, pMax: 20, kMin: 0.151, kMax: 0.30, n: 5, nCobertura: 20, p: 45, pCobertura: 0, k: 10, kCobertura: 25 },
-      "CITROS": { ano: 1, pEscala: "10.1 – 20", kEscala: "0.16 – 0.30", pMin: 10.01, pMax: 20, kMin: 0.151, kMax: 0.30, n: 30, nCobertura: 180, p: 150, pCobertura: 0, k: 20, kCobertura: 60 },
-      "COCO": { ano: 1, pEscala: "10.1 – 20", kEscala: "0.16 – 0.30", pMin: 10.01, pMax: 20, kMin: 0.151, kMax: 0.30, n: 30, nCobertura: 180, p: 150, pCobertura: 0, k: 20, kCobertura: 60 },
-      "CUPUAÇU": { ano: 1, pEscala: "10.1 – 20", kEscala: "0.16 – 0.30", pMin: 10.01, pMax: 20, kMin: 0.151, kMax: 0.30, n: 5, nCobertura: 15, p: 15, pCobertura: 0, k: 8, kCobertura: 16 },
-      "FEIJÃO-CAUPI": { pEscala: "10.1 – 20", kEscala: "0.16 – 0.30", pMin: 10.01, pMax: 20, kMin: 0.151, kMax: 0.30, n: 0, nCobertura: 0, p: 50, pCobertura: 0, k: 30, kCobertura: 30 },
-      "FORRAGEIRA": { ano: 1, pEscala: "10.1 – 20", kEscala: "0.16 – 0.30", pMin: 10.01, pMax: 20, kMin: 0.151, kMax: 0.30, n: 10, nCobertura: 30, p: 50, pCobertura: 0, k: 30, kCobertura: 30 },
-      "MANDIOCA": { ano: 1, pEscala: "10.1 – 20", kEscala: "0.16 – 0.30", pMin: 10.01, pMax: 20, kMin: 0.151, kMax: 0.30, n: 10, nCobertura: 30, p: 70, pCobertura: 0, k: 30, kCobertura: 60 },
-      "MARACUJÁ": { ano: 1, pEscala: "10.1 – 20", kEscala: "0.16 – 0.30", pMin: 10.01, pMax: 20, kMin: 0.151, kMax: 0.30, n: 20, nCobertura: 60, p: 40, pCobertura: 0, k: 20, kCobertura: 30 },
-      "MELANCIA": { pEscala: "10.1 – 20", kEscala: "0.16 – 0.30", pMin: 10.01, pMax: 20, kMin: 0.151, kMax: 0.30, n: 20, nCobertura: 60, p: 40, pCobertura: 0, k: 20, kCobertura: 30 },
-      "MILHO": { pEscala: "10.1 – 20", kEscala: "0.16 – 0.30", pMin: 10.01, pMax: 20, kMin: 0.151, kMax: 0.30, n: 20, nCobertura: 110, p: 60, pCobertura: 0, k: 20, kCobertura: 30 },
-      "PIMENTA-DO-REINO": { ano: 1, pEscala: "10.1 – 20", kEscala: "0.16 – 0.30", pMin: 10.01, pMax: 20, kMin: 0.151, kMax: 0.30, n: 20, nCobertura: 110, p: 60, pCobertura: 0, k: 20, kCobertura: 30 },
-      "SOJA": { pEscala: "10.1 – 20", kEscala: "0.16 – 0.30", pMin: 10.01, pMax: 20, kMin: 0.151, kMax: 0.30, n: 0, nCobertura: 0, p: 60, pCobertura: 0, k: 30, kCobertura: 20 }
+      "ABACAXI": { ano: 1, pEscala: "11 – 20", kEscala: "0.11 – 0.15", pMin: 11, pMax: 20, kMin: 0.11, kMax: 0.15, n: 0, nCobertura: 0, p: 70, pCobertura: 0, k: 140, kCobertura: 140 },
+      "AÇAÍ": { ano: 1, pEscala: "11 – 20", kEscala: "0.11 – 0.23", pMin: 11, pMax: 20, kMin: 0.11, kMax: 0.23, n: 0, nCobertura: 0, p: 32, pCobertura: 0, k: 13.5, kCobertura: 53.5 },
+      "BANANA": { ano: 1, pEscala: "11 – 20", kEscala: "0.11 – 0.23", pMin: 11, pMax: 20, kMin: 0.11, kMax: 0.23, n: 0, nCobertura: 0, p: 112, pCobertura: 0, k: 97.5, kCobertura: 292.5 },
+      "CACAU": { ano: 1, pEscala: "11 – 20", kEscala: "0.16 – 0.38", pMin: 11, pMax: 20, kMin: 0.16, kMax: 0.38, n: 0, nCobertura: 0, p: 90, pCobertura: 0, k: 8.3, kCobertura: 8.3 },
+      "CAFÉ CANÉFORA": { ano: 1, pEscala: "11 – 20", kEscala: "0.16 – 0.38", pMin: 11, pMax: 20, kMin: 0.16, kMax: 0.38, n: 0, nCobertura: 0, p: 66.7, pCobertura: 0, k: 16.7, kCobertura: 16.7 },
+      "CITROS": { ano: 1, pEscala: "7 – 15", kEscala: "0.11 – 0.18", pMin: 7, pMax: 15, kMin: 0.11, kMax: 0.18, n: 0, nCobertura: 0, p: 17.2, pCobertura: 0, k: 1.75, kCobertura: 6.85 },
+      "COCO-ANÃO": { ano: 1, pEscala: "15 – 19", kEscala: "0.15 – 0.19", pMin: 15, pMax: 19, kMin: 0.15, kMax: 0.19, n: 0, nCobertura: 0, p: 20.5, pCobertura: 0, k: 16.4, kCobertura: 16.4 },
+      "CUPUAÇU": { ano: 1, pEscala: "11 – 20", kEscala: "0.11 – 0.23", pMin: 11, pMax: 20, kMin: 0.11, kMax: 0.23, n: 0, nCobertura: 0, p: 16, pCobertura: 0, k: 13, kCobertura: 13 },
+      "FEIJÃO-CAUPI": { pEscala: "9 – 15", kEscala: "0.11 – 0.23", pMin: 9, pMax: 15, kMin: 0.11, kMax: 0.23, n: 0, nCobertura: 0, p: 60, pCobertura: 0, k: 60, kCobertura: 0 },
+      "FORRAGEIRA": { ano: 1, pEscala: "11 – 20", kEscala: "0.11 – 0.23", pMin: 11, pMax: 20, kMin: 0.11, kMax: 0.23, n: 0, nCobertura: 0, p: 25, pCobertura: 0, k: 0, kCobertura: 20 },
+      "MANDIOCA": { ano: 1, pEscala: "11 – 20", kEscala: "0.11 – 0.23", pMin: 11, pMax: 20, kMin: 0.11, kMax: 0.23, n: 0, nCobertura: 0, p: 60, pCobertura: 0, k: 0, kCobertura: 90 },
+      "MARACUJÁ": { ano: 1, pEscala: "11 – 20", kEscala: "0.11 – 0.23", pMin: 11, pMax: 20, kMin: 0.11, kMax: 0.23, n: 0, nCobertura: 0, p: 120, pCobertura: 0, k: 0, kCobertura: 48 },
+      "MELANCIA": { pEscala: "11 – 20", kEscala: "0.11 – 0.15", pMin: 11, pMax: 20, kMin: 0.11, kMax: 0.15, n: 0, nCobertura: 0, p: 150, pCobertura: 0, k: 0, kCobertura: 150 },
+      "MILHO": { pEscala: "9 – 15", kEscala: "0.11 – 0.23", pMin: 9, pMax: 15, kMin: 0.11, kMax: 0.23, n: 0, nCobertura: 0, p: 60, pCobertura: 0, k: 50, kCobertura: 0 },
+      "PIMENTA-DO-REINO": { ano: 1, pEscala: "11 – 20", kEscala: "0.11 – 0.23", pMin: 11, pMax: 20, kMin: 0.11, kMax: 0.23, n: 0, nCobertura: 0, p: 17, pCobertura: 0, k: 25, kCobertura: 0 },
+      "SOJA": { pEscala: "9 – 15", kEscala: "0.11 – 0.23", pMin: 9, pMax: 15, kMin: 0.11, kMax: 0.23, n: 0, nCobertura: 0, p: 75, pCobertura: 0, k: 30, kCobertura: 30 }
     };
     const tabelaNivelAlto = {
-      "ABACAXI": { ano: 1, pEscala: ">20", kEscala: ">0.30", pMin: 20.01, pMax: Infinity, kMin: 0.301, kMax: Infinity, n: 20, nCobertura: 100, p: 40, pCobertura: 0, k: 40, kCobertura: 120 },
-      "AÇAÍ": { ano: 1, pEscala: ">10", kEscala: ">0.20", pMin: 10.01, pMax: Infinity, kMin: 0.20, kMax: Infinity, n: 20, nCobertura: 70, p: 20, pCobertura: 40, k: 10, kCobertura: 40 },
-      "BANANA": { ano: 1, pEscala: ">20", kEscala: ">0.30", pMin: 20.01, pMax: Infinity, kMin: 0.301, kMax: Infinity, n: 27, nCobertura: 240, p: 80, pCobertura: 0, k: 50, kCobertura: 200 },
-      "CACAU": { ano: 1, pEscala: ">20", kEscala: ">0.30", pMin: 20.01, pMax: Infinity, kMin: 0.301, kMax: Infinity, n: 4, nCobertura: 20, p: 30, pCobertura: 0, k: 5, kCobertura: 10 },
-      "CAFÉ CANÉFORA": { ano: 1, pEscala: ">20", kEscala: ">0.30", pMin: 20.01, pMax: Infinity, kMin: 0.301, kMax: Infinity, n: 5, nCobertura: 20, p: 25, pCobertura: 0, k: 5, kCobertura: 15 },
-      "CITROS": { ano: 1, pEscala: ">20", kEscala: ">0.30", pMin: 20.01, pMax: Infinity, kMin: 0.301, kMax: Infinity, n: 30, nCobertura: 180, p: 90, pCobertura: 0, k: 10, kCobertura: 40 },
-      "COCO": { ano: 1, pEscala: ">20", kEscala: ">0.30", pMin: 20.01, pMax: Infinity, kMin: 0.301, kMax: Infinity, n: 30, nCobertura: 180, p: 90, pCobertura: 0, k: 10, kCobertura: 40 },
-      "CUPUAÇU": { ano: 1, pEscala: ">20", kEscala: ">0.30", pMin: 20.01, pMax: Infinity, kMin: 0.301, kMax: Infinity, n: 5, nCobertura: 15, p: 10, pCobertura: 0, k: 5, kCobertura: 10 },
-      "FEIJÃO-CAUPI": { pEscala: ">20", kEscala: ">0.30", pMin: 20.01, pMax: Infinity, kMin: 0.301, kMax: Infinity, n: 0, nCobertura: 0, p: 25, pCobertura: 0, k: 30, kCobertura: 0 },
-      "FORRAGEIRA": { ano: 1, pEscala: ">20", kEscala: ">0.30", pMin: 20.01, pMax: Infinity, kMin: 0.301, kMax: Infinity, n: 10, nCobertura: 30, p: 25, pCobertura: 0, k: 30, kCobertura: 0 },
-      "MANDIOCA": { ano: 1, pEscala: ">20", kEscala: ">0.30", pMin: 20.01, pMax: Infinity, kMin: 0.301, kMax: Infinity, n: 10, nCobertura: 30, p: 40, pCobertura: 0, k: 30, kCobertura: 30 },
-      "MARACUJÁ": { ano: 1, pEscala: ">20", kEscala: ">0.30", pMin: 20.01, pMax: Infinity, kMin: 0.301, kMax: Infinity, n: 20, nCobertura: 60, p: 20, pCobertura: 0, k: 10, kCobertura: 20 },
-      "MELANCIA": { pEscala: ">20", kEscala: ">0.30", pMin: 20.01, pMax: Infinity, kMin: 0.301, kMax: Infinity, n: 20, nCobertura: 60, p: 20, pCobertura: 0, k: 10, kCobertura: 20 },
-      "MILHO": { pEscala: ">20", kEscala: ">0.30", pMin: 20.01, pMax: Infinity, kMin: 0.301, kMax: Infinity, n: 20, nCobertura: 110, p: 30, pCobertura: 0, k: 20, kCobertura: 10 },
-      "PIMENTA-DO-REINO": { ano: 1, pEscala: ">20", kEscala: ">0.30", pMin: 20.01, pMax: Infinity, kMin: 0.301, kMax: Infinity, n: 20, nCobertura: 110, p: 30, pCobertura: 0, k: 10, kCobertura: 20 },
-      "SOJA": { pEscala: ">20", kEscala: ">0.30", pMin: 20.01, pMax: Infinity, kMin: 0.301, kMax: Infinity, n: 0, nCobertura: 0, p: 30, pCobertura: 0, k: 30, kCobertura: 0 }
+      "ABACAXI": { ano: 1, pEscala: ">20", kEscala: ">0.15", pMin: 20.01, pMax: Infinity, kMin: 0.1501, kMax: Infinity, n: 0, nCobertura: 0, p: 60, pCobertura: 0, k: 125, kCobertura: 125 },
+      "AÇAÍ": { ano: 1, pEscala: ">20", kEscala: ">0.23", pMin: 20.01, pMax: Infinity, kMin: 0.2301, kMax: Infinity, n: 0, nCobertura: 0, p: 16, pCobertura: 0, k: 6.8, kCobertura: 27.2 },
+      "BANANA": { ano: 1, pEscala: ">20", kEscala: ">0.23", pMin: 20.01, pMax: Infinity, kMin: 0.2301, kMax: Infinity, n: 0, nCobertura: 0, p: 90, pCobertura: 0, k: 55.75, kCobertura: 167.25 },
+      "CACAU": { ano: 1, pEscala: ">20", kEscala: ">0.38", pMin: 20.01, pMax: Infinity, kMin: 0.3801, kMax: Infinity, n: 0, nCobertura: 0, p: 90, pCobertura: 0, k: 8.3, kCobertura: 8.3 },
+      "CAFÉ CANÉFORA": { ano: 1, pEscala: ">20", kEscala: ">0.38", pMin: 20.01, pMax: Infinity, kMin: 0.3801, kMax: Infinity, n: 0, nCobertura: 0, p: 66.7, pCobertura: 0, k: 16.7, kCobertura: 16.7 },
+      "CITROS": { ano: 1, pEscala: ">15", kEscala: ">0.18", pMin: 15.01, pMax: Infinity, kMin: 0.1801, kMax: Infinity, n: 0, nCobertura: 0, p: 17.2, pCobertura: 0, k: 1.75, kCobertura: 6.85 },
+      "COCO-ANÃO": { ano: 1, pEscala: ">19", kEscala: ">0.19", pMin: 19.01, pMax: Infinity, kMin: 0.1901, kMax: Infinity, n: 0, nCobertura: 0, p: 10.2, pCobertura: 0, k: 10.2, kCobertura: 10.2 },
+      "CUPUAÇU": { ano: 1, pEscala: ">20", kEscala: ">0.23", pMin: 20.01, pMax: Infinity, kMin: 0.2301, kMax: Infinity, n: 0, nCobertura: 0, p: 13, pCobertura: 0, k: 10, kCobertura: 10 },
+      "FEIJÃO-CAUPI": { pEscala: ">15", kEscala: ">0.23", pMin: 15.01, pMax: Infinity, kMin: 0.2301, kMax: Infinity, n: 0, nCobertura: 0, p: 40, pCobertura: 0, k: 30, kCobertura: 0 },
+      "FORRAGEIRA": { ano: 1, pEscala: ">20", kEscala: ">0.23", pMin: 20.01, pMax: Infinity, kMin: 0.2301, kMax: Infinity, n: 0, nCobertura: 0, p: 0, pCobertura: 0, k: 0, kCobertura: 0 },
+      "MANDIOCA": { ano: 1, pEscala: ">20", kEscala: ">0.23", pMin: 20.01, pMax: Infinity, kMin: 0.2301, kMax: Infinity, n: 0, nCobertura: 0, p: 40, pCobertura: 0, k: 0, kCobertura: 60 },
+      "MARACUJÁ": { ano: 1, pEscala: ">20", kEscala: ">0.23", pMin: 20.01, pMax: Infinity, kMin: 0.2301, kMax: Infinity, n: 0, nCobertura: 0, p: 96, pCobertura: 0, k: 0, kCobertura: 24 },
+      "MELANCIA": { pEscala: ">20", kEscala: ">0.15", pMin: 20.01, pMax: Infinity, kMin: 0.1501, kMax: Infinity, n: 0, nCobertura: 0, p: 105, pCobertura: 0, k: 0, kCobertura: 100 },
+      "MILHO": { pEscala: ">15", kEscala: ">0.23", pMin: 15.01, pMax: Infinity, kMin: 0.2301, kMax: Infinity, n: 0, nCobertura: 0, p: 30, pCobertura: 0, k: 30, kCobertura: 0 },
+      "PIMENTA-DO-REINO": { ano: 1, pEscala: ">20", kEscala: ">0.23", pMin: 20.01, pMax: Infinity, kMin: 0.2301, kMax: Infinity, n: 0, nCobertura: 0, p: 9, pCobertura: 0, k: 17, kCobertura: 0 },
+      "SOJA": { pEscala: ">15", kEscala: ">0.23", pMin: 15.01, pMax: Infinity, kMin: 0.2301, kMax: Infinity, n: 0, nCobertura: 0, p: 50, pCobertura: 0, k: 30, kCobertura: 0 }
     };
     function parseVal(id) {
       const el = document.getElementById(id);
