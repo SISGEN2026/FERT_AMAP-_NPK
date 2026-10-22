@@ -340,6 +340,7 @@
       font-size: 0.8rem;
       text-align: left;
       word-break: break-word;
+      vertical-align: top;
     }
     th {
       background-color: var(--light-blue-bg);
@@ -793,6 +794,7 @@
             <p style="margin-bottom: 3px;"><a href="https://www.embrapa.br/busca-de-publicacoes/-/publicacao/1125022/recomendacoes-de-calagem-e-adubacao-para-o-estado-do-para" target="_blank" rel="noopener noreferrer" style="color: var(--primary-color); text-decoration: underline;">https://www.embrapa.br/busca-de-publicacoes/-/publicacao/1125022/recomendacoes-de-calagem-e-adubacao-para-o-estado-do-para</a></p>
             <p style="margin-bottom: 0;"><a href="https://www.embrapa.br/busca-de-publicacoes/-/publicacao/1177228/melhores-espacamentos-e-numero-de-estipes-para-o-cultivo-do-acaizeiro-no-cerrado-do-amapa" target="_blank" rel="noopener noreferrer" style="color: var(--primary-color); text-decoration: underline;">https://www.embrapa.br/busca-de-publicacoes/-/publicacao/1177228/melhores-espacamentos-e-numero-de-estipes-para-o-cultivo-do-acaizeiro-no-cerrado-do-amapa</a></p>
           </div>
+        </div>
       </section>
     </main>
     <footer style="position: fixed; bottom: 0; left: 0; width: 100%; text-align: center; font-size: 0.75rem; background-color: #ffffff; padding: 5px 0; z-index: 1000; box-shadow: 0 -2px 5px rgba(0,0,0,0.05);">
@@ -818,61 +820,108 @@
       "PIMENTA-DO-REINO": 60,
       "SOJA": 60
     };
-    // Tabelas de Nível com especificação da escala de solo para P (mg/dm³) e K (cmol_c/dm³), com 'n' (plantio/semeio), 'nCobertura' (cobertura), 'p' (plantio/semeio), 'pCobertura' (cobertura), 'k' (plantio/semeio) e 'kCobertura' (cobertura)
+    
+    // Tabelas de Nível com especificação da escala de solo para P (mg/dm³) e K (cmol_c/dm³), estruturadas por cultura e ano
     const tabelaNivelBaixo = {
-      "ABACAXI": { ano: 1, pEscala: "0 – 10", kEscala: "0 - 0.10", pMin: 0, pMax: 10, kMin: 0, kMax: 0.10, n: 60, nCobertura: 60, p: 80, pCobertura: 0, k: 160, kCobertura: 160 },
-      "AÇAÍ": { ano: 1, pEscala: "0 – 10", kEscala: "0 - 0.10", pMin: 0, pMax: 10, kMin: 0, kMax: 0.10, n: 18, nCobertura: 72, p: 40, pCobertura: 0, k: 20, kCobertura: 80 },
-      "BANANA": { ano: 1, pEscala: "0 – 10", kEscala: "0 - 0.10", pMin: 0, pMax: 10, kMin: 0, kMax: 0.10, n: 67, nCobertura: 200, p: 167, pCobertura: 0, k: 125, kCobertura: 375 },
-      "CACAU": { ano: 1, pEscala: "0 – 10", kEscala: "0 - 0.15", pMin: 0, pMax: 10, kMin: 0, kMax: 0.15, n: 11.11, nCobertura: 11.11, p: 90, pCobertura: 0, k: 8.3, kCobertura: 8.3 },
-      "CAFÉ CANÉFORA": { ano: 1, pEscala: "0 – 10", kEscala: "0 - 0.15", pMin: 0, pMax: 10, kMin: 0, kMax: 0.15, n: 8.3, nCobertura: 16.6, p: 66.7, pCobertura: 0, k: 16.7, kCobertura: 16.7 },
-      "CITROS": { ano: 1, pEscala: "0 – 6", kEscala: "0 - 0.10", pMin: 0, pMax: 6, kMin: 0, kMax: 0.10, n: 3.5, nCobertura: 13.7, p: 17.2, pCobertura: 0, k: 1.75, kCobertura: 6.85 },
-      "COCO-ANÃO": { ano: 1, pEscala: "<15", kEscala: "<0.15", pMin: 0, pMax: 14.9, kMin: 0, kMax: 0.149, n: 19, nCobertura: 19, p: 31, pCobertura: 0, k: 25, kCobertura: 25 },
-      "CUPUAÇU": { ano: 1, pEscala: "0 – 10", kEscala: "0 - 0.10", pMin: 0, pMax: 10, kMin: 0, kMax: 0.10, n: 8, nCobertura: 8, p: 20, pCobertura: 0, k: 16, kCobertura: 16 },
-      "FEIJÃO-CAUPI": { pEscala: "0 – 8", kEscala: "0 - 0.10", pMin: 0, pMax: 8, kMin: 0, kMax: 0.10, n: 0, nCobertura: 0, p: 80, pCobertura: 0, k: 90, kCobertura: 0 },
-      "FORRAGEIRA": { ano: 1, pEscala: "0 – 10", kEscala: "0 - 0.10", pMin: 0, pMax: 10, kMin: 0, kMax: 0.10, n: 0, nCobertura: 100, p: 50, pCobertura: 0, k: 0, kCobertura: 40 },
-      "MANDIOCA": { ano: 1, pEscala: "0 – 10", kEscala: "0 - 0.10", pMin: 0, pMax: 10, kMin: 0, kMax: 0.10, n: 0, nCobertura: 40, p: 100, pCobertura: 0, k: 0, kCobertura: 120 },
-      "MARACUJÁ": { ano: 1, pEscala: "0 – 10", kEscala: "0 - 0.10", pMin: 0, pMax: 10, kMin: 0, kMax: 0.10, n: 8, nCobertura: 72, p: 136, pCobertura: 0, k: 0, kCobertura: 72 },
-      "MELANCIA": { pEscala: "0 – 10", kEscala: "0 - 0.10", pMin: 0, pMax: 10, kMin: 0, kMax: 0.10, n: 0, nCobertura: 90, p: 190, pCobertura: 0, k: 0, kCobertura: 200 },
-      "MILHO": { pEscala: "0 – 8", kEscala: "0 - 0.10", pMin: 0, pMax: 8, kMin: 0, kMax: 0.10, n: 30, nCobertura: 100, p: 90, pCobertura: 0, k: 70, kCobertura: 0 },
-      "PIMENTA-DO-REINO": { ano: 1, pEscala: "0 – 10", kEscala: "0 - 0.10", pMin: 0, pMax: 10, kMin: 0, kMax: 0.10, n: 42, nCobertura: 0, p: 34, pCobertura: 0, k: 34, kCobertura: 0 },
-      "SOJA": { pEscala: "0 – 8", kEscala: "0 - 0.10", pMin: 0, pMax: 8, kMin: 0, kMax: 0.10, n: 5, nCobertura: 0, p: 100, pCobertura: 0, k: 45, kCobertura: 45 }
+      "ABACAXI": [ { ano: 1, pEscala: "0 – 10", kEscala: "0 - 0.10", pMin: 0, pMax: 10, kMin: 0, kMax: 0.10, n: 60, nCobertura: 60, p: 80, pCobertura: 0, k: 160, kCobertura: 160 } ],
+      "AÇAÍ": [
+        { ano: 1, pEscala: "0 – 10", kEscala: "0 - 0.10", pMin: 0, pMax: 10, kMin: 0, kMax: 0.10, n: 18, nCobertura: 72, p: 40, pCobertura: 0, k: 20, kCobertura: 80 },
+        { ano: 2, pEscala: "0 – 10", kEscala: "0 - 0.10", pMin: 0, pMax: 10, kMin: 0, kMax: 0.10, n: 0, nCobertura: 72, p: 0, pCobertura: 40, k: 0, kCobertura: 80 },
+        { ano: 3, pEscala: "0 – 10", kEscala: "0 - 0.10", pMin: 0, pMax: 10, kMin: 0, kMax: 0.10, n: 0, nCobertura: 72, p: 0, pCobertura: 40, k: 0, kCobertura: 80 },
+        { ano: 4, pEscala: "0 – 10", kEscala: "0 - 0.10", pMin: 0, pMax: 10, kMin: 0, kMax: 0.10, n: 0, nCobertura: 72, p: 0, pCobertura: 40, k: 0, kCobertura: 80 },
+        { ano: 5, pEscala: "0 – 10", kEscala: "0 - 0.10", pMin: 0, pMax: 10, kMin: 0, kMax: 0.10, n: 0, nCobertura: 72, p: 0, pCobertura: 40, k: 0, kCobertura: 80 },
+        { ano: 6, pEscala: "0 – 10", kEscala: "0 - 0.10", pMin: 0, pMax: 10, kMin: 0, kMax: 0.10, n: 0, nCobertura: 72, p: 0, pCobertura: 40, k: 0, kCobertura: 80 },
+        { ano: 7, pEscala: "0 – 10", kEscala: "0 - 0.10", pMin: 0, pMax: 10, kMin: 0, kMax: 0.10, n: 0, nCobertura: 72, p: 0, pCobertura: 40, k: 0, kCobertura: 80 }
+      ],
+      "BANANA": [ { ano: 1, pEscala: "0 – 10", kEscala: "0 - 0.10", pMin: 0, pMax: 10, kMin: 0, kMax: 0.10, n: 67, nCobertura: 200, p: 167, pCobertura: 0, k: 125, kCobertura: 375 } ],
+      "CACAU": [ { ano: 1, pEscala: "0 – 10", kEscala: "0 - 0.15", pMin: 0, pMax: 10, kMin: 0, kMax: 0.15, n: 11.11, nCobertura: 11.11, p: 90, pCobertura: 0, k: 8.3, kCobertura: 8.3 } ],
+      "CAFÉ CANÉFORA": [ { ano: 1, pEscala: "0 – 10", kEscala: "0 - 0.15", pMin: 0, pMax: 10, kMin: 0, kMax: 0.15, n: 8.3, nCobertura: 16.6, p: 66.7, pCobertura: 0, k: 16.7, kCobertura: 16.7 } ],
+      "CITROS": [ { ano: 1, pEscala: "0 – 6", kEscala: "0 - 0.10", pMin: 0, pMax: 6, kMin: 0, kMax: 0.10, n: 3.5, nCobertura: 13.7, p: 17.2, pCobertura: 0, k: 1.75, kCobertura: 6.85 } ],
+      "COCO-ANÃO": [ { ano: 1, pEscala: "<15", kEscala: "<0.15", pMin: 0, pMax: 14.9, kMin: 0, kMax: 0.149, n: 19, nCobertura: 19, p: 31, pCobertura: 0, k: 25, kCobertura: 25 } ],
+      "CUPUAÇU": [ { ano: 1, pEscala: "0 – 10", kEscala: "0 - 0.10", pMin: 0, pMax: 10, kMin: 0, kMax: 0.10, n: 8, nCobertura: 8, p: 20, pCobertura: 0, k: 16, kCobertura: 16 } ],
+      "FEIJÃO-CAUPI": [ { ano: 1, pEscala: "0 – 8", kEscala: "0 - 0.10", pMin: 0, pMax: 8, kMin: 0, kMax: 0.10, n: 0, nCobertura: 0, p: 80, pCobertura: 0, k: 90, kCobertura: 0 } ],
+      "FORRAGEIRA": [ { ano: 1, pEscala: "0 – 10", kEscala: "0 - 0.10", pMin: 0, pMax: 10, kMin: 0, kMax: 0.10, n: 0, nCobertura: 100, p: 50, pCobertura: 0, k: 0, kCobertura: 40 } ],
+      "MANDIOCA": [ { ano: 1, pEscala: "0 – 10", kEscala: "0 - 0.10", pMin: 0, pMax: 10, kMin: 0, kMax: 0.10, n: 0, nCobertura: 40, p: 100, pCobertura: 0, k: 0, kCobertura: 120 } ],
+      "MARACUJÁ": [ { ano: 1, pEscala: "0 – 10", kEscala: "0 - 0.10", pMin: 0, pMax: 10, kMin: 0, kMax: 0.10, n: 8, nCobertura: 72, p: 136, pCobertura: 0, k: 0, kCobertura: 72 } ],
+      "MELANCIA": [ { ano: 1, pEscala: "0 – 10", kEscala: "0 - 0.10", pMin: 0, pMax: 10, kMin: 0, kMax: 0.10, n: 0, nCobertura: 90, p: 190, pCobertura: 0, k: 0, kCobertura: 200 } ],
+      "MILHO": [ { ano: 1, pEscala: "0 – 8", kEscala: "0 - 0.10", pMin: 0, pMax: 8, kMin: 0, kMax: 0.10, n: 30, nCobertura: 100, p: 90, pCobertura: 0, k: 70, kCobertura: 0 } ],
+      "PIMENTA-DO-REINO": [ { ano: 1, pEscala: "0 – 10", kEscala: "0 - 0.10", pMin: 0, pMax: 10, kMin: 0, kMax: 0.10, n: 42, nCobertura: 0, p: 34, pCobertura: 0, k: 34, kCobertura: 0 } ],
+      "SOJA": [ { ano: 1, pEscala: "0 – 8", kEscala: "0 - 0.10", pMin: 0, pMax: 8, kMin: 0, kMax: 0.10, n: 5, nCobertura: 0, p: 100, pCobertura: 0, k: 45, kCobertura: 45 } ]
     };
+
     const tabelaNivelMedio = {
-      "ABACAXI": { ano: 1, pEscala: "11 – 20", kEscala: "0.11 – 0.15", pMin: 11, pMax: 20, kMin: 0.11, kMax: 0.15, n: 0, nCobertura: 0, p: 70, pCobertura: 0, k: 140, kCobertura: 140 },
-      "AÇAÍ": { ano: 1, pEscala: "11 – 20", kEscala: "0.11 – 0.23", pMin: 11, pMax: 20, kMin: 0.11, kMax: 0.23, n: 0, nCobertura: 0, p: 32, pCobertura: 0, k: 13.5, kCobertura: 53.5 },
-      "BANANA": { ano: 1, pEscala: "11 – 20", kEscala: "0.11 – 0.23", pMin: 11, pMax: 20, kMin: 0.11, kMax: 0.23, n: 0, nCobertura: 0, p: 112, pCobertura: 0, k: 97.5, kCobertura: 292.5 },
-      "CACAU": { ano: 1, pEscala: "11 – 20", kEscala: "0.16 – 0.38", pMin: 11, pMax: 20, kMin: 0.16, kMax: 0.38, n: 0, nCobertura: 0, p: 90, pCobertura: 0, k: 8.3, kCobertura: 8.3 },
-      "CAFÉ CANÉFORA": { ano: 1, pEscala: "11 – 20", kEscala: "0.16 – 0.38", pMin: 11, pMax: 20, kMin: 0.16, kMax: 0.38, n: 0, nCobertura: 0, p: 66.7, pCobertura: 0, k: 16.7, kCobertura: 16.7 },
-      "CITROS": { ano: 1, pEscala: "7 – 15", kEscala: "0.11 – 0.18", pMin: 7, pMax: 15, kMin: 0.11, kMax: 0.18, n: 0, nCobertura: 0, p: 17.2, pCobertura: 0, k: 1.75, kCobertura: 6.85 },
-      "COCO-ANÃO": { ano: 1, pEscala: "15 – 19", kEscala: "0.15 – 0.19", pMin: 15, pMax: 19, kMin: 0.15, kMax: 0.19, n: 0, nCobertura: 0, p: 20.5, pCobertura: 0, k: 16.4, kCobertura: 16.4 },
-      "CUPUAÇU": { ano: 1, pEscala: "11 – 20", kEscala: "0.11 – 0.23", pMin: 11, pMax: 20, kMin: 0.11, kMax: 0.23, n: 0, nCobertura: 0, p: 16, pCobertura: 0, k: 13, kCobertura: 13 },
-      "FEIJÃO-CAUPI": { pEscala: "9 – 15", kEscala: "0.11 – 0.23", pMin: 9, pMax: 15, kMin: 0.11, kMax: 0.23, n: 0, nCobertura: 0, p: 60, pCobertura: 0, k: 60, kCobertura: 0 },
-      "FORRAGEIRA": { ano: 1, pEscala: "11 – 20", kEscala: "0.11 – 0.23", pMin: 11, pMax: 20, kMin: 0.11, kMax: 0.23, n: 0, nCobertura: 0, p: 25, pCobertura: 0, k: 0, kCobertura: 20 },
-      "MANDIOCA": { ano: 1, pEscala: "11 – 20", kEscala: "0.11 – 0.23", pMin: 11, pMax: 20, kMin: 0.11, kMax: 0.23, n: 0, nCobertura: 0, p: 60, pCobertura: 0, k: 0, kCobertura: 90 },
-      "MARACUJÁ": { ano: 1, pEscala: "11 – 20", kEscala: "0.11 – 0.23", pMin: 11, pMax: 20, kMin: 0.11, kMax: 0.23, n: 0, nCobertura: 0, p: 120, pCobertura: 0, k: 0, kCobertura: 48 },
-      "MELANCIA": { pEscala: "11 – 20", kEscala: "0.11 – 0.15", pMin: 11, pMax: 20, kMin: 0.11, kMax: 0.15, n: 0, nCobertura: 0, p: 150, pCobertura: 0, k: 0, kCobertura: 150 },
-      "MILHO": { pEscala: "9 – 15", kEscala: "0.11 – 0.23", pMin: 9, pMax: 15, kMin: 0.11, kMax: 0.23, n: 0, nCobertura: 0, p: 60, pCobertura: 0, k: 50, kCobertura: 0 },
-      "PIMENTA-DO-REINO": { ano: 1, pEscala: "11 – 20", kEscala: "0.11 – 0.23", pMin: 11, pMax: 20, kMin: 0.11, kMax: 0.23, n: 0, nCobertura: 0, p: 17, pCobertura: 0, k: 25, kCobertura: 0 },
-      "SOJA": { pEscala: "9 – 15", kEscala: "0.11 – 0.23", pMin: 9, pMax: 15, kMin: 0.11, kMax: 0.23, n: 0, nCobertura: 0, p: 75, pCobertura: 0, k: 30, kCobertura: 30 }
+      "ABACAXI": [ { ano: 1, pEscala: "11 – 20", kEscala: "0.11 – 0.15", pMin: 11, pMax: 20, kMin: 0.11, kMax: 0.15, n: 60, nCobertura: 60, p: 70, pCobertura: 0, k: 140, kCobertura: 140 } ],
+      "AÇAÍ": [
+        { ano: 1, pEscala: "11 – 20", kEscala: "0.11 – 0.23", pMin: 11, pMax: 20, kMin: 0.11, kMax: 0.23, n: 18, nCobertura: 72, p: 32, pCobertura: 0, k: 13.5, kCobertura: 53.5 },
+        { ano: 2, pEscala: "11 – 20", kEscala: "0.11 – 0.23", pMin: 11, pMax: 20, kMin: 0.11, kMax: 0.23, n: 0, nCobertura: 72, p: 0, pCobertura: 32, k: 0, kCobertura: 53.5 },
+        { ano: 3, pEscala: "11 – 20", kEscala: "0.11 – 0.23", pMin: 11, pMax: 20, kMin: 0.11, kMax: 0.23, n: 0, nCobertura: 72, p: 0, pCobertura: 32, k: 0, kCobertura: 53.5 },
+        { ano: 4, pEscala: "11 – 20", kEscala: "0.11 – 0.23", pMin: 11, pMax: 20, kMin: 0.11, kMax: 0.23, n: 0, nCobertura: 72, p: 0, pCobertura: 32, k: 0, kCobertura: 53.5 },
+        { ano: 5, pEscala: "11 – 20", kEscala: "0.11 – 0.23", pMin: 11, pMax: 20, kMin: 0.11, kMax: 0.23, n: 0, nCobertura: 72, p: 0, pCobertura: 32, k: 0, kCobertura: 53.5 },
+        { ano: 6, pEscala: "11 – 20", kEscala: "0.11 – 0.23", pMin: 11, pMax: 20, kMin: 0.11, kMax: 0.23, n: 0, nCobertura: 72, p: 0, pCobertura: 32, k: 0, kCobertura: 53.5 },
+        { ano: 7, pEscala: "11 – 20", kEscala: "0.11 – 0.23", pMin: 11, pMax: 20, kMin: 0.11, kMax: 0.23, n: 0, nCobertura: 72, p: 0, pCobertura: 32, k: 0, kCobertura: 53.5 }
+      ],
+      "BANANA": [ { ano: 1, pEscala: "11 – 20", kEscala: "0.11 – 0.23", pMin: 11, pMax: 20, kMin: 0.11, kMax: 0.23, n: 67, nCobertura: 200, p: 112, pCobertura: 0, k: 97.5, kCobertura: 292.5 } ],
+      "CACAU": [ { ano: 1, pEscala: "11 – 20", kEscala: "0.16 – 0.38", pMin: 11, pMax: 20, kMin: 0.16, kMax: 0.38, n: 11.11, nCobertura: 11.11, p: 90, pCobertura: 0, k: 8.3, kCobertura: 8.3 } ],
+      "CAFÉ CANÉFORA": [ { ano: 1, pEscala: "11 – 20", kEscala: "0.16 – 0.38", pMin: 11, pMax: 20, kMin: 0.16, kMax: 0.38, n: 8.3, nCobertura: 16.6, p: 66.7, pCobertura: 0, k: 16.7, kCobertura: 16.7 } ],
+      "CITROS": [ { ano: 1, pEscala: "7 – 15", kEscala: "0.11 – 0.18", pMin: 7, pMax: 15, kMin: 0.11, kMax: 0.18, n: 3.5, nCobertura: 13.7, p: 17.2, pCobertura: 0, k: 1.75, kCobertura: 6.85 } ],
+      "COCO-ANÃO": [ { ano: 1, pEscala: "15 – 19", kEscala: "0.15 – 0.19", pMin: 15, pMax: 19, kMin: 0.15, kMax: 0.19, n: 19, nCobertura: 19, p: 20.5, pCobertura: 0, k: 16.4, kCobertura: 16.4 } ],
+      "CUPUAÇU": [ { ano: 1, pEscala: "11 – 20", kEscala: "0.11 – 0.23", pMin: 11, pMax: 20, kMin: 0.11, kMax: 0.23, n: 8, nCobertura: 8, p: 16, pCobertura: 0, k: 13, kCobertura: 13 } ],
+      "FEIJÃO-CAUPI": [ { ano: 1, pEscala: "9 – 15", kEscala: "0.11 – 0.23", pMin: 9, pMax: 15, kMin: 0.11, kMax: 0.23, n: 0, nCobertura: 0, p: 60, pCobertura: 0, k: 60, kCobertura: 0 } ],
+      "FORRAGEIRA": [ { ano: 1, pEscala: "11 – 20", kEscala: "0.11 – 0.23", pMin: 11, pMax: 20, kMin: 0.11, kMax: 0.23, n: 0, nCobertura: 100, p: 25, pCobertura: 0, k: 0, kCobertura: 20 } ],
+      "MANDIOCA": [ { ano: 1, pEscala: "11 – 20", kEscala: "0.11 – 0.23", pMin: 11, pMax: 20, kMin: 0.11, kMax: 0.23, n: 0, nCobertura: 40, p: 60, pCobertura: 0, k: 0, kCobertura: 90 } ],
+      "MARACUJÁ": [ { ano: 1, pEscala: "11 – 20", kEscala: "0.11 – 0.23", pMin: 11, pMax: 20, kMin: 0.11, kMax: 0.23, n: 8, nCobertura: 72, p: 120, pCobertura: 0, k: 0, kCobertura: 48 } ],
+      "MELANCIA": [ { ano: 1, pEscala: "11 – 20", kEscala: "0.11 – 0.15", pMin: 11, pMax: 20, kMin: 0.11, kMax: 0.15, n: 0, nCobertura: 90, p: 150, pCobertura: 0, k: 0, kCobertura: 150 } ],
+      "MILHO": [ { ano: 1, pEscala: "9 – 15", kEscala: "0.11 – 0.23", pMin: 9, pMax: 15, kMin: 0.11, kMax: 0.23, n: 30, nCobertura: 100, p: 60, pCobertura: 0, k: 50, kCobertura: 0 } ],
+      "PIMENTA-DO-REINO": [ { ano: 1, pEscala: "11 – 20", kEscala: "0.11 – 0.23", pMin: 11, pMax: 20, kMin: 0.11, kMax: 0.23, n: 42, nCobertura: 0, p: 17, pCobertura: 0, k: 25, kCobertura: 0 } ],
+      "SOJA": [ { ano: 1, pEscala: "9 – 15", kEscala: "0.11 – 0.23", pMin: 9, pMax: 15, kMin: 0.11, kMax: 0.23, n: 5, nCobertura: 0, p: 75, pCobertura: 0, k: 30, kCobertura: 30 } ]
     };
+
     const tabelaNivelAlto = {
-      "ABACAXI": { ano: 1, pEscala: ">20", kEscala: ">0.15", pMin: 20.01, pMax: Infinity, kMin: 0.1501, kMax: Infinity, n: 0, nCobertura: 0, p: 60, pCobertura: 0, k: 125, kCobertura: 125 },
-      "AÇAÍ": { ano: 1, pEscala: ">20", kEscala: ">0.23", pMin: 20.01, pMax: Infinity, kMin: 0.2301, kMax: Infinity, n: 0, nCobertura: 0, p: 16, pCobertura: 0, k: 6.8, kCobertura: 27.2 },
-      "BANANA": { ano: 1, pEscala: ">20", kEscala: ">0.23", pMin: 20.01, pMax: Infinity, kMin: 0.2301, kMax: Infinity, n: 0, nCobertura: 0, p: 90, pCobertura: 0, k: 55.75, kCobertura: 167.25 },
-      "CACAU": { ano: 1, pEscala: ">20", kEscala: ">0.38", pMin: 20.01, pMax: Infinity, kMin: 0.3801, kMax: Infinity, n: 0, nCobertura: 0, p: 90, pCobertura: 0, k: 8.3, kCobertura: 8.3 },
-      "CAFÉ CANÉFORA": { ano: 1, pEscala: ">20", kEscala: ">0.38", pMin: 20.01, pMax: Infinity, kMin: 0.3801, kMax: Infinity, n: 0, nCobertura: 0, p: 66.7, pCobertura: 0, k: 16.7, kCobertura: 16.7 },
-      "CITROS": { ano: 1, pEscala: ">15", kEscala: ">0.18", pMin: 15.01, pMax: Infinity, kMin: 0.1801, kMax: Infinity, n: 0, nCobertura: 0, p: 17.2, pCobertura: 0, k: 1.75, kCobertura: 6.85 },
-      "COCO-ANÃO": { ano: 1, pEscala: ">19", kEscala: ">0.19", pMin: 19.01, pMax: Infinity, kMin: 0.1901, kMax: Infinity, n: 0, nCobertura: 0, p: 10.2, pCobertura: 0, k: 10.2, kCobertura: 10.2 },
-      "CUPUAÇU": { ano: 1, pEscala: ">20", kEscala: ">0.23", pMin: 20.01, pMax: Infinity, kMin: 0.2301, kMax: Infinity, n: 0, nCobertura: 0, p: 13, pCobertura: 0, k: 10, kCobertura: 10 },
-      "FEIJÃO-CAUPI": { pEscala: ">15", kEscala: ">0.23", pMin: 15.01, pMax: Infinity, kMin: 0.2301, kMax: Infinity, n: 0, nCobertura: 0, p: 40, pCobertura: 0, k: 30, kCobertura: 0 },
-      "FORRAGEIRA": { ano: 1, pEscala: ">20", kEscala: ">0.23", pMin: 20.01, pMax: Infinity, kMin: 0.2301, kMax: Infinity, n: 0, nCobertura: 0, p: 0, pCobertura: 0, k: 0, kCobertura: 0 },
-      "MANDIOCA": { ano: 1, pEscala: ">20", kEscala: ">0.23", pMin: 20.01, pMax: Infinity, kMin: 0.2301, kMax: Infinity, n: 0, nCobertura: 0, p: 40, pCobertura: 0, k: 0, kCobertura: 60 },
-      "MARACUJÁ": { ano: 1, pEscala: ">20", kEscala: ">0.23", pMin: 20.01, pMax: Infinity, kMin: 0.2301, kMax: Infinity, n: 0, nCobertura: 0, p: 96, pCobertura: 0, k: 0, kCobertura: 24 },
-      "MELANCIA": { pEscala: ">20", kEscala: ">0.15", pMin: 20.01, pMax: Infinity, kMin: 0.1501, kMax: Infinity, n: 0, nCobertura: 0, p: 105, pCobertura: 0, k: 0, kCobertura: 100 },
-      "MILHO": { pEscala: ">15", kEscala: ">0.23", pMin: 15.01, pMax: Infinity, kMin: 0.2301, kMax: Infinity, n: 0, nCobertura: 0, p: 30, pCobertura: 0, k: 30, kCobertura: 0 },
-      "PIMENTA-DO-REINO": { ano: 1, pEscala: ">20", kEscala: ">0.23", pMin: 20.01, pMax: Infinity, kMin: 0.2301, kMax: Infinity, n: 0, nCobertura: 0, p: 9, pCobertura: 0, k: 17, kCobertura: 0 },
-      "SOJA": { pEscala: ">15", kEscala: ">0.23", pMin: 15.01, pMax: Infinity, kMin: 0.2301, kMax: Infinity, n: 0, nCobertura: 0, p: 50, pCobertura: 0, k: 30, kCobertura: 0 }
+      "ABACAXI": [ { ano: 1, pEscala: ">20", kEscala: ">0.15", pMin: 20.01, pMax: Infinity, kMin: 0.1501, kMax: Infinity, n: 60, nCobertura: 60, p: 60, pCobertura: 0, k: 125, kCobertura: 125 } ],
+      "AÇAÍ": [
+        { ano: 1, pEscala: ">20", kEscala: ">0.23", pMin: 20.01, pMax: Infinity, kMin: 0.2301, kMax: Infinity, n: 18, nCobertura: 72, p: 16, pCobertura: 0, k: 6.8, kCobertura: 27.2 },
+        { ano: 2, pEscala: ">20", kEscala: ">0.23", pMin: 20.01, pMax: Infinity, kMin: 0.2301, kMax: Infinity, n: 0, nCobertura: 72, p: 0, pCobertura: 16, k: 0, kCobertura: 27.2 },
+        { ano: 3, pEscala: ">20", kEscala: ">0.23", pMin: 20.01, pMax: Infinity, kMin: 0.2301, kMax: Infinity, n: 0, nCobertura: 72, p: 0, pCobertura: 16, k: 0, kCobertura: 27.2 },
+        { ano: 4, pEscala: ">20", kEscala: ">0.23", pMin: 20.01, pMax: Infinity, kMin: 0.2301, kMax: Infinity, n: 0, nCobertura: 72, p: 0, pCobertura: 16, k: 0, kCobertura: 27.2 },
+        { ano: 5, pEscala: ">20", kEscala: ">0.23", pMin: 20.01, pMax: Infinity, kMin: 0.2301, kMax: Infinity, n: 0, nCobertura: 72, p: 0, pCobertura: 16, k: 0, kCobertura: 27.2 },
+        { ano: 6, pEscala: ">20", kEscala: ">0.23", pMin: 20.01, pMax: Infinity, kMin: 0.2301, kMax: Infinity, n: 0, nCobertura: 72, p: 0, pCobertura: 16, k: 0, kCobertura: 27.2 },
+        { ano: 7, pEscala: ">20", kEscala: ">0.23", pMin: 20.01, pMax: Infinity, kMin: 0.2301, kMax: Infinity, n: 0, nCobertura: 72, p: 0, pCobertura: 16, k: 0, kCobertura: 27.2 }
+      ],
+      "BANANA": [ { ano: 1, pEscala: ">20", kEscala: ">0.23", pMin: 20.01, pMax: Infinity, kMin: 0.2301, kMax: Infinity, n: 67, nCobertura: 200, p: 90, pCobertura: 0, k: 55.75, kCobertura: 167.25 } ],
+      "CACAU": [ { ano: 1, pEscala: ">20", kEscala: ">0.38", pMin: 20.01, pMax: Infinity, kMin: 0.3801, kMax: Infinity, n: 11.11, nCobertura: 11.11, p: 90, pCobertura: 0, k: 8.3, kCobertura: 8.3 } ],
+      "CAFÉ CANÉFORA": [ { ano: 1, pEscala: ">20", kEscala: ">0.38", pMin: 20.01, pMax: Infinity, kMin: 0.3801, kMax: Infinity, n: 8.3, nCobertura: 16.6, p: 66.7, pCobertura: 0, k: 16.7, kCobertura: 16.7 } ],
+      "CITROS": [ { ano: 1, pEscala: ">15", kEscala: ">0.18", pMin: 15.01, pMax: Infinity, kMin: 0.1801, kMax: Infinity, n: 3.5, nCobertura: 13.7, p: 17.2, pCobertura: 0, k: 1.75, kCobertura: 6.85 } ],
+      "COCO-ANÃO": [ { ano: 1, pEscala: ">19", kEscala: ">0.19", pMin: 19.01, pMax: Infinity, kMin: 0.1901, kMax: Infinity, n: 19, nCobertura: 19, p: 10.2, pCobertura: 0, k: 10.2, kCobertura: 10.2 } ],
+      "CUPUAÇU": [ { ano: 1, pEscala: ">20", kEscala: ">0.23", pMin: 20.01, pMax: Infinity, kMin: 0.2301, kMax: Infinity, n: 8, nCobertura: 8, p: 13, pCobertura: 0, k: 10, kCobertura: 10 } ],
+      "FEIJÃO-CAUPI": [ { ano: 1, pEscala: ">15", kEscala: ">0.23", pMin: 15.01, pMax: Infinity, kMin: 0.2301, kMax: Infinity, n: 0, nCobertura: 0, p: 40, pCobertura: 0, k: 30, kCobertura: 0 } ],
+      "FORRAGEIRA": [ { ano: 1, pEscala: ">20", kEscala: ">0.23", pMin: 20.01, pMax: Infinity, kMin: 0.2301, kMax: Infinity, n: 0, nCobertura: 100, p: 0, pCobertura: 0, k: 0, kCobertura: 0 } ],
+      "MANDIOCA": [ { ano: 1, pEscala: ">20", kEscala: ">0.23", pMin: 20.01, pMax: Infinity, kMin: 0.2301, kMax: Infinity, n: 0, nCobertura: 40, p: 40, pCobertura: 0, k: 0, kCobertura: 60 } ],
+      "MARACUJÁ": [ { ano: 1, pEscala: ">20", kEscala: ">0.23", pMin: 20.01, pMax: Infinity, kMin: 0.2301, kMax: Infinity, n: 8, nCobertura: 72, p: 96, pCobertura: 0, k: 0, kCobertura: 24 } ],
+      "MELANCIA": [ { ano: 1, pEscala: ">20", kEscala: ">0.15", pMin: 20.01, pMax: Infinity, kMin: 0.1501, kMax: Infinity, n: 0, nCobertura: 90, p: 105, pCobertura: 0, k: 0, kCobertura: 100 } ],
+      "MILHO": [ { ano: 1, pEscala: ">15", kEscala: ">0.23", pMin: 15.01, pMax: Infinity, kMin: 0.2301, kMax: Infinity, n: 30, nCobertura: 100, p: 30, pCobertura: 0, k: 30, kCobertura: 0 } ],
+      "PIMENTA-DO-REINO": [ { ano: 1, pEscala: ">20", kEscala: ">0.23", pMin: 20.01, pMax: Infinity, kMin: 0.2301, kMax: Infinity, n: 42, nCobertura: 0, p: 9, pCobertura: 0, k: 17, kCobertura: 0 } ],
+      "SOJA": [ { ano: 1, pEscala: ">15", kEscala: ">0.23", pMin: 15.01, pMax: Infinity, kMin: 0.2301, kMax: Infinity, n: 5, nCobertura: 0, p: 50, pCobertura: 0, k: 30, kCobertura: 0 } ]
     };
+
+    function getCulturaDados(tabela, cultura, ano = 1) {
+      const item = tabela[cultura];
+      if (!item) return {};
+      if (Array.isArray(item)) {
+        const porAno = item.find(d => d.ano === ano);
+        return porAno || item[0] || {};
+      }
+      return item;
+    }
+
+    function getListaAnos(tabela, cultura) {
+      const item = tabela[cultura];
+      if (!item) return [1];
+      if (Array.isArray(item)) {
+        return item.map(d => d.ano || 1);
+      }
+      return [1];
+    }
+
     function parseVal(id) {
       const el = document.getElementById(id);
       if (!el) return 0;
@@ -963,43 +1012,46 @@
       const soloP = parseVal('soloP'); // mg/dm3
       const soloK = parseVal('soloK'); // cmol_c/dm3
       
-      // Busca dos valores de N (plantio e cobertura) exclusivamente na TABELA NÍVEL BAIXO
-      const dadosNivelBaixo = tabelaNivelBaixo[selCultura] || { n: 0, nCobertura: 0, p: 0, pCobertura: 0, k: 0, kCobertura: 0 };
-      const dose_n_plantio = dadosNivelBaixo.n || 0;
-      const dose_n_cobertura = dadosNivelBaixo.nCobertura || 0;
-      const dose_n = dose_n_plantio + dose_n_cobertura; // Soma de n + nCobertura
-      
-      // Busca da recomendação de P2O5 (plantio e cobertura) com base na escala específica da cultura selecionada
-      const pMaxBaixo = (tabelaNivelBaixo[selCultura] || {}).pMax || 10;
-      const pMaxMedio = (tabelaNivelMedio[selCultura] || {}).pMax || 20;
-      let dadosP = {};
+      // Definição do Nível da Análise de Solo baseada na cultura (Ano 1)
+      const pMaxBaixo = (getCulturaDados(tabelaNivelBaixo, selCultura, 1)).pMax || 10;
+      const pMaxMedio = (getCulturaDados(tabelaNivelMedio, selCultura, 1)).pMax || 20;
+      let tabelaP = tabelaNivelAlto;
       if (soloP <= pMaxBaixo) {
-        dadosP = tabelaNivelBaixo[selCultura] || {};
+        tabelaP = tabelaNivelBaixo;
       } else if (soloP <= pMaxMedio) {
-        dadosP = tabelaNivelMedio[selCultura] || {};
-      } else {
-        dadosP = tabelaNivelAlto[selCultura] || {};
+        tabelaP = tabelaNivelMedio;
       }
-      const dose_p2o5_plantio = dadosP.p || 0;
-      const dose_p2o5_cobertura = dadosP.pCobertura || 0;
-      const dose_p2o5 = dose_p2o5_plantio + dose_p2o5_cobertura; // Soma de p + pCobertura
 
-      // Busca da recomendação de K2O (plantio e cobertura) com base na escala específica da cultura selecionada
-      const kMaxBaixo = (tabelaNivelBaixo[selCultura] || {}).kMax || 0.15;
-      const kMaxMedio = (tabelaNivelMedio[selCultura] || {}).kMax || 0.30;
-      let dadosK = {};
+      const kMaxBaixo = (getCulturaDados(tabelaNivelBaixo, selCultura, 1)).kMax || 0.15;
+      const kMaxMedio = (getCulturaDados(tabelaNivelMedio, selCultura, 1)).kMax || 0.30;
+      let tabelaK = tabelaNivelAlto;
       if (soloK <= kMaxBaixo) {
-        dadosK = tabelaNivelBaixo[selCultura] || {};
+        tabelaK = tabelaNivelBaixo;
       } else if (soloK <= kMaxMedio) {
-        dadosK = tabelaNivelMedio[selCultura] || {};
-      } else {
-        dadosK = tabelaNivelAlto[selCultura] || {};
+        tabelaK = tabelaNivelMedio;
       }
-      const dose_k2o_plantio = dadosK.k || 0;
-      const dose_k2o_cobertura = dadosK.kCobertura || 0;
-      const dose_k2o = dose_k2o_plantio + dose_k2o_cobertura; // Soma de k + kCobertura
+
+      // ALTERAÇÃO 1: Busca de N dinamicamente nas tabelas de NÍVEL BAIXO, NÍVEL MÉDIO ou NÍVEL ALTO conforme o solo
+      let tabelaN = tabelaP; 
+
+      // Dados para o Ano 1 (Plantio/Semeio + Cobertura)
+      const dadosN_Ano1 = getCulturaDados(tabelaN, selCultura, 1);
+      const dadosP_Ano1 = getCulturaDados(tabelaP, selCultura, 1);
+      const dadosK_Ano1 = getCulturaDados(tabelaK, selCultura, 1);
+
+      const dose_n_plantio = dadosN_Ano1.n || 0;
+      const dose_n_cobertura = dadosN_Ano1.nCobertura || 0;
+      const dose_n = dose_n_plantio + dose_n_cobertura;
+
+      const dose_p2o5_plantio = dadosP_Ano1.p || 0;
+      const dose_p2o5_cobertura = dadosP_Ano1.pCobertura || 0;
+      const dose_p2o5 = dose_p2o5_plantio + dose_p2o5_cobertura;
+
+      const dose_k2o_plantio = dadosK_Ano1.k || 0;
+      const dose_k2o_cobertura = dadosK_Ano1.kCobertura || 0;
+      const dose_k2o = dose_k2o_plantio + dose_k2o_cobertura;
       
-      // Atualização dos campos da 'Recomendação Teórica para a Cultura'
+      // Atualização dos campos da 'Recomendação Teórica para a Cultura' (Ano 1)
       const elemDoseN = document.getElementById('dose_n');
       if (elemDoseN) elemDoseN.value = dose_n;
       const elemDoseP = document.getElementById('dose_p2o5');
@@ -1007,81 +1059,203 @@
       const elemDoseK = document.getElementById('dose_k2o');
       if (elemDoseK) elemDoseK.value = dose_k2o;
       
-      // Cálculo dos Fertilizantes Individuais
-      const samonio_peso = dose_n / 0.20;
-      const samonio_plantio = dose_n_plantio / 0.20;
-      const samonio_cob = dose_n_cobertura / 0.20;
-      const ureia_peso = dose_n / 0.45;
-      const ureia_plantio = dose_n_plantio / 0.45;
-      const ureia_cob = dose_n_cobertura / 0.45;
-
-      const sfs_peso = dose_p2o5 / 0.18;
-      const sfs_plantio = dose_p2o5_plantio / 0.18;
-      const sfs_cob = dose_p2o5_cobertura / 0.18;
-      const sft_peso = dose_p2o5 / 0.41;
-      const sft_plantio = dose_p2o5_plantio / 0.41;
-      const sft_cob = dose_p2o5_cobertura / 0.41;
-
-      const kcl_peso = dose_k2o / 0.50;
-      const kcl_plantio = dose_k2o_plantio / 0.50;
-      const kcl_cob = dose_k2o_cobertura / 0.50;
-      
+      // ALTERAÇÃO 2: Verificação de adubação de cobertura do Ano 2 em diante
+      const listaAnos = getListaAnos(tabelaN, selCultura);
       const culturasSemeio = ["FEIJÃO-CAUPI", "MELANCIA", "MILHO", "SOJA"];
       const rotuloEtapa = selCultura === "FORRAGEIRA" ? "Plantio/Semeio:" : (culturasSemeio.includes(selCultura) ? "Semeio:" : "Plantio:");
-      if (dose_n_cobertura > 0) {
-        document.getElementById('fc-samonio-peso').innerHTML = `${formatNum(samonio_peso)} kg/ha<br><span style="font-size:0.68rem; color:#555; font-weight:normal;">${rotuloEtapa} ${formatNum(samonio_plantio)} kg/ha<br>Cobertura: ${formatNum(samonio_cob)} kg/ha</span>`;
-        document.getElementById('fc-ureia-peso').innerHTML = `${formatNum(ureia_peso)} kg/ha<br><span style="font-size:0.68rem; color:#555; font-weight:normal;">${rotuloEtapa} ${formatNum(ureia_plantio)} kg/ha<br>Cobertura: ${formatNum(ureia_cob)} kg/ha</span>`;
-      } else {
-        document.getElementById('fc-samonio-peso').innerText = formatNum(samonio_peso) + " kg/ha";
-        document.getElementById('fc-ureia-peso').innerText = formatNum(ureia_peso) + " kg/ha";
-      }
-      document.getElementById('fc-samonio-valor').innerText = "R$ " + formatMoeda(samonio_peso * parseVal('preco_samonio'));
-      document.getElementById('fc-ureia-valor').innerText = "R$ " + formatMoeda(ureia_peso * parseVal('preco_ureia'));
 
-      if (dose_p2o5_cobertura > 0) {
-        document.getElementById('fc-sfs-peso').innerHTML = `${formatNum(sfs_peso)} kg/ha<br><span style="font-size:0.68rem; color:#555; font-weight:normal;">${rotuloEtapa} ${formatNum(sfs_plantio)} kg/ha<br>Cobertura: ${formatNum(sfs_cob)} kg/ha</span>`;
-        document.getElementById('fc-sft-peso').innerHTML = `${formatNum(sft_peso)} kg/ha<br><span style="font-size:0.68rem; color:#555; font-weight:normal;">${rotuloEtapa} ${formatNum(sft_plantio)} kg/ha<br>Cobertura: ${formatNum(sft_cob)} kg/ha</span>`;
+      const preco_samonio = parseVal('preco_samonio');
+      const preco_ureia = parseVal('preco_ureia');
+      const preco_sfs = parseVal('preco_sfs');
+      const preco_sft = parseVal('preco_sft');
+      const preco_kcl = parseVal('preco_kcl');
+
+      if (listaAnos.length <= 1) {
+        // Cultura padrão (Apenas Ano 1)
+        const samonio_peso = dose_n / 0.20;
+        const samonio_plantio = dose_n_plantio / 0.20;
+        const samonio_cob = dose_n_cobertura / 0.20;
+
+        const ureia_peso = dose_n / 0.45;
+        const ureia_plantio = dose_n_plantio / 0.45;
+        const ureia_cob = dose_n_cobertura / 0.45;
+
+        const sfs_peso = dose_p2o5 / 0.18;
+        const sfs_plantio = dose_p2o5_plantio / 0.18;
+        const sfs_cob = dose_p2o5_cobertura / 0.18;
+
+        const sft_peso = dose_p2o5 / 0.41;
+        const sft_plantio = dose_p2o5_plantio / 0.41;
+        const sft_cob = dose_p2o5_cobertura / 0.41;
+
+        const kcl_peso = dose_k2o / 0.50;
+        const kcl_plantio = dose_k2o_plantio / 0.50;
+        const kcl_cob = dose_k2o_cobertura / 0.50;
+
+        if (dose_n_cobertura > 0) {
+          document.getElementById('fc-samonio-peso').innerHTML = `${formatNum(samonio_peso)} kg/ha<br><span style="font-size:0.68rem; color:#555; font-weight:normal;">${rotuloEtapa} ${formatNum(samonio_plantio)} kg/ha<br>Cobertura: ${formatNum(samonio_cob)} kg/ha</span>`;
+          document.getElementById('fc-ureia-peso').innerHTML = `${formatNum(ureia_peso)} kg/ha<br><span style="font-size:0.68rem; color:#555; font-weight:normal;">${rotuloEtapa} ${formatNum(ureia_plantio)} kg/ha<br>Cobertura: ${formatNum(ureia_cob)} kg/ha</span>`;
+        } else {
+          document.getElementById('fc-samonio-peso').innerText = formatNum(samonio_peso) + " kg/ha";
+          document.getElementById('fc-ureia-peso').innerText = formatNum(ureia_peso) + " kg/ha";
+        }
+        document.getElementById('fc-samonio-valor').innerText = "R$ " + formatMoeda(samonio_peso * preco_samonio);
+        document.getElementById('fc-ureia-valor').innerText = "R$ " + formatMoeda(ureia_peso * preco_ureia);
+
+        if (dose_p2o5_cobertura > 0) {
+          document.getElementById('fc-sfs-peso').innerHTML = `${formatNum(sfs_peso)} kg/ha<br><span style="font-size:0.68rem; color:#555; font-weight:normal;">${rotuloEtapa} ${formatNum(sfs_plantio)} kg/ha<br>Cobertura: ${formatNum(sfs_cob)} kg/ha</span>`;
+          document.getElementById('fc-sft-peso').innerHTML = `${formatNum(sft_peso)} kg/ha<br><span style="font-size:0.68rem; color:#555; font-weight:normal;">${rotuloEtapa} ${formatNum(sft_plantio)} kg/ha<br>Cobertura: ${formatNum(sft_cob)} kg/ha</span>`;
+        } else {
+          document.getElementById('fc-sfs-peso').innerText = formatNum(sfs_peso) + " kg/ha";
+          document.getElementById('fc-sft-peso').innerText = formatNum(sft_peso) + " kg/ha";
+        }
+        document.getElementById('fc-sfs-valor').innerText = "R$ " + formatMoeda(sfs_peso * preco_sfs);
+        document.getElementById('fc-sft-valor').innerText = "R$ " + formatMoeda(sft_peso * preco_sft);
+
+        if (dose_k2o_cobertura > 0) {
+          document.getElementById('fc-kcl-peso').innerHTML = `${formatNum(kcl_peso)} kg/ha<br><span style="font-size:0.68rem; color:#555; font-weight:normal;">${rotuloEtapa} ${formatNum(kcl_plantio)} kg/ha<br>Cobertura: ${formatNum(kcl_cob)} kg/ha</span>`;
+        } else {
+          document.getElementById('fc-kcl-peso').innerText = formatNum(kcl_peso) + " kg/ha";
+        }
+        document.getElementById('fc-kcl-valor').innerText = "R$ " + formatMoeda(kcl_peso * preco_kcl);
+
+        // Formulação Agrupada - Ano 1
+        const g1_total = samonio_peso + sft_peso + kcl_peso;
+        const g2_total = ureia_peso + sfs_peso + kcl_peso;
+
+        if (g1_total > 0) {
+          const n_perc = Math.round((dose_n / g1_total) * 100);
+          const p_perc = Math.round((dose_p2o5 / g1_total) * 100);
+          const k_perc = Math.round((dose_k2o / g1_total) * 100);
+          document.getElementById('g1-formula').innerText = `${n_perc} - ${p_perc} - ${k_perc}`;
+          document.getElementById('g1-qtd').innerText = formatNum(g1_total) + " kg/ha";
+          document.getElementById('g1-custo').innerText = "R$ " + formatMoeda((samonio_peso * preco_samonio) + (sft_peso * preco_sft) + (kcl_peso * preco_kcl));
+        } else {
+          document.getElementById('g1-formula').innerText = "0 - 0 - 0";
+          document.getElementById('g1-qtd').innerText = "0.00 kg/ha";
+          document.getElementById('g1-custo').innerText = "R$ 0,00";
+        }
+
+        if (g2_total > 0) {
+          const n_perc = Math.round((dose_n / g2_total) * 100);
+          const p_perc = Math.round((dose_p2o5 / g2_total) * 100);
+          const k_perc = Math.round((dose_k2o / g2_total) * 100);
+          document.getElementById('g2-formula').innerText = `${n_perc} - ${p_perc} - ${k_perc}`;
+          document.getElementById('g2-qtd').innerText = formatNum(g2_total) + " kg/ha";
+          document.getElementById('g2-custo').innerText = "R$ " + formatMoeda((ureia_peso * preco_ureia) + (sfs_peso * preco_sfs) + (kcl_peso * preco_kcl));
+        } else {
+          document.getElementById('g2-formula').innerText = "0 - 0 - 0";
+          document.getElementById('g2-qtd').innerText = "0.00 kg/ha";
+          document.getElementById('g2-custo').innerText = "R$ 0,00";
+        }
+
       } else {
-        document.getElementById('fc-sfs-peso').innerText = formatNum(sfs_peso) + " kg/ha";
-        document.getElementById('fc-sft-peso').innerText = formatNum(sft_peso) + " kg/ha";
+        // Cultura com adubação plurianual do Ano 2 em diante (ex: Açaí)
+        let htmlSamonioPeso = "", htmlSamonioValor = "";
+        let htmlUreiaPeso = "", htmlUreiaValor = "";
+        let htmlSfsPeso = "", htmlSfsValor = "";
+        let htmlSftPeso = "", htmlSftValor = "";
+        let htmlKclPeso = "", htmlKclValor = "";
+
+        let htmlG1Formula = "", htmlG1Qtd = "", htmlG1Custo = "";
+        let htmlG2Formula = "", htmlG2Qtd = "", htmlG2Custo = "";
+
+        listaAnos.forEach(anoNum => {
+          const dN = getCulturaDados(tabelaN, selCultura, anoNum);
+          const dP = getCulturaDados(tabelaP, selCultura, anoNum);
+          const dK = getCulturaDados(tabelaK, selCultura, anoNum);
+
+          const dn_p = dN.n || 0, dn_c = dN.nCobertura || 0, dn_tot = dn_p + dn_c;
+          const dp_p = dP.p || 0, dp_c = dP.pCobertura || 0, dp_tot = dp_p + dp_c;
+          const dk_p = dK.k || 0, dk_c = dK.kCobertura || 0, dk_tot = dk_p + dk_c;
+
+          const p_samonio = dn_tot / 0.20;
+          const p_ureia = dn_tot / 0.45;
+          const p_sfs = dp_tot / 0.18;
+          const p_sft = dp_tot / 0.41;
+          const p_kcl = dk_tot / 0.50;
+
+          const v_samonio = p_samonio * preco_samonio;
+          const v_ureia = p_ureia * preco_ureia;
+          const v_sfs = p_sfs * preco_sfs;
+          const v_sft = p_sft * preco_sft;
+          const v_kcl = p_kcl * preco_kcl;
+
+          const pref = anoNum === 1 ? "Ano 1" : `Ano ${anoNum} (Cobertura)`;
+          const prefCurto = anoNum === 1 ? "Ano 1" : `Ano ${anoNum}`;
+
+          // Formatação dos Fertilizantes Individuais
+          if (anoNum === 1) {
+            htmlSamonioPeso += `<strong>${pref}:</strong> ${formatNum(p_samonio)} kg/ha<br><span style="font-size:0.68rem; color:#555; font-weight:normal;">${rotuloEtapa} ${formatNum(dn_p/0.20)} kg/ha | Cobertura: ${formatNum(dn_c/0.20)} kg/ha</span>`;
+            htmlUreiaPeso += `<strong>${pref}:</strong> ${formatNum(p_ureia)} kg/ha<br><span style="font-size:0.68rem; color:#555; font-weight:normal;">${rotuloEtapa} ${formatNum(dn_p/0.45)} kg/ha | Cobertura: ${formatNum(dn_c/0.45)} kg/ha</span>`;
+            htmlSfsPeso += `<strong>${pref}:</strong> ${formatNum(p_sfs)} kg/ha`;
+            htmlSftPeso += `<strong>${pref}:</strong> ${formatNum(p_sft)} kg/ha`;
+            htmlKclPeso += `<strong>${pref}:</strong> ${formatNum(p_kcl)} kg/ha<br><span style="font-size:0.68rem; color:#555; font-weight:normal;">${rotuloEtapa} ${formatNum(dk_p/0.50)} kg/ha | Cobertura: ${formatNum(dk_c/0.50)} kg/ha</span>`;
+          } else {
+            htmlSamonioPeso += `<br><strong>${pref}:</strong> ${formatNum(p_samonio)} kg/ha`;
+            htmlUreiaPeso += `<br><strong>${pref}:</strong> ${formatNum(p_ureia)} kg/ha`;
+            htmlSfsPeso += `<br><strong>${pref}:</strong> ${formatNum(p_sfs)} kg/ha`;
+            htmlSftPeso += `<br><strong>${pref}:</strong> ${formatNum(p_sft)} kg/ha`;
+            htmlKclPeso += `<br><strong>${pref}:</strong> ${formatNum(p_kcl)} kg/ha`;
+          }
+
+          htmlSamonioValor += `${anoNum > 1 ? '<br>' : ''}<strong>${prefCurto}:</strong> R$ ${formatMoeda(v_samonio)}`;
+          htmlUreiaValor += `${anoNum > 1 ? '<br>' : ''}<strong>${prefCurto}:</strong> R$ ${formatMoeda(v_ureia)}`;
+          htmlSfsValor += `${anoNum > 1 ? '<br>' : ''}<strong>${prefCurto}:</strong> R$ ${formatMoeda(v_sfs)}`;
+          htmlSftValor += `${anoNum > 1 ? '<br>' : ''}<strong>${prefCurto}:</strong> R$ ${formatMoeda(v_sft)}`;
+          htmlKclValor += `${anoNum > 1 ? '<br>' : ''}<strong>${prefCurto}:</strong> R$ ${formatMoeda(v_kcl)}`;
+
+          // Formatação dos Grupos Agrupados
+          const g1_tot = p_samonio + p_sft + p_kcl;
+          const g2_tot = p_ureia + p_sfs + p_kcl;
+
+          if (g1_tot > 0) {
+            const n1 = Math.round((dn_tot / g1_tot) * 100);
+            const p1 = Math.round((dp_tot / g1_tot) * 100);
+            const k1 = Math.round((dk_tot / g1_tot) * 100);
+            htmlG1Formula += `${anoNum > 1 ? '<br>' : ''}<strong>${prefCurto}:</strong> ${n1} - ${p1} - ${k1}`;
+            htmlG1Qtd += `${anoNum > 1 ? '<br>' : ''}<strong>${prefCurto}:</strong> ${formatNum(g1_tot)} kg/ha`;
+            htmlG1Custo += `${anoNum > 1 ? '<br>' : ''}<strong>${prefCurto}:</strong> R$ ${formatMoeda(v_samonio + v_sft + v_kcl)}`;
+          } else {
+            htmlG1Formula += `${anoNum > 1 ? '<br>' : ''}<strong>${prefCurto}:</strong> 0 - 0 - 0`;
+            htmlG1Qtd += `${anoNum > 1 ? '<br>' : ''}<strong>${prefCurto}:</strong> 0.00 kg/ha`;
+            htmlG1Custo += `${anoNum > 1 ? '<br>' : ''}<strong>${prefCurto}:</strong> R$ 0,00`;
+          }
+
+          if (g2_tot > 0) {
+            const n2 = Math.round((dn_tot / g2_tot) * 100);
+            const p2 = Math.round((dp_tot / g2_tot) * 100);
+            const k2 = Math.round((dk_tot / g2_tot) * 100);
+            htmlG2Formula += `${anoNum > 1 ? '<br>' : ''}<strong>${prefCurto}:</strong> ${n2} - ${p2} - ${k2}`;
+            htmlG2Qtd += `${anoNum > 1 ? '<br>' : ''}<strong>${prefCurto}:</strong> ${formatNum(g2_tot)} kg/ha`;
+            htmlG2Custo += `${anoNum > 1 ? '<br>' : ''}<strong>${prefCurto}:</strong> R$ ${formatMoeda(v_ureia + v_sfs + v_kcl)}`;
+          } else {
+            htmlG2Formula += `${anoNum > 1 ? '<br>' : ''}<strong>${prefCurto}:</strong> 0 - 0 - 0`;
+            htmlG2Qtd += `${anoNum > 1 ? '<br>' : ''}<strong>${prefCurto}:</strong> 0.00 kg/ha`;
+            htmlG2Custo += `${anoNum > 1 ? '<br>' : ''}<strong>${prefCurto}:</strong> R$ 0,00`;
+          }
+        });
+
+        document.getElementById('fc-samonio-peso').innerHTML = htmlSamonioPeso;
+        document.getElementById('fc-samonio-valor').innerHTML = htmlSamonioValor;
+        document.getElementById('fc-ureia-peso').innerHTML = htmlUreiaPeso;
+        document.getElementById('fc-ureia-valor').innerHTML = htmlUreiaValor;
+        document.getElementById('fc-sfs-peso').innerHTML = htmlSfsPeso;
+        document.getElementById('fc-sfs-valor').innerHTML = htmlSfsValor;
+        document.getElementById('fc-sft-peso').innerHTML = htmlSftPeso;
+        document.getElementById('fc-sft-valor').innerHTML = htmlSftValor;
+        document.getElementById('fc-kcl-peso').innerHTML = htmlKclPeso;
+        document.getElementById('fc-kcl-valor').innerHTML = htmlKclValor;
+
+        document.getElementById('g1-formula').innerHTML = htmlG1Formula;
+        document.getElementById('g1-qtd').innerHTML = htmlG1Qtd;
+        document.getElementById('g1-custo').innerHTML = htmlG1Custo;
+
+        document.getElementById('g2-formula').innerHTML = htmlG2Formula;
+        document.getElementById('g2-qtd').innerHTML = htmlG2Qtd;
+        document.getElementById('g2-custo').innerHTML = htmlG2Custo;
       }
-      document.getElementById('fc-sfs-valor').innerText = "R$ " + formatMoeda(sfs_peso * parseVal('preco_sfs'));
-      document.getElementById('fc-sft-valor').innerText = "R$ " + formatMoeda(sft_peso * parseVal('preco_sft'));
-      
-      if (dose_k2o_cobertura > 0) {
-        document.getElementById('fc-kcl-peso').innerHTML = `${formatNum(kcl_peso)} kg/ha<br><span style="font-size:0.68rem; color:#555; font-weight:normal;">${rotuloEtapa} ${formatNum(kcl_plantio)} kg/ha<br>Cobertura: ${formatNum(kcl_cob)} kg/ha</span>`;
-      } else {
-        document.getElementById('fc-kcl-peso').innerText = formatNum(kcl_peso) + " kg/ha";
-      }
-      document.getElementById('fc-kcl-valor').innerText = "R$ " + formatMoeda(kcl_peso * parseVal('preco_kcl'));
-      
-      // Formulação Agrupada
-      const g1_total = samonio_peso + sft_peso + kcl_peso;
-      const g2_total = ureia_peso + sfs_peso + kcl_peso;
-      if (g1_total > 0) {
-        const n_perc = Math.round((dose_n / g1_total) * 100);
-        const p_perc = Math.round((dose_p2o5 / g1_total) * 100);
-        const k_perc = Math.round((dose_k2o / g1_total) * 100);
-        document.getElementById('g1-formula').innerText = `${n_perc} - ${p_perc} - ${k_perc}`;
-        document.getElementById('g1-qtd').innerText = formatNum(g1_total) + " kg/ha";
-        document.getElementById('g1-custo').innerText = "R$ " + formatMoeda((samonio_peso * parseVal('preco_samonio')) + (sft_peso * parseVal('preco_sft')) + (kcl_peso * parseVal('preco_kcl')));
-      } else {
-        document.getElementById('g1-formula').innerText = "0 - 0 - 0";
-        document.getElementById('g1-qtd').innerText = "0.00 kg/ha";
-        document.getElementById('g1-custo').innerText = "R$ 0,00";
-      }
-      if (g2_total > 0) {
-        const n_perc = Math.round((dose_n / g2_total) * 100);
-        const p_perc = Math.round((dose_p2o5 / g2_total) * 100);
-        const k_perc = Math.round((dose_k2o / g2_total) * 100);
-        document.getElementById('g2-formula').innerText = `${n_perc} - ${p_perc} - ${k_perc}`;
-        document.getElementById('g2-qtd').innerText = formatNum(g2_total) + " kg/ha";
-        document.getElementById('g2-custo').innerText = "R$ " + formatMoeda((ureia_peso * parseVal('preco_ureia')) + (sfs_peso * parseVal('preco_sfs')) + (kcl_peso * parseVal('preco_kcl')));
-      } else {
-        document.getElementById('g2-formula').innerText = "0 - 0 - 0";
-        document.getElementById('g2-qtd').innerText = "0.00 kg/ha";
-        document.getElementById('g2-custo').innerText = "R$ 0,00";
-      }
+
       // Exibição do Texto Informativo no Rodapé da Formulação Agrupada (para todas as culturas)
       const notaElem = document.getElementById('nota-cobertura');
       if (notaElem) {
