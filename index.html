@@ -763,7 +763,7 @@
           <p>📌 <strong>Combinação de fertilizantes:</strong> Recomenda-se combinar fertilizantes mais concentrados com os de menor concentração (Ex: Sulfato de Amônio + Superfosfato Triplo ou Ureia + Superfosfato Simples).</p>
           <p>📌 <strong>Aplicação de fósforo:</strong> Fertilizantes fosfatados devem ser aplicados em dose única por ocasião do plantio/semeadura.</p>
           <p>📌 <strong>Parcelamento:</strong> Fertilizantes nitrogenados e potássicos devem ser parcelados durante o ano, conforme recomendação técnica específica da cultura.</p>
-          <p>📌 <strong>Fator de incorporação do calcário:</strong> Para a aplicação superficial ou incorporada até 20 cm de profundidade — método observedo nestes cálculos —, utiliza-se o valor 1,0. Nos casos em que a incorporação for feita de 20 a 30 cm, o valor deve ser multiplicado por 1,5.</p>
+          <p>📌 <strong>Fator de incorporação do calcário:</strong> Para a aplicação superficial ou incorporada até 20 cm de profundidade — método observado nestes cálculos —, utiliza-se o valor 1,0. Nos casos em que a incorporação for feita de 20 a 30 cm, o valor deve ser multiplicado por 1,5.</p>
           <p>📌 <strong>Bibliografia de apoio:</strong></p>
           <div style="padding-left: 24px; font-size: 0.75rem; word-break: break-all; margin-bottom: 6px;">
             <p style="margin-bottom: 3px;"><a href="https://www.embrapa.br/busca-de-publicacoes/-/publicacao/1125022/recomendacoes-de-calagem-e-adubacao-para-o-estado-do-para" target="_blank" rel="noopener noreferrer" style="color: var(--primary-color); text-decoration: underline;">https://www.embrapa.br/busca-de-publicacoes/-/publicacao/1125022/recomendacoes-de-calagem-e-adubacao-para-o-estado-do-para</a></p>
@@ -1032,6 +1032,7 @@
       const preco_sfs = parseVal('preco_sfs', 2.10);
       const preco_sft = parseVal('preco_sft', 3.80);
       const preco_kcl = parseVal('preco_kcl', 3.50);
+
       if (listaAnos.length <= 1) {
         const samonio_peso = dose_n / 0.20;
         const samonio_plantio = dose_n_plantio / 0.20;
@@ -1048,6 +1049,7 @@
         const kcl_peso = dose_k2o / 0.50;
         const kcl_plantio = dose_k2o_plantio / 0.50;
         const kcl_cob = dose_k2o_cobertura / 0.50;
+
         if (dose_n_cobertura > 0) {
           document.getElementById('fc-samonio-peso').innerHTML = `${formatNum(samonio_peso)} kg/ha<br><span style="font-size:0.68rem; color:#555; font-weight:normal;">${rotuloEtapa} ${formatNum(samonio_plantio)} kg/ha<br>Cobertura: ${formatNum(samonio_cob)} kg/ha</span>`;
           document.getElementById('fc-ureia-peso').innerHTML = `${formatNum(ureia_peso)} kg/ha<br><span style="font-size:0.68rem; color:#555; font-weight:normal;">${rotuloEtapa} ${formatNum(ureia_plantio)} kg/ha<br>Cobertura: ${formatNum(ureia_cob)} kg/ha</span>`;
@@ -1057,6 +1059,7 @@
         }
         document.getElementById('fc-samonio-valor').innerText = "R$ " + formatMoeda(samonio_peso * preco_samonio);
         document.getElementById('fc-ureia-valor').innerText = "R$ " + formatMoeda(ureia_peso * preco_ureia);
+
         if (dose_p2o5_cobertura > 0) {
           document.getElementById('fc-sfs-peso').innerHTML = `${formatNum(sfs_peso)} kg/ha<br><span style="font-size:0.68rem; color:#555; font-weight:normal;">${rotuloEtapa} ${formatNum(sfs_plantio)} kg/ha<br>Cobertura: ${formatNum(sfs_cob)} kg/ha</span>`;
           document.getElementById('fc-sft-peso').innerHTML = `${formatNum(sft_peso)} kg/ha<br><span style="font-size:0.68rem; color:#555; font-weight:normal;">${rotuloEtapa} ${formatNum(sft_plantio)} kg/ha<br>Cobertura: ${formatNum(sft_cob)} kg/ha</span>`;
@@ -1066,14 +1069,17 @@
         }
         document.getElementById('fc-sfs-valor').innerText = "R$ " + formatMoeda(sfs_peso * preco_sfs);
         document.getElementById('fc-sft-valor').innerText = "R$ " + formatMoeda(sft_peso * preco_sft);
+
         if (dose_k2o_cobertura > 0) {
           document.getElementById('fc-kcl-peso').innerHTML = `${formatNum(kcl_peso)} kg/ha<br><span style="font-size:0.68rem; color:#555; font-weight:normal;">${rotuloEtapa} ${formatNum(kcl_plantio)} kg/ha<br>Cobertura: ${formatNum(kcl_cob)} kg/ha</span>`;
         } else {
           document.getElementById('fc-kcl-peso').innerText = formatNum(kcl_peso) + " kg/ha";
         }
         document.getElementById('fc-kcl-valor').innerText = "R$ " + formatMoeda(kcl_peso * preco_kcl);
+
         const g1_total = samonio_peso + sft_peso + kcl_peso;
         const g2_total = ureia_peso + sfs_peso + kcl_peso;
+
         if (g1_total > 0) {
           const n_perc = Math.round((dose_n / g1_total) * 100);
           const p_perc = Math.round((dose_p2o5 / g1_total) * 100);
@@ -1086,6 +1092,7 @@
           document.getElementById('g1-qtd').innerText = "0.00 kg/ha";
           document.getElementById('g1-custo').innerText = "R$ 0,00";
         }
+
         if (g2_total > 0) {
           const n_perc = Math.round((dose_n / g2_total) * 100);
           const p_perc = Math.round((dose_p2o5 / g2_total) * 100);
@@ -1108,6 +1115,7 @@
         let htmlG2Formula = "", htmlG2Qtd = "", htmlG2Custo = "";
         let totalG1Custo = 0;
         let totalG2Custo = 0;
+
         listaAnos.forEach(anoNum => {
           const dN = getCulturaDados(tabelaN, selCultura, anoNum);
           const dP = getCulturaDados(tabelaP, selCultura, anoNum);
@@ -1127,6 +1135,7 @@
           const v_kcl = p_kcl * preco_kcl;
           const pref = anoNum === 1 ? "Ano 1" : `Ano ${anoNum} (Cobertura)`;
           const prefCurto = anoNum === 1 ? "Ano 1" : `Ano ${anoNum}`;
+
           if (anoNum === 1) {
             htmlSamonioPeso += `<strong>${pref}:</strong> ${formatNum(p_samonio)} kg/ha<br><span style="font-size:0.68rem; color:#555; font-weight:normal;">${rotuloEtapa} ${formatNum(dn_p/0.20)} kg/ha | Cobertura: ${formatNum(dn_c/0.20)} kg/ha</span>`;
             htmlUreiaPeso += `<strong>${pref}:</strong> ${formatNum(p_ureia)} kg/ha<br><span style="font-size:0.68rem; color:#555; font-weight:normal;">${rotuloEtapa} ${formatNum(dn_p/0.45)} kg/ha | Cobertura: ${formatNum(dn_c/0.45)} kg/ha</span>`;
@@ -1150,12 +1159,14 @@
             htmlSftValor += `<br><strong>${prefCurto}:</strong> R$ ${formatMoeda(v_sft)}`;
             htmlKclValor += `<br><strong>${prefCurto}:</strong> R$ ${formatMoeda(v_kcl)}`;
           }
+
           const g1_tot = p_samonio + p_sft + p_kcl;
           const g2_tot = p_ureia + p_sfs + p_kcl;
           const custoG1Ano = v_samonio + v_sft + v_kcl;
           const custoG2Ano = v_ureia + v_sfs + v_kcl;
           totalG1Custo += custoG1Ano;
           totalG2Custo += custoG2Ano;
+
           if (g1_tot > 0) {
             const n1 = Math.round((dn_tot / g1_tot) * 100);
             const p1 = Math.round((dp_tot / g1_tot) * 100);
@@ -1168,6 +1179,7 @@
             htmlG1Qtd += `${anoNum > 1 ? '<br>' : ''}<strong>${prefCurto}:</strong> 0.00 kg/ha`;
             htmlG1Custo += `${anoNum > 1 ? '<br>' : ''}<strong>${prefCurto}:</strong> R$ 0,00`;
           }
+
           if (g2_tot > 0) {
             const n2 = Math.round((dn_tot / g2_tot) * 100);
             const p2 = Math.round((dp_tot / g2_tot) * 100);
@@ -1181,8 +1193,10 @@
             htmlG2Custo += `${anoNum > 1 ? '<br>' : ''}<strong>${prefCurto}:</strong> R$ 0,00`;
           }
         });
-        htmlG1Custo += `<div style="border-top: 1px solid #ccc; background-color: #e0e0e0; margin-top: 2px;"><strong>Total:</strong> R$ ${formatMoeda(totalG1Custo)}</div>`;
-        htmlG2Custo += `<div style="border-top: 1px solid #ccc; background-color: #e0e0e0; margin-top: 2px;"><strong>Total:</strong> R$ ${formatMoeda(totalG2Custo)}</div>`;
+
+        htmlG1Custo += `<br><span style="border-top: 1px solid #ccc; background-color: #e0e0e0; display: inline-block; width: 100%; padding-top: 2px;"><strong>Total:</strong> R$ ${formatMoeda(totalG1Custo)}</span>`;
+        htmlG2Custo += `<br><span style="border-top: 1px solid #ccc; background-color: #e0e0e0; display: inline-block; width: 100%; padding-top: 2px;"><strong>Total:</strong> R$ ${formatMoeda(totalG2Custo)}</span>`;
+
         document.getElementById('fc-samonio-peso').innerHTML = htmlSamonioPeso;
         document.getElementById('fc-samonio-valor').innerHTML = htmlSamonioValor;
         document.getElementById('fc-ureia-peso').innerHTML = htmlUreiaPeso;
@@ -1200,6 +1214,7 @@
         document.getElementById('g2-qtd').innerHTML = htmlG2Qtd;
         document.getElementById('g2-custo').innerHTML = htmlG2Custo;
       }
+
       const notaElem = document.getElementById('nota-cobertura');
       if (notaElem) {
         notaElem.innerText = "📌Para maiores informações consultar os Dizeres Técnicos.";
