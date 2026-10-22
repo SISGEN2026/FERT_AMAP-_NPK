@@ -380,17 +380,6 @@
       @page {
         size: portrait;
         margin: 12mm 15mm;
-        @bottom-left {
-          content: "";
-        }
-        @bottom-center {
-          content: "";
-        }
-        @bottom-right {
-          content: counter(page) "/" counter(pages);
-          font-size: 0.75rem;
-          color: #333;
-        }
       }
       html, body { 
         height: auto !important;
@@ -446,7 +435,7 @@
           Insumos
         </button>
         <button type="button" class="btn-square" id="btn-start-dizeres" onclick="openModule('DIZERES')">
-          <svg viewBox="0 0 24 24"><path d="M14,2H6A2,2 0 0,0 4,4V20A2,2 0 0,0 6,22H18A2,2 0 0,0 20,20V8L14,2M18,20H6V4H13V9H18V20M8,12V14H16V12H8M8,16V18H13V16H8Z"/></svg>
+          <svg viewBox="0 0 24 24"><path d="M14,2H6A2,2 0 0,0 4,4V20A2,2 0 0,0 6,22H18A2,2 0 0,0 20,20V8L14,2M18,20H6V4H13V9H18V20M8,12V14H16V12H8M8,16V18H13V16H8M8,16V18H13V16H8Z"/></svg>
           Dizeres Técnicos
         </button>
       </div>
@@ -603,7 +592,7 @@
       <!-- ABA RELATÓRIO -->
       <section id="tab-RELATORIO" class="tab-content">
         <img src="https://upload.wikimedia.org/wikipedia/commons/e/ec/Embrapa_-_Marca.png" alt="Marca Embrapa" style="width: 150px; height: auto; display: block; margin: 0 auto 20px auto;">
-        <h2>Porposta de Adubação</h2>
+        <h2>Proposta de Adubação</h2>
         <div class="form-group" style="margin-bottom: 20px;">
           <label for="relatorio_cultura">Cultura Desejada:</label>
           <input type="text" id="relatorio_cultura" value="ABACAXI" readonly style="font-weight: bold; color: var(--primary-color);">
@@ -691,13 +680,13 @@
               <tr>
                 <td><strong>Grupo 1:</strong> Sulfato de Amônio + SFT + KCl</td>
                 <td id="g1-formula" style="text-align: center;">0 - 0 - 0</td>
-                <td id="g1-qtd">0,00 kg/ha</td>
+                <td id="g1-qtd">0.00 kg/ha</td>
                 <td id="g1-custo">R$ 0,00</td>
               </tr>
               <tr>
                 <td><strong>Grupo 2:</strong> Ureia + SFS + KCl</td>
                 <td id="g2-formula" style="text-align: center;">0 - 0 - 0</td>
-                <td id="g2-qtd">0,00 kg/ha</td>
+                <td id="g2-qtd">0.00 kg/ha</td>
                 <td id="g2-custo">R$ 0,00</td>
               </tr>
             </tbody>
@@ -759,7 +748,7 @@
       <section id="tab-DIZERES" class="tab-content">
         <h2>Dizeres Técnicos e Recomendações</h2>
         <div class="info-card">
-          <p>📌 <strong>Necessidades nutricionais (N, P₂O₅ e K₂O):</strong> As recomendações foram elaboradas com base em tabelas oficiais e na literatura científica e constituem uma proposta de adubação que deve evoluir com o monitoramento do solo e das plantas.  A definição precisa das dosagens requer assistência técnica especializada, alinhada ao histórico da área e às metas de produtividade.</p>
+          <p>📌 <strong>Necessidades nutricionais (N, P₂O₅ e K₂O):</strong> As recomendações foram elaboradas com base em tabelas oficiais e na literatura científica e constituem uma proposta de adubação que deve evoluir com o monitoramento do solo e das plantas. A definição precisa das dosagens requer assistência técnica especializada, alinhada ao histórico da área e às metas de produtividade.</p>
           <p>📌 <strong>Combinação de fertilizantes:</strong> Recomenda-se combinar fertilizantes mais concentrados com os de menor concentração (Ex: Sulfato de Amônio + Superfosfato Triplo ou Ureia + Superfosfato Simples).</p>
           <p>📌 <strong>Aplicação de fósforo:</strong> Fertilizantes fosfatados devem ser aplicados em dose única por ocasião do plantio/semeadura.</p>
           <p>📌 <strong>Parcelamento:</strong> Fertilizantes nitrogenados e potássicos devem ser parcelados durante o ano, conforme recomendação técnica específica da cultura.</p>
@@ -874,11 +863,13 @@
       "PIMENTA-DO-REINO": [ { ano: 1, pEscala: ">20", kEscala: ">0.23", pMin: 20.01, pMax: Infinity, kMin: 0.2301, kMax: Infinity, n: 42, nCobertura: 0, p: 9, pCobertura: 0, k: 17, kCobertura: 0 } ],
       "SOJA": [ { ano: 1, pEscala: ">15", kEscala: ">0.23", pMin: 15.01, pMax: Infinity, kMin: 0.2301, kMax: Infinity, n: 5, nCobertura: 0, p: 50, pCobertura: 0, k: 30, kCobertura: 0 } ]
     };
+
     function getTabelaN(nivel = 'BAIXO') {
       if (nivel === 'MEDIO') return tabelaNivelMedio;
       if (nivel === 'ALTO') return tabelaNivelAlto;
       return tabelaNivelBaixo;
     }
+    
     function getCulturaDados(tabela, cultura, ano = 1) {
       const item = tabela[cultura];
       if (!item) return {};
@@ -888,6 +879,7 @@
       }
       return item;
     }
+    
     function getListaAnos(tabela, cultura) {
       const item = tabela[cultura];
       if (!item) return [1];
@@ -896,18 +888,25 @@
       }
       return [1];
     }
+    
     function parseVal(id, defaultVal = 0) {
       const el = document.getElementById(id);
       if (!el) return defaultVal;
       const val = parseFloat(el.value);
-      return isNaN(val) ? defaultVal : val;
+      return (isNaN(val) || val < 0) ? defaultVal : val;
     }
+    
     function formatNum(val, dec = 2) {
-      return val.toFixed(dec);
+      const num = parseFloat(val);
+      return isNaN(num) ? "0.00" : num.toFixed(dec);
     }
+    
     function formatMoeda(val) {
-      return val.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+      const num = parseFloat(val);
+      if (isNaN(num)) return "0,00";
+      return num.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
     }
+    
     function atualizarCultura() {
       const sel = document.getElementById('cultura').value;
       const v2 = tabelaV2[sel];
@@ -920,6 +919,7 @@
       }
       calcular();
     }
+    
     window.openModule = function(tabName) {
       const hero = document.getElementById('hero');
       const app = document.getElementById('app');
@@ -928,12 +928,14 @@
       switchTab(tabName);
       calcular();
     };
+    
     window.showHero = function() {
       const hero = document.getElementById('hero');
       const app = document.getElementById('app');
       if (app) app.style.display = 'none';
       if (hero) hero.style.display = 'flex';
     };
+    
     window.switchTab = function(tabName) {
       document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
       document.querySelectorAll('.tab-button').forEach(el => el.classList.remove('active'));
@@ -944,16 +946,19 @@
       const activeBtn = tabs.find(btn => btn.getAttribute('onclick').includes(tabName));
       if (activeBtn) activeBtn.classList.add('active');
     };
+    
     function calcular() {
       const v2 = parseFloat(document.getElementById('v2_input').value) || 60;
       const v1 = parseVal('v1');
       const ctc = parseVal('ctc');
       const prnt = parseVal('prnt') || 100;
+      
       // 1. Método Elevação da Saturação por Bases
       let nc_sat_100_tha = (v2 - v1) * ctc / 100;
       if (nc_sat_100_tha < 0) nc_sat_100_tha = 0;
       const nc_sat_100_kgha = nc_sat_100_tha * 1000;
       const nc_sat_comercial_kgha = nc_sat_100_kgha * (100 / prnt);
+      
       // 2. Método Neutralização do Al e Elevação de Ca+Mg
       const al = parseVal('solo_al');
       const ca = parseVal('solo_ca');
@@ -966,12 +971,14 @@
       const elemSat = document.getElementById('nc_sat_bases_kgha');
       if (elemSat) elemSat.value = formatNum(nc_sat_comercial_kgha) + " kg/ha";
       const elemNeut = document.getElementById('nc_al_camg_kgha');
-      if (elemNeut) elemNeut.value = formatNum(nc_al_camg_kgha) + " kg/ha";
+      if (elemNeut) elemNeut.value = formatNum(nc_neut_comercial_kgha) + " kg/ha";
+      
       const nc_final_100_kgha = Math.max(nc_sat_100_kgha, nc_neut_100_kgha);
       const nc_final_comercial_kgha = Math.max(nc_sat_comercial_kgha, nc_neut_comercial_kgha);
       
-      const preco_calcario = parseVal('preco_calcario', 0.35);
-      const custo_calcario = (nc_final_comercial_kgha) * preco_calcario;
+      const preco_calcario = parseVal('preco_calcario', 0.35) || 0.35;
+      const custo_calcario = nc_final_comercial_kgha * preco_calcario;
+      
       // Atualização da Tabela de Calagem
       const elemV2 = document.getElementById('res-v2');
       if (elemV2) elemV2.innerText = v2 + "%";
@@ -981,6 +988,7 @@
       if (elemNcPrnt) elemNcPrnt.innerText = formatNum(nc_final_comercial_kgha) + " kg/ha";
       const elemCustoCalc = document.getElementById('res-custo-calcario');
       if (elemCustoCalc) elemCustoCalc.innerText = "R$ " + formatMoeda(custo_calcario);
+      
       // Análise de Solo e Recomendação
       const selCultura = document.getElementById('cultura').value;
       const soloP = parseVal('soloP');
@@ -994,6 +1002,7 @@
       } else if (soloP <= pMaxMedio) {
         tabelaP = tabelaNivelMedio;
       }
+      
       const kMaxBaixo = (getCulturaDados(tabelaNivelBaixo, selCultura, 1)).kMax || 0.15;
       const kMaxMedio = (getCulturaDados(tabelaNivelMedio, selCultura, 1)).kMax || 0.30;
       let tabelaK = tabelaNivelAlto;
@@ -1002,17 +1011,21 @@
       } else if (soloK <= kMaxMedio) {
         tabelaK = tabelaNivelMedio;
       }
+      
       const nivelN = 'BAIXO'; 
       const tabelaN = getTabelaN(nivelN);
       const dadosN_Ano1 = getCulturaDados(tabelaN, selCultura, 1);
       const dadosP_Ano1 = getCulturaDados(tabelaP, selCultura, 1);
       const dadosK_Ano1 = getCulturaDados(tabelaK, selCultura, 1);
+      
       const dose_n_plantio = dadosN_Ano1.n || 0;
       const dose_n_cobertura = dadosN_Ano1.nCobertura || 0;
       const dose_n = dose_n_plantio + dose_n_cobertura;
+      
       const dose_p2o5_plantio = dadosP_Ano1.p || 0;
       const dose_p2o5_cobertura = dadosP_Ano1.pCobertura || 0;
       const dose_p2o5 = dose_p2o5_plantio + dose_p2o5_cobertura;
+      
       const dose_k2o_plantio = dadosK_Ano1.k || 0;
       const dose_k2o_cobertura = dadosK_Ano1.kCobertura || 0;
       const dose_k2o = dose_k2o_plantio + dose_k2o_cobertura;
@@ -1027,25 +1040,30 @@
       const listaAnos = getListaAnos(tabelaN, selCultura);
       const culturasSemeio = ["FEIJÃO-CAUPI", "MELANCIA", "MILHO", "SOJA"];
       const rotuloEtapa = selCultura === "FORRAGEIRA" ? "Plantio/Semeio:" : (culturasSemeio.includes(selCultura) ? "Semeio:" : "Plantio:");
-      const preco_samonio = parseVal('preco_samonio', 2.50);
-      const preco_ureia = parseVal('preco_ureia', 3.20);
-      const preco_sfs = parseVal('preco_sfs', 2.10);
-      const preco_sft = parseVal('preco_sft', 3.80);
-      const preco_kcl = parseVal('preco_kcl', 3.50);
+      
+      const preco_samonio = parseVal('preco_samonio', 2.50) || 2.50;
+      const preco_ureia = parseVal('preco_ureia', 3.20) || 3.20;
+      const preco_sfs = parseVal('preco_sfs', 2.10) || 2.10;
+      const preco_sft = parseVal('preco_sft', 3.80) || 3.80;
+      const preco_kcl = parseVal('preco_kcl', 3.50) || 3.50;
 
       if (listaAnos.length <= 1) {
         const samonio_peso = dose_n / 0.20;
         const samonio_plantio = dose_n_plantio / 0.20;
         const samonio_cob = dose_n_cobertura / 0.20;
+        
         const ureia_peso = dose_n / 0.45;
         const ureia_plantio = dose_n_plantio / 0.45;
         const ureia_cob = dose_n_cobertura / 0.45;
+        
         const sfs_peso = dose_p2o5 / 0.18;
         const sfs_plantio = dose_p2o5_plantio / 0.18;
         const sfs_cob = dose_p2o5_cobertura / 0.18;
+        
         const sft_peso = dose_p2o5 / 0.41;
         const sft_plantio = dose_p2o5_plantio / 0.41;
         const sft_cob = dose_p2o5_cobertura / 0.41;
+        
         const kcl_peso = dose_k2o / 0.50;
         const kcl_plantio = dose_k2o_plantio / 0.50;
         const kcl_cob = dose_k2o_cobertura / 0.50;
@@ -1221,6 +1239,7 @@
         notaElem.style.display = 'block';
       }
     }
+
     function compartilharRelatorio() {
       if (navigator.share) {
         navigator.share({
@@ -1231,6 +1250,7 @@
         alert("A função de compartilhamento não é suportada neste navegador.");
       }
     }
+
     const camposPreco = [
       'preco_calcario',
       'preco_samonio',
@@ -1239,6 +1259,7 @@
       'preco_sft',
       'preco_kcl'
     ];
+
     function carregarPrecos() {
       camposPreco.forEach(id => {
         const valorSalvo = localStorage.getItem(id);
@@ -1248,6 +1269,7 @@
         }
       });
     }
+
     function salvarPrecos() {
       camposPreco.forEach(id => {
         const campo = document.getElementById(id);
@@ -1256,10 +1278,12 @@
         }
       });
     }
+
     function salvarEcalcular() {
       salvarPrecos();
       calcular();
     }
+
     function atualizarDataFooter() {
       const elemData = document.getElementById('data-footer');
       if (elemData) {
@@ -1270,6 +1294,7 @@
         elemData.innerText = `${dia}/${mes}/${ano}`;
       }
     }
+
     window.onload = function() {
       carregarPrecos();
       atualizarCultura();
