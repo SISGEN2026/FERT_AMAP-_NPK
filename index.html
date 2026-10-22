@@ -380,9 +380,6 @@
       @page {
         size: portrait;
         margin: 12mm 15mm;
-        @bottom-left { content: "" !important; }
-        @bottom-center { content: "" !important; }
-        @bottom-right { content: counter(page) !important; }
       }
       html, body { 
         height: auto !important;
@@ -444,6 +441,7 @@
       </div>
     </div>
   </div>
+
   <!-- APP -->
   <div id="app" style="display: none; flex-direction: column; min-height: 100vh;">
     <header class="app-header">
@@ -462,12 +460,14 @@
         </button>
       </div>
     </header>
+
     <nav class="nav-tabs">
       <button type="button" class="tab-button active" onclick="switchTab('ANALISE')">ANÁLISE DE SOLO</button>
       <button type="button" class="tab-button" onclick="switchTab('RELATORIO')">RELATÓRIO</button>
       <button type="button" class="tab-button" onclick="switchTab('INSUMOS')">INSUMOS</button>
       <button type="button" class="tab-button" onclick="switchTab('DIZERES')">DIZERES TÉCNICOS</button>
     </nav>
+
     <main class="main-content">
       <!-- ABA ANÁLISE DE SOLO -->
       <section id="tab-ANALISE" class="tab-content active">
@@ -548,6 +548,7 @@
               </div>
             </div>
           </div>
+
           <div class="side-bar-container">
             <div class="side-bar-label">FONTES MINERAIS</div>
             <div class="side-bar-content">
@@ -592,6 +593,7 @@
           </button>
         </div>
       </section>
+
       <!-- ABA RELATÓRIO -->
       <section id="tab-RELATORIO" class="tab-content">
         <img src="https://upload.wikimedia.org/wikipedia/commons/e/ec/Embrapa_-_Marca.png" alt="Marca Embrapa" style="width: 150px; height: auto; display: block; margin: 0 auto 20px auto;">
@@ -697,6 +699,7 @@
           <div id="nota-cobertura" style="padding: 8px 10px; font-size: 0.78rem; color: #003b70; font-weight: 600; background-color: var(--light-blue-bg); border-top: 1px solid var(--border-color); display: none;"></div>
         </div>
       </section>
+
       <!-- ABA INSUMOS -->
       <section id="tab-INSUMOS" class="tab-content">
         <h2>Preços de Mercado dos Insumos</h2>
@@ -713,32 +716,32 @@
               <tr>
                 <td>Calcário</td>
                 <td>PRNT</td>
-                <td><input type="number" class="input-table-price" id="preco_calcario" placeholder="" step="0.01" oninput="salvarEcalcular()"></td>
+                <td><input type="number" class="input-table-price" id="preco_calcario" value="0.35" step="0.01" oninput="salvarEcalcular()"></td>
               </tr>
               <tr>
                 <td>Sulfato de Amônio</td>
                 <td>20% N, 22% S</td>
-                <td><input type="number" class="input-table-price" id="preco_samonio" placeholder="" step="0.01" oninput="salvarEcalcular()"></td>
+                <td><input type="number" class="input-table-price" id="preco_samonio" value="2.50" step="0.01" oninput="salvarEcalcular()"></td>
               </tr>
               <tr>
                 <td>Ureia</td>
                 <td>45% N</td>
-                <td><input type="number" class="input-table-price" id="preco_ureia" placeholder="" step="0.01" oninput="salvarEcalcular()"></td>
+                <td><input type="number" class="input-table-price" id="preco_ureia" value="3.20" step="0.01" oninput="salvarEcalcular()"></td>
               </tr>
               <tr>
                 <td>Superfosfato Simples</td>
                 <td>18% P₂O₅, 16% Ca, 10% S</td>
-                <td><input type="number" class="input-table-price" id="preco_sfs" placeholder="" step="0.01" oninput="salvarEcalcular()"></td>
+                <td><input type="number" class="input-table-price" id="preco_sfs" value="2.10" step="0.01" oninput="salvarEcalcular()"></td>
               </tr>
               <tr>
                 <td>Superfosfato Triplo</td>
                 <td>41% P₂O₅, 10% Ca</td>
-                <td><input type="number" class="input-table-price" id="preco_sft" placeholder="" step="0.01" oninput="salvarEcalcular()"></td>
+                <td><input type="number" class="input-table-price" id="preco_sft" value="3.80" step="0.01" oninput="salvarEcalcular()"></td>
               </tr>
               <tr>
                 <td>Cloreto de Potássio</td>
                 <td>50% K₂O</td>
-                <td><input type="number" class="input-table-price" id="preco_kcl" placeholder="" step="0.01" oninput="salvarEcalcular()"></td>
+                <td><input type="number" class="input-table-price" id="preco_kcl" value="3.50" step="0.01" oninput="salvarEcalcular()"></td>
               </tr>
             </tbody>
           </table>
@@ -747,6 +750,7 @@
           </div>
         </div>
       </section>
+
       <!-- ABA DIZERES -->
       <section id="tab-DIZERES" class="tab-content">
         <h2>Dizeres Técnicos e Recomendações</h2>
@@ -764,10 +768,12 @@
         </div>
       </section>
     </main>
+
     <footer style="position: fixed; bottom: 0; left: 0; width: 100%; text-align: center; font-size: 0.75rem; background-color: #ffffff; padding: 5px 0; z-index: 1000; box-shadow: 0 -2px 5px rgba(0,0,0,0.05);">
       <p style="margin: 0;">&copy; Embrapa 2026.</p>
     </footer>
   </div>
+
   <script>
     const tabelaV2 = {
       "ABACAXI": 60,
@@ -788,7 +794,6 @@
       "SOJA": 60
     };
     
-    // Tabelas de Nível com especificação da escala de solo para P (mg/dm³) e K (cmol_c/dm³), estruturadas por cultura e ano
     const tabelaNivelBaixo = {
       "ABACAXI": [ { ano: 1, pEscala: "0 – 10", kEscala: "0 - 0.10", pMin: 0, pMax: 10, kMin: 0, kMax: 0.10, n: 60, nCobertura: 60, p: 80, pCobertura: 0, k: 160, kCobertura: 160 } ],
       "AÇAÍ": [
@@ -867,12 +872,13 @@
       "PIMENTA-DO-REINO": [ { ano: 1, pEscala: ">20", kEscala: ">0.23", pMin: 20.01, pMax: Infinity, kMin: 0.2301, kMax: Infinity, n: 42, nCobertura: 0, p: 9, pCobertura: 0, k: 17, kCobertura: 0 } ],
       "SOJA": [ { ano: 1, pEscala: ">15", kEscala: ">0.23", pMin: 15.01, pMax: Infinity, kMin: 0.2301, kMax: Infinity, n: 5, nCobertura: 0, p: 50, pCobertura: 0, k: 30, kCobertura: 0 } ]
     };
-    // Função auxiliar para consulta dinâmica da tabela de Nitrogênio (N) por nível
+
     function getTabelaN(nivel = 'BAIXO') {
       if (nivel === 'MEDIO') return tabelaNivelMedio;
       if (nivel === 'ALTO') return tabelaNivelAlto;
       return tabelaNivelBaixo;
     }
+
     function getCulturaDados(tabela, cultura, ano = 1) {
       const item = tabela[cultura];
       if (!item) return {};
@@ -882,6 +888,7 @@
       }
       return item;
     }
+
     function getListaAnos(tabela, cultura) {
       const item = tabela[cultura];
       if (!item) return [1];
@@ -890,17 +897,22 @@
       }
       return [1];
     }
-    function parseVal(id) {
+
+    function parseVal(id, defaultVal = 0) {
       const el = document.getElementById(id);
-      if (!el) return 0;
-      return parseFloat(el.value) || 0;
+      if (!el) return defaultVal;
+      const val = parseFloat(el.value);
+      return isNaN(val) ? defaultVal : val;
     }
+
     function formatNum(val, dec = 2) {
       return val.toFixed(dec);
     }
+
     function formatMoeda(val) {
       return val.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
     }
+
     function atualizarCultura() {
       const sel = document.getElementById('cultura').value;
       const v2 = tabelaV2[sel];
@@ -913,6 +925,7 @@
       }
       calcular();
     }
+
     window.openModule = function(tabName) {
       const hero = document.getElementById('hero');
       const app = document.getElementById('app');
@@ -921,12 +934,14 @@
       switchTab(tabName);
       calcular();
     };
+
     window.showHero = function() {
       const hero = document.getElementById('hero');
       const app = document.getElementById('app');
       if (app) app.style.display = 'none';
       if (hero) hero.style.display = 'flex';
     };
+
     window.switchTab = function(tabName) {
       document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
       document.querySelectorAll('.tab-button').forEach(el => el.classList.remove('active'));
@@ -937,16 +952,19 @@
       const activeBtn = tabs.find(btn => btn.getAttribute('onclick').includes(tabName));
       if (activeBtn) activeBtn.classList.add('active');
     };
+
     function calcular() {
       const v2 = parseFloat(document.getElementById('v2_input').value) || 60;
       const v1 = parseVal('v1');
       const ctc = parseVal('ctc');
       const prnt = parseVal('prnt') || 100;
+
       // 1. Método Elevação da Saturação por Bases
       let nc_sat_100_tha = (v2 - v1) * ctc / 100;
       if (nc_sat_100_tha < 0) nc_sat_100_tha = 0;
       const nc_sat_100_kgha = nc_sat_100_tha * 1000;
       const nc_sat_comercial_kgha = nc_sat_100_kgha * (100 / prnt);
+
       // 2. Método Neutralização do Al e Elevação de Ca+Mg
       const al = parseVal('solo_al');
       const ca = parseVal('solo_ca');
@@ -959,12 +977,13 @@
       const elemSat = document.getElementById('nc_sat_bases_kgha');
       if (elemSat) elemSat.value = formatNum(nc_sat_comercial_kgha) + " kg/ha";
       const elemNeut = document.getElementById('nc_al_camg_kgha');
-      if (elemNeut) elemNeut.value = formatNum(nc_al_camg_kgha) + " kg/ha";
+      if (elemNeut) elemNeut.value = formatNum(nc_neut_comercial_kgha) + " kg/ha";
       const nc_final_100_kgha = Math.max(nc_sat_100_kgha, nc_neut_100_kgha);
       const nc_final_comercial_kgha = Math.max(nc_sat_comercial_kgha, nc_neut_comercial_kgha);
       
-      const preco_calcario = parseVal('preco_calcario');
+      const preco_calcario = parseVal('preco_calcario', 0.35);
       const custo_calcario = (nc_final_comercial_kgha) * preco_calcario;
+
       // Atualização da Tabela de Calagem
       const elemV2 = document.getElementById('res-v2');
       if (elemV2) elemV2.innerText = v2 + "%";
@@ -974,12 +993,12 @@
       if (elemNcPrnt) elemNcPrnt.innerText = formatNum(nc_final_comercial_kgha) + " kg/ha";
       const elemCustoCalc = document.getElementById('res-custo-calcario');
       if (elemCustoCalc) elemCustoCalc.innerText = "R$ " + formatMoeda(custo_calcario);
+
       // Análise de Solo e Recomendação
       const selCultura = document.getElementById('cultura').value;
-      const soloP = parseVal('soloP'); // mg/dm3
-      const soloK = parseVal('soloK'); // cmol_c/dm3
+      const soloP = parseVal('soloP');
+      const soloK = parseVal('soloK');
       
-      // Definição dos Níveis de P e K na Análise de Solo (Ano 1)
       const pMaxBaixo = (getCulturaDados(tabelaNivelBaixo, selCultura, 1)).pMax || 10;
       const pMaxMedio = (getCulturaDados(tabelaNivelMedio, selCultura, 1)).pMax || 20;
       let tabelaP = tabelaNivelAlto;
@@ -988,6 +1007,7 @@
       } else if (soloP <= pMaxMedio) {
         tabelaP = tabelaNivelMedio;
       }
+
       const kMaxBaixo = (getCulturaDados(tabelaNivelBaixo, selCultura, 1)).kMax || 0.15;
       const kMaxMedio = (getCulturaDados(tabelaNivelMedio, selCultura, 1)).kMax || 0.30;
       let tabelaK = tabelaNivelAlto;
@@ -996,25 +1016,26 @@
       } else if (soloK <= kMaxMedio) {
         tabelaK = tabelaNivelMedio;
       }
-      // Consulta do Nitrogênio (N) INDEPENDENTE de P e K:
-      // Estrutura modular parametrizada para aceitar variações futuras de N e nCobertura por nível
+
       const nivelN = 'BAIXO'; 
       const tabelaN = getTabelaN(nivelN);
-      // Dados para o Ano 1 (Plantio/Semeio + Cobertura)
+
       const dadosN_Ano1 = getCulturaDados(tabelaN, selCultura, 1);
       const dadosP_Ano1 = getCulturaDados(tabelaP, selCultura, 1);
       const dadosK_Ano1 = getCulturaDados(tabelaK, selCultura, 1);
+
       const dose_n_plantio = dadosN_Ano1.n || 0;
       const dose_n_cobertura = dadosN_Ano1.nCobertura || 0;
       const dose_n = dose_n_plantio + dose_n_cobertura;
+
       const dose_p2o5_plantio = dadosP_Ano1.p || 0;
       const dose_p2o5_cobertura = dadosP_Ano1.pCobertura || 0;
       const dose_p2o5 = dose_p2o5_plantio + dose_p2o5_cobertura;
+
       const dose_k2o_plantio = dadosK_Ano1.k || 0;
       const dose_k2o_cobertura = dadosK_Ano1.kCobertura || 0;
       const dose_k2o = dose_k2o_plantio + dose_k2o_cobertura;
       
-      // Atualização dos campos da 'Recomendação Teórica para a Cultura' (Ano 1)
       const elemDoseN = document.getElementById('dose_n');
       if (elemDoseN) elemDoseN.value = dose_n;
       const elemDoseP = document.getElementById('dose_p2o5');
@@ -1022,32 +1043,37 @@
       const elemDoseK = document.getElementById('dose_k2o');
       if (elemDoseK) elemDoseK.value = dose_k2o;
       
-      // Verificação de adubação de cobertura do Ano 2 em diante
       const listaAnos = getListaAnos(tabelaN, selCultura);
       const culturasSemeio = ["FEIJÃO-CAUPI", "MELANCIA", "MILHO", "SOJA"];
       const rotuloEtapa = selCultura === "FORRAGEIRA" ? "Plantio/Semeio:" : (culturasSemeio.includes(selCultura) ? "Semeio:" : "Plantio:");
-      const preco_samonio = parseVal('preco_samonio');
-      const preco_ureia = parseVal('preco_ureia');
-      const preco_sfs = parseVal('preco_sfs');
-      const preco_sft = parseVal('preco_sft');
-      const preco_kcl = parseVal('preco_kcl');
+
+      const preco_samonio = parseVal('preco_samonio', 2.50);
+      const preco_ureia = parseVal('preco_ureia', 3.20);
+      const preco_sfs = parseVal('preco_sfs', 2.10);
+      const preco_sft = parseVal('preco_sft', 3.80);
+      const preco_kcl = parseVal('preco_kcl', 3.50);
+
       if (listaAnos.length <= 1) {
-        // Cultura padrão (Apenas Ano 1)
         const samonio_peso = dose_n / 0.20;
         const samonio_plantio = dose_n_plantio / 0.20;
         const samonio_cob = dose_n_cobertura / 0.20;
+
         const ureia_peso = dose_n / 0.45;
         const ureia_plantio = dose_n_plantio / 0.45;
         const ureia_cob = dose_n_cobertura / 0.45;
+
         const sfs_peso = dose_p2o5 / 0.18;
         const sfs_plantio = dose_p2o5_plantio / 0.18;
         const sfs_cob = dose_p2o5_cobertura / 0.18;
+
         const sft_peso = dose_p2o5 / 0.41;
         const sft_plantio = dose_p2o5_plantio / 0.41;
         const sft_cob = dose_p2o5_cobertura / 0.41;
+
         const kcl_peso = dose_k2o / 0.50;
         const kcl_plantio = dose_k2o_plantio / 0.50;
         const kcl_cob = dose_k2o_cobertura / 0.50;
+
         if (dose_n_cobertura > 0) {
           document.getElementById('fc-samonio-peso').innerHTML = `${formatNum(samonio_peso)} kg/ha<br><span style="font-size:0.68rem; color:#555; font-weight:normal;">${rotuloEtapa} ${formatNum(samonio_plantio)} kg/ha<br>Cobertura: ${formatNum(samonio_cob)} kg/ha</span>`;
           document.getElementById('fc-ureia-peso').innerHTML = `${formatNum(ureia_peso)} kg/ha<br><span style="font-size:0.68rem; color:#555; font-weight:normal;">${rotuloEtapa} ${formatNum(ureia_plantio)} kg/ha<br>Cobertura: ${formatNum(ureia_cob)} kg/ha</span>`;
@@ -1057,6 +1083,7 @@
         }
         document.getElementById('fc-samonio-valor').innerText = "R$ " + formatMoeda(samonio_peso * preco_samonio);
         document.getElementById('fc-ureia-valor').innerText = "R$ " + formatMoeda(ureia_peso * preco_ureia);
+
         if (dose_p2o5_cobertura > 0) {
           document.getElementById('fc-sfs-peso').innerHTML = `${formatNum(sfs_peso)} kg/ha<br><span style="font-size:0.68rem; color:#555; font-weight:normal;">${rotuloEtapa} ${formatNum(sfs_plantio)} kg/ha<br>Cobertura: ${formatNum(sfs_cob)} kg/ha</span>`;
           document.getElementById('fc-sft-peso').innerHTML = `${formatNum(sft_peso)} kg/ha<br><span style="font-size:0.68rem; color:#555; font-weight:normal;">${rotuloEtapa} ${formatNum(sft_plantio)} kg/ha<br>Cobertura: ${formatNum(sft_cob)} kg/ha</span>`;
@@ -1066,15 +1093,17 @@
         }
         document.getElementById('fc-sfs-valor').innerText = "R$ " + formatMoeda(sfs_peso * preco_sfs);
         document.getElementById('fc-sft-valor').innerText = "R$ " + formatMoeda(sft_peso * preco_sft);
+
         if (dose_k2o_cobertura > 0) {
           document.getElementById('fc-kcl-peso').innerHTML = `${formatNum(kcl_peso)} kg/ha<br><span style="font-size:0.68rem; color:#555; font-weight:normal;">${rotuloEtapa} ${formatNum(kcl_plantio)} kg/ha<br>Cobertura: ${formatNum(kcl_cob)} kg/ha</span>`;
         } else {
           document.getElementById('fc-kcl-peso').innerText = formatNum(kcl_peso) + " kg/ha";
         }
         document.getElementById('fc-kcl-valor').innerText = "R$ " + formatMoeda(kcl_peso * preco_kcl);
-        // Formulação Agrupada - Ano 1
+
         const g1_total = samonio_peso + sft_peso + kcl_peso;
         const g2_total = ureia_peso + sfs_peso + kcl_peso;
+
         if (g1_total > 0) {
           const n_perc = Math.round((dose_n / g1_total) * 100);
           const p_perc = Math.round((dose_p2o5 / g1_total) * 100);
@@ -1087,6 +1116,7 @@
           document.getElementById('g1-qtd').innerText = "0.00 kg/ha";
           document.getElementById('g1-custo').innerText = "R$ 0,00";
         }
+
         if (g2_total > 0) {
           const n_perc = Math.round((dose_n / g2_total) * 100);
           const p_perc = Math.round((dose_p2o5 / g2_total) * 100);
@@ -1099,59 +1129,70 @@
           document.getElementById('g2-qtd').innerText = "0.00 kg/ha";
           document.getElementById('g2-custo').innerText = "R$ 0,00";
         }
+
       } else {
-        // Cultura com adubação plurianual do Ano 2 em diante (ex: Açaí)
         let htmlSamonioPeso = "", htmlSamonioValor = "";
         let htmlUreiaPeso = "", htmlUreiaValor = "";
         let htmlSfsPeso = "", htmlSfsValor = "";
         let htmlSftPeso = "", htmlSftValor = "";
         let htmlKclPeso = "", htmlKclValor = "";
+
         let htmlG1Formula = "", htmlG1Qtd = "", htmlG1Custo = "";
         let htmlG2Formula = "", htmlG2Qtd = "", htmlG2Custo = "";
+
         listaAnos.forEach(anoNum => {
           const dN = getCulturaDados(tabelaN, selCultura, anoNum);
           const dP = getCulturaDados(tabelaP, selCultura, anoNum);
           const dK = getCulturaDados(tabelaK, selCultura, anoNum);
+
           const dn_p = dN.n || 0, dn_c = dN.nCobertura || 0, dn_tot = dn_p + dn_c;
           const dp_p = dP.p || 0, dp_c = dP.pCobertura || 0, dp_tot = dp_p + dp_c;
           const dk_p = dK.k || 0, dk_c = dK.kCobertura || 0, dk_tot = dk_p + dk_c;
+
           const p_samonio = dn_tot / 0.20;
           const p_ureia = dn_tot / 0.45;
           const p_sfs = dp_tot / 0.18;
           const p_sft = dp_tot / 0.41;
           const p_kcl = dk_tot / 0.50;
+
           const v_samonio = p_samonio * preco_samonio;
           const v_ureia = p_ureia * preco_ureia;
           const v_sfs = p_sfs * preco_sfs;
           const v_sft = p_sft * preco_sft;
           const v_kcl = p_kcl * preco_kcl;
+
           const pref = anoNum === 1 ? "Ano 1" : `Ano ${anoNum} (Cobertura)`;
           const prefCurto = anoNum === 1 ? "Ano 1" : `Ano ${anoNum}`;
+
           if (anoNum === 1) {
             htmlSamonioPeso += `<strong>${pref}:</strong> ${formatNum(p_samonio)} kg/ha<br><span style="font-size:0.68rem; color:#555; font-weight:normal;">${rotuloEtapa} ${formatNum(dn_p/0.20)} kg/ha | Cobertura: ${formatNum(dn_c/0.20)} kg/ha</span>`;
-            htmlSamonioValor += `<strong>${prefCurto}:</strong> R$ ${formatMoeda(v_samonio)}<br><span style="font-size:0.68rem; visibility:hidden;">&nbsp;</span>`;
             htmlUreiaPeso += `<strong>${pref}:</strong> ${formatNum(p_ureia)} kg/ha<br><span style="font-size:0.68rem; color:#555; font-weight:normal;">${rotuloEtapa} ${formatNum(dn_p/0.45)} kg/ha | Cobertura: ${formatNum(dn_c/0.45)} kg/ha</span>`;
-            htmlUreiaValor += `<strong>${prefCurto}:</strong> R$ ${formatMoeda(v_ureia)}<br><span style="font-size:0.68rem; visibility:hidden;">&nbsp;</span>`;
             htmlSfsPeso += `<strong>${pref}:</strong> ${formatNum(p_sfs)} kg/ha`;
-            htmlSfsValor += `<strong>${prefCurto}:</strong> R$ ${formatMoeda(v_sfs)}`;
             htmlSftPeso += `<strong>${pref}:</strong> ${formatNum(p_sft)} kg/ha`;
-            htmlSftValor += `<strong>${prefCurto}:</strong> R$ ${formatMoeda(v_sft)}`;
             htmlKclPeso += `<strong>${pref}:</strong> ${formatNum(p_kcl)} kg/ha<br><span style="font-size:0.68rem; color:#555; font-weight:normal;">${rotuloEtapa} ${formatNum(dk_p/0.50)} kg/ha | Cobertura: ${formatNum(dk_c/0.50)} kg/ha</span>`;
-            htmlKclValor += `<strong>${prefCurto}:</strong> R$ ${formatMoeda(v_kcl)}<br><span style="font-size:0.68rem; visibility:hidden;">&nbsp;</span>`;
+
+            htmlSamonioValor += `<strong>${prefCurto}:</strong> R$ ${formatMoeda(v_samonio)}<br><span style="font-size:0.68rem; color:transparent; user-select:none;">&nbsp;</span>`;
+            htmlUreiaValor += `<strong>${prefCurto}:</strong> R$ ${formatMoeda(v_ureia)}<br><span style="font-size:0.68rem; color:transparent; user-select:none;">&nbsp;</span>`;
+            htmlSfsValor += `<strong>${prefCurto}:</strong> R$ ${formatMoeda(v_sfs)}`;
+            htmlSftValor += `<strong>${prefCurto}:</strong> R$ ${formatMoeda(v_sft)}`;
+            htmlKclValor += `<strong>${prefCurto}:</strong> R$ ${formatMoeda(v_kcl)}<br><span style="font-size:0.68rem; color:transparent; user-select:none;">&nbsp;</span>`;
           } else {
             htmlSamonioPeso += `<br><strong>${pref}:</strong> ${formatNum(p_samonio)} kg/ha`;
-            htmlSamonioValor += `<br><strong>${prefCurto}:</strong> R$ ${formatMoeda(v_samonio)}`;
             htmlUreiaPeso += `<br><strong>${pref}:</strong> ${formatNum(p_ureia)} kg/ha`;
-            htmlUreiaValor += `<br><strong>${prefCurto}:</strong> R$ ${formatMoeda(v_ureia)}`;
             htmlSfsPeso += `<br><strong>${pref}:</strong> ${formatNum(p_sfs)} kg/ha`;
-            htmlSfsValor += `<br><strong>${prefCurto}:</strong> R$ ${formatMoeda(v_sfs)}`;
             htmlSftPeso += `<br><strong>${pref}:</strong> ${formatNum(p_sft)} kg/ha`;
-            htmlSftValor += `<br><strong>${prefCurto}:</strong> R$ ${formatMoeda(v_sft)}`;
             htmlKclPeso += `<br><strong>${pref}:</strong> ${formatNum(p_kcl)} kg/ha`;
+
+            htmlSamonioValor += `<br><strong>${prefCurto}:</strong> R$ ${formatMoeda(v_samonio)}`;
+            htmlUreiaValor += `<br><strong>${prefCurto}:</strong> R$ ${formatMoeda(v_ureia)}`;
+            htmlSfsValor += `<br><strong>${prefCurto}:</strong> R$ ${formatMoeda(v_sfs)}`;
+            htmlSftValor += `<br><strong>${prefCurto}:</strong> R$ ${formatMoeda(v_sft)}`;
             htmlKclValor += `<br><strong>${prefCurto}:</strong> R$ ${formatMoeda(v_kcl)}`;
           }
+
           const g1_tot = p_samonio + p_sft + p_kcl;
           const g2_tot = p_ureia + p_sfs + p_kcl;
+
           if (g1_tot > 0) {
             const n1 = Math.round((dn_tot / g1_tot) * 100);
             const p1 = Math.round((dp_tot / g1_tot) * 100);
@@ -1164,6 +1205,7 @@
             htmlG1Qtd += `${anoNum > 1 ? '<br>' : ''}<strong>${prefCurto}:</strong> 0.00 kg/ha`;
             htmlG1Custo += `${anoNum > 1 ? '<br>' : ''}<strong>${prefCurto}:</strong> R$ 0,00`;
           }
+
           if (g2_tot > 0) {
             const n2 = Math.round((dn_tot / g2_tot) * 100);
             const p2 = Math.round((dp_tot / g2_tot) * 100);
@@ -1177,6 +1219,7 @@
             htmlG2Custo += `${anoNum > 1 ? '<br>' : ''}<strong>${prefCurto}:</strong> R$ 0,00`;
           }
         });
+
         document.getElementById('fc-samonio-peso').innerHTML = htmlSamonioPeso;
         document.getElementById('fc-samonio-valor').innerHTML = htmlSamonioValor;
         document.getElementById('fc-ureia-peso').innerHTML = htmlUreiaPeso;
@@ -1187,19 +1230,23 @@
         document.getElementById('fc-sft-valor').innerHTML = htmlSftValor;
         document.getElementById('fc-kcl-peso').innerHTML = htmlKclPeso;
         document.getElementById('fc-kcl-valor').innerHTML = htmlKclValor;
+
         document.getElementById('g1-formula').innerHTML = htmlG1Formula;
         document.getElementById('g1-qtd').innerHTML = htmlG1Qtd;
         document.getElementById('g1-custo').innerHTML = htmlG1Custo;
+
         document.getElementById('g2-formula').innerHTML = htmlG2Formula;
         document.getElementById('g2-qtd').innerHTML = htmlG2Qtd;
         document.getElementById('g2-custo').innerHTML = htmlG2Custo;
       }
+
       const notaElem = document.getElementById('nota-cobertura');
       if (notaElem) {
         notaElem.innerText = "📌Para maiores informações consultar os Dizeres Técnicos.";
         notaElem.style.display = 'block';
       }
     }
+
     function compartilharRelatorio() {
       if (navigator.share) {
         navigator.share({
@@ -1210,6 +1257,7 @@
         alert("A função de compartilhamento não é suportada neste navegador.");
       }
     }
+
     const camposPreco = [
       'preco_calcario',
       'preco_samonio',
@@ -1218,15 +1266,17 @@
       'preco_sft',
       'preco_kcl'
     ];
+
     function carregarPrecos() {
       camposPreco.forEach(id => {
         const valorSalvo = localStorage.getItem(id);
         const campo = document.getElementById(id);
-        if (campo) {
-          campo.value = valorSalvo !== null ? valorSalvo : '';
+        if (campo && valorSalvo !== null && valorSalvo.trim() !== '') {
+          campo.value = valorSalvo;
         }
       });
     }
+
     function salvarPrecos() {
       camposPreco.forEach(id => {
         const campo = document.getElementById(id);
@@ -1235,10 +1285,12 @@
         }
       });
     }
+
     function salvarEcalcular() {
       salvarPrecos();
       calcular();
     }
+
     function atualizarDataFooter() {
       const elemData = document.getElementById('data-footer');
       if (elemData) {
@@ -1249,6 +1301,7 @@
         elemData.innerText = `${dia}/${mes}/${ano}`;
       }
     }
+
     window.onload = function() {
       carregarPrecos();
       atualizarCultura();
