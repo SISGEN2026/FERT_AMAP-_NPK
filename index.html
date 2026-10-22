@@ -1108,7 +1108,6 @@
         let htmlG2Formula = "", htmlG2Qtd = "", htmlG2Custo = "";
         let totalG1Custo = 0;
         let totalG2Custo = 0;
-
         listaAnos.forEach(anoNum => {
           const dN = getCulturaDados(tabelaN, selCultura, anoNum);
           const dP = getCulturaDados(tabelaP, selCultura, anoNum);
@@ -1157,7 +1156,6 @@
           const custoG2Ano = v_ureia + v_sfs + v_kcl;
           totalG1Custo += custoG1Ano;
           totalG2Custo += custoG2Ano;
-
           if (g1_tot > 0) {
             const n1 = Math.round((dn_tot / g1_tot) * 100);
             const p1 = Math.round((dp_tot / g1_tot) * 100);
@@ -1183,10 +1181,8 @@
             htmlG2Custo += `${anoNum > 1 ? '<br>' : ''}<strong>${prefCurto}:</strong> R$ 0,00`;
           }
         });
-
-        htmlG1Custo += `<br><strong>Total:</strong> R$ ${formatMoeda(totalG1Custo)}`;
-        htmlG2Custo += `<br><strong>Total:</strong> R$ ${formatMoeda(totalG2Custo)}`;
-
+        htmlG1Custo += `<div style="border-top: 1px solid #ccc; background-color: #e0e0e0; margin-top: 4px; padding: 2px 4px; border-radius: 3px;"><strong>Total:</strong> R$ ${formatMoeda(totalG1Custo)}</div>`;
+        htmlG2Custo += `<div style="border-top: 1px solid #ccc; background-color: #e0e0e0; margin-top: 4px; padding: 2px 4px; border-radius: 3px;"><strong>Total:</strong> R$ ${formatMoeda(totalG2Custo)}</div>`;
         document.getElementById('fc-samonio-peso').innerHTML = htmlSamonioPeso;
         document.getElementById('fc-samonio-valor').innerHTML = htmlSamonioValor;
         document.getElementById('fc-ureia-peso').innerHTML = htmlUreiaPeso;
