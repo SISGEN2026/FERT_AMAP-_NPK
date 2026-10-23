@@ -448,7 +448,6 @@
       </div>
     </div>
   </div>
-
   <!-- APP -->
   <div id="app" style="display: none; flex-direction: column; min-height: 100vh;">
     <header class="app-header">
@@ -950,7 +949,7 @@
     function acessarEditor() {
       if (!editorAutenticado) {
         const senha = prompt("Digite a senha de acesso ao Editor:");
-        if (senha === "1234" || senha === "embrapa" || senha === "admin") {
+        if (senha === "Xt5kwfxi#" || senha === "Xt5kwfxi$" || senha === "Xt5kwfxi%") {
           editorAutenticado = true;
           switchTab('EDITOR');
         } else if (senha !== null) {
@@ -1571,19 +1570,19 @@
 // 1. Inserir no <select id="cultura">:
 <option value="${nome}">${nome}</option>
 // 2. Inserir em tabelaV2:
-tabelaV2["${nome}"] = ${v2Val};
+"${nome}": ${v2Val}
 // 3. Inserir em tabelaNivelBaixo:
-tabelaNivelBaixo["${nome}"] = [
+"${nome}": [
   { ano: ${bData.ano}, pEscala: "${bData.pEscala}", kEscala: "${bData.kEscala}", pMin: ${bData.pMin}, pMax: ${bMaxStr}, kMin: ${bData.kMin}, kMax: ${bKMaxStr}, n: ${bData.n}, nCobertura: ${bData.nCobertura}, p: ${bData.p}, pCobertura: ${bData.pCobertura}, k: ${bData.k}, kCobertura: ${bData.kCobertura} }
-];
+]
 // 4. Inserir em tabelaNivelMedio:
-tabelaNivelMedio["${nome}"] = [
+"${nome}": [
   { ano: ${mData.ano}, pEscala: "${mData.pEscala}", kEscala: "${mData.kEscala}", pMin: ${mData.pMin}, pMax: ${mMaxStr}, kMin: ${mData.kMin}, kMax: ${mKMaxStr}, n: ${mData.n}, nCobertura: ${mData.nCobertura}, p: ${mData.p}, pCobertura: ${mData.pCobertura}, k: ${mData.k}, kCobertura: ${mData.kCobertura} }
-];
+]
 // 5. Inserir em tabelaNivelAlto:
-tabelaNivelAlto["${nome}"] = [
+"${nome}": [
   { ano: ${aData.ano}, pEscala: "${aData.pEscala}", kEscala: "${aData.kEscala}", pMin: ${aData.pMin}, pMax: ${aMaxStr}, kMin: ${aData.kMin}, kMax: ${aKMaxStr}, n: ${aData.n}, nCobertura: ${aData.nCobertura}, p: ${aData.p}, pCobertura: ${aData.pCobertura}, k: ${aData.k}, kCobertura: ${aData.kCobertura} }
-];`;
+]`;
       document.getElementById('ed_codigo_gerado').value = codigo;
       alert(`Cultura "${nome}" adicionada com sucesso ao sistema e linhas de código geradas!`);
     }
