@@ -718,27 +718,27 @@
               <tr>
                 <td>Calcário</td>
                 <td>PRNT</td>
-                <td><input type="number" class="input-table-price" id="preco_calcario" value="0.35" step="0.01" oninput="salvarEcalcular()"></td>
+                <td><input type="number" class="input-table-price" id="preco_calcario" value="0" step="0.01" oninput="salvarEcalcular()"></td>
               </tr>
               <tr>
                 <td>Sulfato de Amônio</td>
                 <td>20% N, 22% S</td>
-                <td><input type="number" class="input-table-price" id="preco_samonio" value="2.50" step="0.01" oninput="salvarEcalcular()"></td>
+                <td><input type="number" class="input-table-price" id="preco_samonio" value="0" step="0.01" oninput="salvarEcalcular()"></td>
               </tr>
               <tr>
                 <td>Ureia</td>
                 <td>45% N</td>
-                <td><input type="number" class="input-table-price" id="preco_ureia" value="3.20" step="0.01" oninput="salvarEcalcular()"></td>
+                <td><input type="number" class="input-table-price" id="preco_ureia" value="0" step="0.01" oninput="salvarEcalcular()"></td>
               </tr>
               <tr>
                 <td>Superfosfato Simples</td>
                 <td>18% P₂O₅, 16% Ca, 10% S</td>
-                <td><input type="number" class="input-table-price" id="preco_sfs" value="2.10" step="0.01" oninput="salvarEcalcular()"></td>
+                <td><input type="number" class="input-table-price" id="preco_sfs" value="0" step="0.01" oninput="salvarEcalcular()"></td>
               </tr>
               <tr>
                 <td>Superfosfato Triplo</td>
                 <td>41% P₂O₅, 10% Ca</td>
-                <td><input type="number" class="input-table-price" id="preco_sft" value="3.80" step="0.01" oninput="salvarEcalcular()"></td>
+                <td><input type="number" class="input-table-price" id="preco_sft" value="0" step="0.01" oninput="salvarEcalcular()"></td>
               </tr>
               <tr>
                 <td>Cloreto de Potássio</td>
@@ -1175,7 +1175,7 @@
       const nc_final_100_kgha = Math.max(nc_sat_100_kgha, nc_neut_100_kgha);
       const nc_final_comercial_kgha = Math.max(nc_sat_comercial_kgha, nc_neut_comercial_kgha);
       
-      const preco_calcario = parseVal('preco_calcario', 0.35) || 0.35;
+      const preco_calcario = parseVal('preco_calcario', 0);
       const custo_calcario = nc_final_comercial_kgha * preco_calcario;
       
       // Atualização da Tabela de Calagem
@@ -1240,11 +1240,11 @@
       const culturasSemeio = ["FEIJÃO-CAUPI", "MELANCIA", "MILHO", "SOJA"];
       const rotuloEtapa = selCultura === "FORRAGEIRA" ? "Plantio/Semeio:" : (culturasSemeio.includes(selCultura) ? "Semeio:" : "Plantio:");
       
-      const preco_samonio = parseVal('preco_samonio', 2.50) || 2.50;
-      const preco_ureia = parseVal('preco_ureia', 3.20) || 3.20;
-      const preco_sfs = parseVal('preco_sfs', 2.10) || 2.10;
-      const preco_sft = parseVal('preco_sft', 3.80) || 3.80;
-      const preco_kcl = parseVal('preco_kcl', 3.50) || 3.50;
+      const preco_samonio = parseVal('preco_samonio', 0);
+      const preco_ureia = parseVal('preco_ureia', 0);
+      const preco_sfs = parseVal('preco_sfs', 0);
+      const preco_sft = parseVal('preco_sft', 0);
+      const preco_kcl = parseVal('preco_kcl', 0);
       if (listaAnos.length <= 1) {
         const samonio_peso = dose_n / 0.20;
         const samonio_plantio = dose_n_plantio / 0.20;
