@@ -380,12 +380,8 @@
       @page {
         size: portrait;
         margin: 12mm 15mm;
-        @bottom-left {
-          content: "";
-        }
-        @bottom-center {
-          content: "";
-        }
+        @bottom-left { content: ""; }
+        @bottom-center { content: ""; }
         @bottom-right {
           content: counter(page) "/" counter(pages);
           font-size: 0.75rem;
@@ -452,6 +448,7 @@
       </div>
     </div>
   </div>
+
   <!-- APP -->
   <div id="app" style="display: none; flex-direction: column; min-height: 100vh;">
     <header class="app-header">
@@ -775,7 +772,6 @@
       <section id="tab-EDITOR" class="tab-content">
         <h2>Editor de Culturas e Parâmetros</h2>
         
-        <!-- BOTOES DE ACAO DO EDITOR -->
         <div style="display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 20px;">
           <button type="button" class="btn-action" onclick="importarDados()" style="background-color: var(--primary-color); color: white; padding: 8px 12px;">
             📥 Importar Dados
@@ -788,8 +784,7 @@
           </button>
           <input type="file" id="file_import_json" style="display:none" accept=".json" onchange="processarArquivoImportacao(event)">
         </div>
-
-        <!-- CONTÊINER PARA ADICIONAR NOVA CULTURA -->
+        
         <div class="side-bar-container" style="margin-bottom: 20px;">
           <div class="side-bar-label">NOVA CULTURA</div>
           <div class="side-bar-content">
@@ -798,7 +793,7 @@
             <div class="sub-group-title">Identificação e V2</div>
             <div class="form-group-row">
               <div class="form-group">
-                <label for="ed_cultura_nome">Cultura Desejada (&lt;option value=&gt;):</label>
+                <label for="ed_cultura_nome">Cultura Desejada (&lt;option value&gt;):</label>
                 <input type="text" id="ed_cultura_nome" placeholder="Ex: TRIGO">
               </div>
               <div class="form-group">
@@ -806,8 +801,7 @@
                 <input type="number" id="ed_v2_val" value="60" step="1">
               </div>
             </div>
-
-            <!-- TABELA NIVEL BAIXO -->
+            
             <div class="sub-group-title">const tabelaNivelBaixo</div>
             <div class="form-group-row">
               <div class="form-group">
@@ -849,8 +843,7 @@
                 <input type="number" id="ed_b_kcob" value="0" step="0.1">
               </div>
             </div>
-
-            <!-- TABELA NIVEL MEDIO -->
+            
             <div class="sub-group-title">const tabelaNivelMedio</div>
             <div class="form-group-row">
               <div class="form-group">
@@ -892,8 +885,7 @@
                 <input type="number" id="ed_m_kcob" value="0" step="0.1">
               </div>
             </div>
-
-            <!-- TABELA NIVEL ALTO -->
+            
             <div class="sub-group-title">const tabelaNivelAlto</div>
             <div class="form-group-row">
               <div class="form-group">
@@ -935,7 +927,6 @@
                 <input type="number" id="ed_a_kcob" value="0" step="0.1">
               </div>
             </div>
-
             <div style="margin-top: 15px; text-align: center;">
               <button type="button" onclick="adicionarNovaCultura()" style="background-color: var(--green-header); color: white; border: none; padding: 10px 20px; border-radius: 8px; font-size: 0.88rem; font-weight: bold; cursor: pointer;">
                 ➕ Adicionar Cultura e Criar Linhas de Código
@@ -943,8 +934,7 @@
             </div>
           </div>
         </div>
-
-        <!-- CÓDIGO GERADO -->
+        
         <div class="form-group" style="margin-top: 15px;">
           <label for="ed_codigo_gerado"><strong>Linhas de Código Criadas para a Inserção dos Dados:</strong></label>
           <textarea id="ed_codigo_gerado" rows="14" readonly style="width:100%; font-family: monospace; font-size: 0.8rem; background: #f8f9fa; padding: 10px; border-radius: 6px; border: 1px solid var(--border-color); color: #333;"></textarea>
@@ -957,7 +947,6 @@
   </div>
   <script>
     let editorAutenticado = false;
-
     function acessarEditor() {
       if (!editorAutenticado) {
         const senha = prompt("Digite a senha de acesso ao Editor:");
@@ -971,12 +960,10 @@
         switchTab('EDITOR');
       }
     }
-
     function sairEditor() {
       editorAutenticado = false;
       switchTab('ANALISE');
     }
-
     const tabelaV2 = {
       "ABACAXI": 60,
       "AÇAÍ": 60,
@@ -1153,7 +1140,10 @@
       const targetTab = document.getElementById('tab-' + tabName);
       if (targetTab) targetTab.classList.add('active');
       const tabs = Array.from(document.querySelectorAll('.tab-button'));
-      const activeBtn = tabs.find(btn => btn.getAttribute('onclick').includes(tabName));
+      const activeBtn = tabs.find(btn => {
+        const attr = btn.getAttribute('onclick');
+        return attr && attr.includes(tabName);
+      });
       if (activeBtn) activeBtn.classList.add('active');
     };
     
@@ -1251,7 +1241,6 @@
       const culturasSemeio = ["FEIJÃO-CAUPI", "MELANCIA", "MILHO", "SOJA"];
       const rotuloEtapa = selCultura === "FORRAGEIRA" ? "Plantio/Semeio:" : (culturasSemeio.includes(selCultura) ? "Semeio:" : "Plantio:");
       
-      const preco_calcario = parseVal('preco_calcario', 0.35) || 0.35;
       const preco_samonio = parseVal('preco_samonio', 2.50) || 2.50;
       const preco_ureia = parseVal('preco_ureia', 3.20) || 3.20;
       const preco_sfs = parseVal('preco_sfs', 2.10) || 2.10;
@@ -1484,7 +1473,6 @@
         elemData.innerText = `${dia}/${mes}/${ano}`;
       }
     }
-
     function parseEscala(escalaStr, isK = false) {
       if (!escalaStr) return { min: 0, max: isK ? 0.10 : 10 };
       let str = escalaStr.replace('–', '-').replace(/\s+/g, '').trim();
@@ -1502,7 +1490,6 @@
       }
       return { min: 0, max: isK ? 0.10 : 10 };
     }
-
     function adicionarNovaCultura() {
       const nomeRaw = document.getElementById('ed_cultura_nome').value;
       if (!nomeRaw || !nomeRaw.trim()) {
@@ -1511,8 +1498,7 @@
       }
       const nome = nomeRaw.trim().toUpperCase();
       const v2Val = parseFloat(document.getElementById('ed_v2_val').value) || 60;
-
-      // Nível Baixo
+      
       const bAno = parseInt(document.getElementById('ed_b_ano').value) || 1;
       const bPEscala = document.getElementById('ed_b_pescala').value.trim();
       const bKEscala = document.getElementById('ed_b_kescala').value.trim();
@@ -1528,8 +1514,7 @@
         k: parseFloat(document.getElementById('ed_b_k').value) || 0,
         kCobertura: parseFloat(document.getElementById('ed_b_kcob').value) || 0
       };
-
-      // Nível Médio
+      
       const mAno = parseInt(document.getElementById('ed_m_ano').value) || 1;
       const mPEscala = document.getElementById('ed_m_pescala').value.trim();
       const mKEscala = document.getElementById('ed_m_kescala').value.trim();
@@ -1545,8 +1530,7 @@
         k: parseFloat(document.getElementById('ed_m_k').value) || 0,
         kCobertura: parseFloat(document.getElementById('ed_m_kcob').value) || 0
       };
-
-      // Nível Alto
+      
       const aAno = parseInt(document.getElementById('ed_a_ano').value) || 1;
       const aPEscala = document.getElementById('ed_a_pescala').value.trim();
       const aKEscala = document.getElementById('ed_a_kescala').value.trim();
@@ -1562,14 +1546,12 @@
         k: parseFloat(document.getElementById('ed_a_k').value) || 0,
         kCobertura: parseFloat(document.getElementById('ed_a_kcob').value) || 0
       };
-
-      // Atualiza objetos em tempo de execução
+      
       tabelaV2[nome] = v2Val;
       tabelaNivelBaixo[nome] = [bData];
       tabelaNivelMedio[nome] = [mData];
       tabelaNivelAlto[nome] = [aData];
-
-      // Adiciona ao <select id="cultura"> se não existir
+      
       const selectCultura = document.getElementById('cultura');
       let existe = Array.from(selectCultura.options).some(opt => opt.value === nome);
       if (!existe) {
@@ -1578,42 +1560,33 @@
         opt.innerText = nome;
         selectCultura.appendChild(opt);
       }
-
-      // Gera o código em texto para cópia / inserção no código-fonte
+      
       const bMaxStr = bData.pMax === Infinity ? 'Infinity' : bData.pMax;
       const bKMaxStr = bData.kMax === Infinity ? 'Infinity' : bData.kMax;
       const mMaxStr = mData.pMax === Infinity ? 'Infinity' : mData.pMax;
       const mKMaxStr = mData.kMax === Infinity ? 'Infinity' : mData.kMax;
       const aMaxStr = aData.pMax === Infinity ? 'Infinity' : aData.pMax;
       const aKMaxStr = aData.kMax === Infinity ? 'Infinity' : aData.kMax;
-
       const codigo = `// --- Linhas geradas para a cultura: ${nome} ---
-
 // 1. Inserir no <select id="cultura">:
 <option value="${nome}">${nome}</option>
-
 // 2. Inserir em tabelaV2:
 tabelaV2["${nome}"] = ${v2Val};
-
 // 3. Inserir em tabelaNivelBaixo:
 tabelaNivelBaixo["${nome}"] = [
   { ano: ${bData.ano}, pEscala: "${bData.pEscala}", kEscala: "${bData.kEscala}", pMin: ${bData.pMin}, pMax: ${bMaxStr}, kMin: ${bData.kMin}, kMax: ${bKMaxStr}, n: ${bData.n}, nCobertura: ${bData.nCobertura}, p: ${bData.p}, pCobertura: ${bData.pCobertura}, k: ${bData.k}, kCobertura: ${bData.kCobertura} }
 ];
-
 // 4. Inserir em tabelaNivelMedio:
 tabelaNivelMedio["${nome}"] = [
   { ano: ${mData.ano}, pEscala: "${mData.pEscala}", kEscala: "${mData.kEscala}", pMin: ${mData.pMin}, pMax: ${mMaxStr}, kMin: ${mData.kMin}, kMax: ${mKMaxStr}, n: ${mData.n}, nCobertura: ${mData.nCobertura}, p: ${mData.p}, pCobertura: ${mData.pCobertura}, k: ${mData.k}, kCobertura: ${mData.kCobertura} }
 ];
-
 // 5. Inserir em tabelaNivelAlto:
 tabelaNivelAlto["${nome}"] = [
   { ano: ${aData.ano}, pEscala: "${aData.pEscala}", kEscala: "${aData.kEscala}", pMin: ${aData.pMin}, pMax: ${aMaxStr}, kMin: ${aData.kMin}, kMax: ${aKMaxStr}, n: ${aData.n}, nCobertura: ${aData.nCobertura}, p: ${aData.p}, pCobertura: ${aData.pCobertura}, k: ${aData.k}, kCobertura: ${aData.kCobertura} }
 ];`;
-
       document.getElementById('ed_codigo_gerado').value = codigo;
       alert(`Cultura "${nome}" adicionada com sucesso ao sistema e linhas de código geradas!`);
     }
-
     function exportarDados() {
       const dados = {
         tabelaV2: tabelaV2,
@@ -1635,11 +1608,9 @@ tabelaNivelAlto["${nome}"] = [
       a.download = 'dados_fertamapa.json';
       a.click();
     }
-
     function importarDados() {
       document.getElementById('file_import_json').click();
     }
-
     function processarArquivoImportacao(event) {
       const file = event.target.files[0];
       if (!file) return;
@@ -1651,8 +1622,7 @@ tabelaNivelAlto["${nome}"] = [
           if (dados.tabelaNivelBaixo) Object.assign(tabelaNivelBaixo, dados.tabelaNivelBaixo);
           if (dados.tabelaNivelMedio) Object.assign(tabelaNivelMedio, dados.tabelaNivelMedio);
           if (dados.tabelaNivelAlto) Object.assign(tabelaNivelAlto, dados.tabelaNivelAlto);
-
-          // Atualiza o select de culturas
+          
           const selectCultura = document.getElementById('cultura');
           Object.keys(tabelaV2).forEach(cult => {
             let existe = Array.from(selectCultura.options).some(opt => opt.value === cult);
@@ -1663,7 +1633,6 @@ tabelaNivelAlto["${nome}"] = [
               selectCultura.appendChild(opt);
             }
           });
-
           if (dados.precos) {
             Object.keys(dados.precos).forEach(key => {
               const el = document.getElementById(key);
@@ -1671,7 +1640,6 @@ tabelaNivelAlto["${nome}"] = [
             });
             salvarPrecos();
           }
-
           alert("Dados importados com sucesso!");
           calcular();
         } catch (err) {
@@ -1680,7 +1648,6 @@ tabelaNivelAlto["${nome}"] = [
       };
       reader.readAsText(file);
     }
-
     window.onload = function() {
       carregarPrecos();
       atualizarCultura();
