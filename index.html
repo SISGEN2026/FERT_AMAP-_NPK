@@ -475,6 +475,7 @@
       <button type="button" class="tab-button" onclick="switchTab('RELATORIO')">RELATÓRIO</button>
       <button type="button" class="tab-button" onclick="switchTab('INSUMOS')">INSUMOS</button>
       <button type="button" class="tab-button" onclick="switchTab('DIZERES')">DIZERES TÉCNICOS</button>
+      <button type="button" class="tab-button" onclick="acessarEditor()">EDITOR</button>
     </nav>
     <main class="main-content">
       <!-- ABA ANÁLISE DE SOLO -->
@@ -770,12 +771,212 @@
           </div>
         </div>
       </section>
+      <!-- ABA EDITOR -->
+      <section id="tab-EDITOR" class="tab-content">
+        <h2>Editor de Culturas e Parâmetros</h2>
+        
+        <!-- BOTOES DE ACAO DO EDITOR -->
+        <div style="display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 20px;">
+          <button type="button" class="btn-action" onclick="importarDados()" style="background-color: var(--primary-color); color: white; padding: 8px 12px;">
+            📥 Importar Dados
+          </button>
+          <button type="button" class="btn-action" onclick="exportarDados()" style="background-color: var(--primary-color); color: white; padding: 8px 12px;">
+            📤 Exportar Dados
+          </button>
+          <button type="button" class="btn-action" onclick="sairEditor()" style="background-color: #d32f2f; color: white; padding: 8px 12px;">
+            🚪 Sair do Editor
+          </button>
+          <input type="file" id="file_import_json" style="display:none" accept=".json" onchange="processarArquivoImportacao(event)">
+        </div>
+
+        <!-- CONTÊINER PARA ADICIONAR NOVA CULTURA -->
+        <div class="side-bar-container" style="margin-bottom: 20px;">
+          <div class="side-bar-label">NOVA CULTURA</div>
+          <div class="side-bar-content">
+            <h3 style="color: var(--primary-color); margin-bottom: 10px;">Adicionar Nova Cultura</h3>
+            
+            <div class="sub-group-title">Identificação e V2</div>
+            <div class="form-group-row">
+              <div class="form-group">
+                <label for="ed_cultura_nome">Cultura Desejada (&lt;option value=&gt;):</label>
+                <input type="text" id="ed_cultura_nome" placeholder="Ex: TRIGO">
+              </div>
+              <div class="form-group">
+                <label for="ed_v2_val">Valor V2 % (const tabelaV2=):</label>
+                <input type="number" id="ed_v2_val" value="60" step="1">
+              </div>
+            </div>
+
+            <!-- TABELA NIVEL BAIXO -->
+            <div class="sub-group-title">const tabelaNivelBaixo</div>
+            <div class="form-group-row">
+              <div class="form-group">
+                <label for="ed_b_ano">ano:</label>
+                <input type="number" id="ed_b_ano" value="1">
+              </div>
+              <div class="form-group">
+                <label for="ed_b_pescala">pEscala (pMin / pMax):</label>
+                <input type="text" id="ed_b_pescala" value="0 – 10">
+              </div>
+              <div class="form-group">
+                <label for="ed_b_kescala">kEscala (kMin / kMax):</label>
+                <input type="text" id="ed_b_kescala" value="0 - 0.10">
+              </div>
+            </div>
+            <div class="form-group-row">
+              <div class="form-group">
+                <label for="ed_b_n">n:</label>
+                <input type="number" id="ed_b_n" value="30" step="0.1">
+              </div>
+              <div class="form-group">
+                <label for="ed_b_ncob">nCobertura:</label>
+                <input type="number" id="ed_b_ncob" value="0" step="0.1">
+              </div>
+              <div class="form-group">
+                <label for="ed_b_p">p:</label>
+                <input type="number" id="ed_b_p" value="80" step="0.1">
+              </div>
+              <div class="form-group">
+                <label for="ed_b_pcob">pCobertura:</label>
+                <input type="number" id="ed_b_pcob" value="0" step="0.1">
+              </div>
+              <div class="form-group">
+                <label for="ed_b_k">k:</label>
+                <input type="number" id="ed_b_k" value="60" step="0.1">
+              </div>
+              <div class="form-group">
+                <label for="ed_b_kcob">kCobertura:</label>
+                <input type="number" id="ed_b_kcob" value="0" step="0.1">
+              </div>
+            </div>
+
+            <!-- TABELA NIVEL MEDIO -->
+            <div class="sub-group-title">const tabelaNivelMedio</div>
+            <div class="form-group-row">
+              <div class="form-group">
+                <label for="ed_m_ano">ano:</label>
+                <input type="number" id="ed_m_ano" value="1">
+              </div>
+              <div class="form-group">
+                <label for="ed_m_pescala">pEscala (pMin / pMax):</label>
+                <input type="text" id="ed_m_pescala" value="11 – 20">
+              </div>
+              <div class="form-group">
+                <label for="ed_m_kescala">kEscala (kMin / kMax):</label>
+                <input type="text" id="ed_m_kescala" value="0.11 – 0.23">
+              </div>
+            </div>
+            <div class="form-group-row">
+              <div class="form-group">
+                <label for="ed_m_n">n:</label>
+                <input type="number" id="ed_m_n" value="30" step="0.1">
+              </div>
+              <div class="form-group">
+                <label for="ed_m_ncob">nCobertura:</label>
+                <input type="number" id="ed_m_ncob" value="0" step="0.1">
+              </div>
+              <div class="form-group">
+                <label for="ed_m_p">p:</label>
+                <input type="number" id="ed_m_p" value="60" step="0.1">
+              </div>
+              <div class="form-group">
+                <label for="ed_m_pcob">pCobertura:</label>
+                <input type="number" id="ed_m_pcob" value="0" step="0.1">
+              </div>
+              <div class="form-group">
+                <label for="ed_m_k">k:</label>
+                <input type="number" id="ed_m_k" value="40" step="0.1">
+              </div>
+              <div class="form-group">
+                <label for="ed_m_kcob">kCobertura:</label>
+                <input type="number" id="ed_m_kcob" value="0" step="0.1">
+              </div>
+            </div>
+
+            <!-- TABELA NIVEL ALTO -->
+            <div class="sub-group-title">const tabelaNivelAlto</div>
+            <div class="form-group-row">
+              <div class="form-group">
+                <label for="ed_a_ano">ano:</label>
+                <input type="number" id="ed_a_ano" value="1">
+              </div>
+              <div class="form-group">
+                <label for="ed_a_pescala">pEscala (pMin / pMax):</label>
+                <input type="text" id="ed_a_pescala" value=">20">
+              </div>
+              <div class="form-group">
+                <label for="ed_a_kescala">kEscala (kMin / kMax):</label>
+                <input type="text" id="ed_a_kescala" value=">0.23">
+              </div>
+            </div>
+            <div class="form-group-row">
+              <div class="form-group">
+                <label for="ed_a_n">n:</label>
+                <input type="number" id="ed_a_n" value="30" step="0.1">
+              </div>
+              <div class="form-group">
+                <label for="ed_a_ncob">nCobertura:</label>
+                <input type="number" id="ed_a_ncob" value="0" step="0.1">
+              </div>
+              <div class="form-group">
+                <label for="ed_a_p">p:</label>
+                <input type="number" id="ed_a_p" value="30" step="0.1">
+              </div>
+              <div class="form-group">
+                <label for="ed_a_pcob">pCobertura:</label>
+                <input type="number" id="ed_a_pcob" value="0" step="0.1">
+              </div>
+              <div class="form-group">
+                <label for="ed_a_k">k:</label>
+                <input type="number" id="ed_a_k" value="20" step="0.1">
+              </div>
+              <div class="form-group">
+                <label for="ed_a_kcob">kCobertura:</label>
+                <input type="number" id="ed_a_kcob" value="0" step="0.1">
+              </div>
+            </div>
+
+            <div style="margin-top: 15px; text-align: center;">
+              <button type="button" onclick="adicionarNovaCultura()" style="background-color: var(--green-header); color: white; border: none; padding: 10px 20px; border-radius: 8px; font-size: 0.88rem; font-weight: bold; cursor: pointer;">
+                ➕ Adicionar Cultura e Criar Linhas de Código
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- CÓDIGO GERADO -->
+        <div class="form-group" style="margin-top: 15px;">
+          <label for="ed_codigo_gerado"><strong>Linhas de Código Criadas para a Inserção dos Dados:</strong></label>
+          <textarea id="ed_codigo_gerado" rows="14" readonly style="width:100%; font-family: monospace; font-size: 0.8rem; background: #f8f9fa; padding: 10px; border-radius: 6px; border: 1px solid var(--border-color); color: #333;"></textarea>
+        </div>
+      </section>
     </main>
     <footer style="position: fixed; bottom: 0; left: 0; width: 100%; text-align: center; font-size: 0.75rem; background-color: #ffffff; padding: 5px 0; z-index: 1000; box-shadow: 0 -2px 5px rgba(0,0,0,0.05);">
       <p style="margin: 0;">&copy; Embrapa 2026.</p>
     </footer>
   </div>
   <script>
+    let editorAutenticado = false;
+
+    function acessarEditor() {
+      if (!editorAutenticado) {
+        const senha = prompt("Digite a senha de acesso ao Editor:");
+        if (senha === "1234" || senha === "embrapa" || senha === "admin") {
+          editorAutenticado = true;
+          switchTab('EDITOR');
+        } else if (senha !== null) {
+          alert("Senha incorreta!");
+        }
+      } else {
+        switchTab('EDITOR');
+      }
+    }
+
+    function sairEditor() {
+      editorAutenticado = false;
+      switchTab('ANALISE');
+    }
+
     const tabelaV2 = {
       "ABACAXI": 60,
       "AÇAÍ": 60,
@@ -873,7 +1074,6 @@
       "PIMENTA-DO-REINO": [ { ano: 1, pEscala: ">20", kEscala: ">0.23", pMin: 20.01, pMax: Infinity, kMin: 0.2301, kMax: Infinity, n: 42, nCobertura: 0, p: 9, pCobertura: 0, k: 17, kCobertura: 0 } ],
       "SOJA": [ { ano: 1, pEscala: ">15", kEscala: ">0.23", pMin: 15.01, pMax: Infinity, kMin: 0.2301, kMax: Infinity, n: 5, nCobertura: 0, p: 50, pCobertura: 0, k: 30, kCobertura: 0 } ]
     };
-
     function getTabelaN(nivel = 'BAIXO') {
       if (nivel === 'MEDIO') return tabelaNivelMedio;
       if (nivel === 'ALTO') return tabelaNivelAlto;
@@ -1051,12 +1251,12 @@
       const culturasSemeio = ["FEIJÃO-CAUPI", "MELANCIA", "MILHO", "SOJA"];
       const rotuloEtapa = selCultura === "FORRAGEIRA" ? "Plantio/Semeio:" : (culturasSemeio.includes(selCultura) ? "Semeio:" : "Plantio:");
       
+      const preco_calcario = parseVal('preco_calcario', 0.35) || 0.35;
       const preco_samonio = parseVal('preco_samonio', 2.50) || 2.50;
       const preco_ureia = parseVal('preco_ureia', 3.20) || 3.20;
       const preco_sfs = parseVal('preco_sfs', 2.10) || 2.10;
       const preco_sft = parseVal('preco_sft', 3.80) || 3.80;
       const preco_kcl = parseVal('preco_kcl', 3.50) || 3.50;
-
       if (listaAnos.length <= 1) {
         const samonio_peso = dose_n / 0.20;
         const samonio_plantio = dose_n_plantio / 0.20;
@@ -1077,7 +1277,6 @@
         const kcl_peso = dose_k2o / 0.50;
         const kcl_plantio = dose_k2o_plantio / 0.50;
         const kcl_cob = dose_k2o_cobertura / 0.50;
-
         if (dose_n_cobertura > 0) {
           document.getElementById('fc-samonio-peso').innerHTML = `${formatNum(samonio_peso)} kg/ha<br><span style="font-size:0.68rem; color:#555; font-weight:normal;">${rotuloEtapa} ${formatNum(samonio_plantio)} kg/ha<br>Cobertura: ${formatNum(samonio_cob)} kg/ha</span>`;
           document.getElementById('fc-ureia-peso').innerHTML = `${formatNum(ureia_peso)} kg/ha<br><span style="font-size:0.68rem; color:#555; font-weight:normal;">${rotuloEtapa} ${formatNum(ureia_plantio)} kg/ha<br>Cobertura: ${formatNum(ureia_cob)} kg/ha</span>`;
@@ -1087,7 +1286,6 @@
         }
         document.getElementById('fc-samonio-valor').innerText = "R$ " + formatMoeda(samonio_peso * preco_samonio);
         document.getElementById('fc-ureia-valor').innerText = "R$ " + formatMoeda(ureia_peso * preco_ureia);
-
         if (dose_p2o5_cobertura > 0) {
           document.getElementById('fc-sfs-peso').innerHTML = `${formatNum(sfs_peso)} kg/ha<br><span style="font-size:0.68rem; color:#555; font-weight:normal;">${rotuloEtapa} ${formatNum(sfs_plantio)} kg/ha<br>Cobertura: ${formatNum(sfs_cob)} kg/ha</span>`;
           document.getElementById('fc-sft-peso').innerHTML = `${formatNum(sft_peso)} kg/ha<br><span style="font-size:0.68rem; color:#555; font-weight:normal;">${rotuloEtapa} ${formatNum(sft_plantio)} kg/ha<br>Cobertura: ${formatNum(sft_cob)} kg/ha</span>`;
@@ -1097,17 +1295,14 @@
         }
         document.getElementById('fc-sfs-valor').innerText = "R$ " + formatMoeda(sfs_peso * preco_sfs);
         document.getElementById('fc-sft-valor').innerText = "R$ " + formatMoeda(sft_peso * preco_sft);
-
         if (dose_k2o_cobertura > 0) {
           document.getElementById('fc-kcl-peso').innerHTML = `${formatNum(kcl_peso)} kg/ha<br><span style="font-size:0.68rem; color:#555; font-weight:normal;">${rotuloEtapa} ${formatNum(kcl_plantio)} kg/ha<br>Cobertura: ${formatNum(kcl_cob)} kg/ha</span>`;
         } else {
           document.getElementById('fc-kcl-peso').innerText = formatNum(kcl_peso) + " kg/ha";
         }
         document.getElementById('fc-kcl-valor').innerText = "R$ " + formatMoeda(kcl_peso * preco_kcl);
-
         const g1_total = samonio_peso + sft_peso + kcl_peso;
         const g2_total = ureia_peso + sfs_peso + kcl_peso;
-
         if (g1_total > 0) {
           const n_perc = Math.round((dose_n / g1_total) * 100);
           const p_perc = Math.round((dose_p2o5 / g1_total) * 100);
@@ -1120,7 +1315,6 @@
           document.getElementById('g1-qtd').innerText = "0.00 kg/ha";
           document.getElementById('g1-custo').innerText = "R$ 0,00";
         }
-
         if (g2_total > 0) {
           const n_perc = Math.round((dose_n / g2_total) * 100);
           const p_perc = Math.round((dose_p2o5 / g2_total) * 100);
@@ -1143,7 +1337,6 @@
         let htmlG2Formula = "", htmlG2Qtd = "", htmlG2Custo = "";
         let totalG1Custo = 0;
         let totalG2Custo = 0;
-
         listaAnos.forEach(anoNum => {
           const dN = getCulturaDados(tabelaN, selCultura, anoNum);
           const dP = getCulturaDados(tabelaP, selCultura, anoNum);
@@ -1163,7 +1356,6 @@
           const v_kcl = p_kcl * preco_kcl;
           const pref = anoNum === 1 ? "Ano 1" : `Ano ${anoNum} (Cobertura)`;
           const prefCurto = anoNum === 1 ? "Ano 1" : `Ano ${anoNum}`;
-
           if (anoNum === 1) {
             htmlSamonioPeso += `<strong>${pref}:</strong> ${formatNum(p_samonio)} kg/ha<br><span style="font-size:0.68rem; color:#555; font-weight:normal;">${rotuloEtapa} ${formatNum(dn_p/0.20)} kg/ha | Cobertura: ${formatNum(dn_c/0.20)} kg/ha</span>`;
             htmlUreiaPeso += `<strong>${pref}:</strong> ${formatNum(p_ureia)} kg/ha<br><span style="font-size:0.68rem; color:#555; font-weight:normal;">${rotuloEtapa} ${formatNum(dn_p/0.45)} kg/ha | Cobertura: ${formatNum(dn_c/0.45)} kg/ha</span>`;
@@ -1187,14 +1379,12 @@
             htmlSftValor += `<br><strong>${prefCurto}:</strong> R$ ${formatMoeda(v_sft)}`;
             htmlKclValor += `<br><strong>${prefCurto}:</strong> R$ ${formatMoeda(v_kcl)}`;
           }
-
           const g1_tot = p_samonio + p_sft + p_kcl;
           const g2_tot = p_ureia + p_sfs + p_kcl;
           const custoG1Ano = v_samonio + v_sft + v_kcl;
           const custoG2Ano = v_ureia + v_sfs + v_kcl;
           totalG1Custo += custoG1Ano;
           totalG2Custo += custoG2Ano;
-
           if (g1_tot > 0) {
             const n1 = Math.round((dn_tot / g1_tot) * 100);
             const p1 = Math.round((dp_tot / g1_tot) * 100);
@@ -1207,7 +1397,6 @@
             htmlG1Qtd += `${anoNum > 1 ? '<br>' : ''}<strong>${prefCurto}:</strong> 0.00 kg/ha`;
             htmlG1Custo += `${anoNum > 1 ? '<br>' : ''}<strong>${prefCurto}:</strong> R$ 0,00`;
           }
-
           if (g2_tot > 0) {
             const n2 = Math.round((dn_tot / g2_tot) * 100);
             const p2 = Math.round((dp_tot / g2_tot) * 100);
@@ -1221,10 +1410,8 @@
             htmlG2Custo += `${anoNum > 1 ? '<br>' : ''}<strong>${prefCurto}:</strong> R$ 0,00`;
           }
         });
-
         htmlG1Custo += `<br><span style="border-top: 1px solid #ccc; background-color: #e0e0e0; display: inline-block; width: 100%; padding-top: 2px;"><strong>Total:</strong> R$ ${formatMoeda(totalG1Custo)}</span>`;
         htmlG2Custo += `<br><span style="border-top: 1px solid #ccc; background-color: #e0e0e0; display: inline-block; width: 100%; padding-top: 2px;"><strong>Total:</strong> R$ ${formatMoeda(totalG2Custo)}</span>`;
-
         document.getElementById('fc-samonio-peso').innerHTML = htmlSamonioPeso;
         document.getElementById('fc-samonio-valor').innerHTML = htmlSamonioValor;
         document.getElementById('fc-ureia-peso').innerHTML = htmlUreiaPeso;
@@ -1242,14 +1429,12 @@
         document.getElementById('g2-qtd').innerHTML = htmlG2Qtd;
         document.getElementById('g2-custo').innerHTML = htmlG2Custo;
       }
-
       const notaElem = document.getElementById('nota-cobertura');
       if (notaElem) {
         notaElem.innerText = "📌As recomendações desta proposta de correção e adubação do solo foram elaboradas com base em tabelas oficiais e na literatura científica, constituindo uma diretriz que deve evoluir com o monitoramento contínuo do solo e da cultura. A definição precisa das dosagens requer assistência técnica especializada, alinhada ao histórico da área e às metas de produtividade. Para outras informações, consulte os Dizeres Técnicos.";
         notaElem.style.display = 'block';
       }
     }
-
     function compartilharRelatorio() {
       if (navigator.share) {
         navigator.share({
@@ -1260,7 +1445,6 @@
         alert("A função de compartilhamento não é suportada neste navegador.");
       }
     }
-
     const camposPreco = [
       'preco_calcario',
       'preco_samonio',
@@ -1269,7 +1453,6 @@
       'preco_sft',
       'preco_kcl'
     ];
-
     function carregarPrecos() {
       camposPreco.forEach(id => {
         const valorSalvo = localStorage.getItem(id);
@@ -1279,7 +1462,6 @@
         }
       });
     }
-
     function salvarPrecos() {
       camposPreco.forEach(id => {
         const campo = document.getElementById(id);
@@ -1288,12 +1470,10 @@
         }
       });
     }
-
     function salvarEcalcular() {
       salvarPrecos();
       calcular();
     }
-
     function atualizarDataFooter() {
       const elemData = document.getElementById('data-footer');
       if (elemData) {
@@ -1303,6 +1483,202 @@
         const ano = hoje.getFullYear();
         elemData.innerText = `${dia}/${mes}/${ano}`;
       }
+    }
+
+    function parseEscala(escalaStr, isK = false) {
+      if (!escalaStr) return { min: 0, max: isK ? 0.10 : 10 };
+      let str = escalaStr.replace('–', '-').replace(/\s+/g, '').trim();
+      if (str.includes('-')) {
+        let parts = str.split('-');
+        let pMin = parseFloat(parts[0]) || 0;
+        let pMax = parseFloat(parts[1]) || 0;
+        return { min: pMin, max: pMax };
+      } else if (str.startsWith('>')) {
+        let val = parseFloat(str.substring(1)) || 0;
+        return { min: val + 0.001, max: Infinity };
+      } else if (str.startsWith('<')) {
+        let val = parseFloat(str.substring(1)) || 0;
+        return { min: 0, max: val - 0.01 };
+      }
+      return { min: 0, max: isK ? 0.10 : 10 };
+    }
+
+    function adicionarNovaCultura() {
+      const nomeRaw = document.getElementById('ed_cultura_nome').value;
+      if (!nomeRaw || !nomeRaw.trim()) {
+        alert("Por favor, informe o nome da cultura.");
+        return;
+      }
+      const nome = nomeRaw.trim().toUpperCase();
+      const v2Val = parseFloat(document.getElementById('ed_v2_val').value) || 60;
+
+      // Nível Baixo
+      const bAno = parseInt(document.getElementById('ed_b_ano').value) || 1;
+      const bPEscala = document.getElementById('ed_b_pescala').value.trim();
+      const bKEscala = document.getElementById('ed_b_kescala').value.trim();
+      const bP = parseEscala(bPEscala, false);
+      const bK = parseEscala(bKEscala, true);
+      const bData = {
+        ano: bAno, pEscala: bPEscala, kEscala: bKEscala,
+        pMin: bP.min, pMax: bP.max, kMin: bK.min, kMax: bK.max,
+        n: parseFloat(document.getElementById('ed_b_n').value) || 0,
+        nCobertura: parseFloat(document.getElementById('ed_b_ncob').value) || 0,
+        p: parseFloat(document.getElementById('ed_b_p').value) || 0,
+        pCobertura: parseFloat(document.getElementById('ed_b_pcob').value) || 0,
+        k: parseFloat(document.getElementById('ed_b_k').value) || 0,
+        kCobertura: parseFloat(document.getElementById('ed_b_kcob').value) || 0
+      };
+
+      // Nível Médio
+      const mAno = parseInt(document.getElementById('ed_m_ano').value) || 1;
+      const mPEscala = document.getElementById('ed_m_pescala').value.trim();
+      const mKEscala = document.getElementById('ed_m_kescala').value.trim();
+      const mP = parseEscala(mPEscala, false);
+      const mK = parseEscala(mKEscala, true);
+      const mData = {
+        ano: mAno, pEscala: mPEscala, kEscala: mKEscala,
+        pMin: mP.min, pMax: mP.max, kMin: mK.min, kMax: mK.max,
+        n: parseFloat(document.getElementById('ed_m_n').value) || 0,
+        nCobertura: parseFloat(document.getElementById('ed_m_ncob').value) || 0,
+        p: parseFloat(document.getElementById('ed_m_p').value) || 0,
+        pCobertura: parseFloat(document.getElementById('ed_m_pcob').value) || 0,
+        k: parseFloat(document.getElementById('ed_m_k').value) || 0,
+        kCobertura: parseFloat(document.getElementById('ed_m_kcob').value) || 0
+      };
+
+      // Nível Alto
+      const aAno = parseInt(document.getElementById('ed_a_ano').value) || 1;
+      const aPEscala = document.getElementById('ed_a_pescala').value.trim();
+      const aKEscala = document.getElementById('ed_a_kescala').value.trim();
+      const aP = parseEscala(aPEscala, false);
+      const aK = parseEscala(aKEscala, true);
+      const aData = {
+        ano: aAno, pEscala: aPEscala, kEscala: aKEscala,
+        pMin: aP.min, pMax: aP.max, kMin: aK.min, kMax: aK.max,
+        n: parseFloat(document.getElementById('ed_a_n').value) || 0,
+        nCobertura: parseFloat(document.getElementById('ed_a_ncob').value) || 0,
+        p: parseFloat(document.getElementById('ed_a_p').value) || 0,
+        pCobertura: parseFloat(document.getElementById('ed_a_pcob').value) || 0,
+        k: parseFloat(document.getElementById('ed_a_k').value) || 0,
+        kCobertura: parseFloat(document.getElementById('ed_a_kcob').value) || 0
+      };
+
+      // Atualiza objetos em tempo de execução
+      tabelaV2[nome] = v2Val;
+      tabelaNivelBaixo[nome] = [bData];
+      tabelaNivelMedio[nome] = [mData];
+      tabelaNivelAlto[nome] = [aData];
+
+      // Adiciona ao <select id="cultura"> se não existir
+      const selectCultura = document.getElementById('cultura');
+      let existe = Array.from(selectCultura.options).some(opt => opt.value === nome);
+      if (!existe) {
+        const opt = document.createElement('option');
+        opt.value = nome;
+        opt.innerText = nome;
+        selectCultura.appendChild(opt);
+      }
+
+      // Gera o código em texto para cópia / inserção no código-fonte
+      const bMaxStr = bData.pMax === Infinity ? 'Infinity' : bData.pMax;
+      const bKMaxStr = bData.kMax === Infinity ? 'Infinity' : bData.kMax;
+      const mMaxStr = mData.pMax === Infinity ? 'Infinity' : mData.pMax;
+      const mKMaxStr = mData.kMax === Infinity ? 'Infinity' : mData.kMax;
+      const aMaxStr = aData.pMax === Infinity ? 'Infinity' : aData.pMax;
+      const aKMaxStr = aData.kMax === Infinity ? 'Infinity' : aData.kMax;
+
+      const codigo = `// --- Linhas geradas para a cultura: ${nome} ---
+
+// 1. Inserir no <select id="cultura">:
+<option value="${nome}">${nome}</option>
+
+// 2. Inserir em tabelaV2:
+tabelaV2["${nome}"] = ${v2Val};
+
+// 3. Inserir em tabelaNivelBaixo:
+tabelaNivelBaixo["${nome}"] = [
+  { ano: ${bData.ano}, pEscala: "${bData.pEscala}", kEscala: "${bData.kEscala}", pMin: ${bData.pMin}, pMax: ${bMaxStr}, kMin: ${bData.kMin}, kMax: ${bKMaxStr}, n: ${bData.n}, nCobertura: ${bData.nCobertura}, p: ${bData.p}, pCobertura: ${bData.pCobertura}, k: ${bData.k}, kCobertura: ${bData.kCobertura} }
+];
+
+// 4. Inserir em tabelaNivelMedio:
+tabelaNivelMedio["${nome}"] = [
+  { ano: ${mData.ano}, pEscala: "${mData.pEscala}", kEscala: "${mData.kEscala}", pMin: ${mData.pMin}, pMax: ${mMaxStr}, kMin: ${mData.kMin}, kMax: ${mKMaxStr}, n: ${mData.n}, nCobertura: ${mData.nCobertura}, p: ${mData.p}, pCobertura: ${mData.pCobertura}, k: ${mData.k}, kCobertura: ${mData.kCobertura} }
+];
+
+// 5. Inserir em tabelaNivelAlto:
+tabelaNivelAlto["${nome}"] = [
+  { ano: ${aData.ano}, pEscala: "${aData.pEscala}", kEscala: "${aData.kEscala}", pMin: ${aData.pMin}, pMax: ${aMaxStr}, kMin: ${aData.kMin}, kMax: ${aKMaxStr}, n: ${aData.n}, nCobertura: ${aData.nCobertura}, p: ${aData.p}, pCobertura: ${aData.pCobertura}, k: ${aData.k}, kCobertura: ${aData.kCobertura} }
+];`;
+
+      document.getElementById('ed_codigo_gerado').value = codigo;
+      alert(`Cultura "${nome}" adicionada com sucesso ao sistema e linhas de código geradas!`);
+    }
+
+    function exportarDados() {
+      const dados = {
+        tabelaV2: tabelaV2,
+        tabelaNivelBaixo: tabelaNivelBaixo,
+        tabelaNivelMedio: tabelaNivelMedio,
+        tabelaNivelAlto: tabelaNivelAlto,
+        precos: {
+          preco_calcario: parseVal('preco_calcario'),
+          preco_samonio: parseVal('preco_samonio'),
+          preco_ureia: parseVal('preco_ureia'),
+          preco_sfs: parseVal('preco_sfs'),
+          preco_sft: parseVal('preco_sft'),
+          preco_kcl: parseVal('preco_kcl')
+        }
+      };
+      const blob = new Blob([JSON.stringify(dados, null, 2)], { type: 'application/json' });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = 'dados_fertamapa.json';
+      a.click();
+    }
+
+    function importarDados() {
+      document.getElementById('file_import_json').click();
+    }
+
+    function processarArquivoImportacao(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        try {
+          const dados = JSON.parse(e.target.result);
+          if (dados.tabelaV2) Object.assign(tabelaV2, dados.tabelaV2);
+          if (dados.tabelaNivelBaixo) Object.assign(tabelaNivelBaixo, dados.tabelaNivelBaixo);
+          if (dados.tabelaNivelMedio) Object.assign(tabelaNivelMedio, dados.tabelaNivelMedio);
+          if (dados.tabelaNivelAlto) Object.assign(tabelaNivelAlto, dados.tabelaNivelAlto);
+
+          // Atualiza o select de culturas
+          const selectCultura = document.getElementById('cultura');
+          Object.keys(tabelaV2).forEach(cult => {
+            let existe = Array.from(selectCultura.options).some(opt => opt.value === cult);
+            if (!existe) {
+              const opt = document.createElement('option');
+              opt.value = cult;
+              opt.innerText = cult;
+              selectCultura.appendChild(opt);
+            }
+          });
+
+          if (dados.precos) {
+            Object.keys(dados.precos).forEach(key => {
+              const el = document.getElementById(key);
+              if (el) el.value = dados.precos[key];
+            });
+            salvarPrecos();
+          }
+
+          alert("Dados importados com sucesso!");
+          calcular();
+        } catch (err) {
+          alert("Erro ao ler o arquivo JSON de importação: " + err.message);
+        }
+      };
+      reader.readAsText(file);
     }
 
     window.onload = function() {
