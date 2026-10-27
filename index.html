@@ -502,7 +502,7 @@
         
         <div class="form-grid">
           <div class="side-bar-container">
-            <div class="side-bar-label">CALAGEM</div>
+            <div class="side-bar-label">RESULTADOS DA ANÁLISE</div>
             <div class="side-bar-content">
               <div class="sub-group-title">Método Elevação da Saturação por Bases</div>
               <div class="form-group-row">
@@ -541,22 +541,6 @@
                   <input type="number" id="prnt" value="83.0" step="0.1" oninput="calcular()">
                 </div>
               </div>
-              <div class="sub-group-title">Resultados da Calagem por Método Comercial (kg/ha)</div>
-              <div class="form-group-row">
-                <div class="form-group">
-                  <label for="nc_sat_bases_kgha">Saturação por Bases:</label>
-                  <input type="text" id="nc_sat_bases_kgha" value="0.00 kg/ha" readonly>
-                </div>
-                <div class="form-group">
-                  <label for="nc_al_camg_kgha">Neutralização Al + Ca/Mg:</label>
-                  <input type="text" id="nc_al_camg_kgha" value="0.00 kg/ha" readonly>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="side-bar-container">
-            <div class="side-bar-label">FONTES MINERAIS</div>
-            <div class="side-bar-content">
               <div class="sub-group-title">Fertilidade do Solo</div>
               <div class="form-group-row">
                 <div class="form-group">
@@ -570,21 +554,6 @@
                 <div class="form-group">
                   <label for="soloK">K (cmol_c/dm³):</label>
                   <input type="number" id="soloK" value="0.39" step="0.01" oninput="calcular()">
-                </div>
-              </div>
-              <div class="sub-group-title">Recomendação Teórica para a Cultura</div>
-              <div class="form-group-row">
-                <div class="form-group">
-                  <label for="dose_n">N (kg/ha):</label>
-                  <input type="number" id="dose_n" value="120" step="1" readonly>
-                </div>
-                <div class="form-group">
-                  <label for="dose_p2o5">P₂O₅ (kg/ha):</label>
-                  <input type="number" id="dose_p2o5" value="80" step="1" readonly>
-                </div>
-                <div class="form-group">
-                  <label for="dose_k2o">K₂O (kg/ha):</label>
-                  <input type="number" id="dose_k2o" value="320" step="1" readonly>
                 </div>
               </div>
             </div>
@@ -620,6 +589,16 @@
               <tr style="display: none;">
                 <td>Saturação de Bases Recomendada (V2 %)</td>
                 <td id="res-v2">60%</td>
+                <td>-</td>
+              </tr>
+              <tr>
+                <td>Saturação por Bases:</td>
+                <td id="res-nc-sat">0.00 kg/ha</td>
+                <td>-</td>
+              </tr>
+              <tr>
+                <td>Neutralização Al + Ca/Mg:</td>
+                <td id="res-nc-neut">0.00 kg/ha</td>
                 <td>-</td>
               </tr>
               <tr>
@@ -670,6 +649,31 @@
                 <td>Cloreto de Potássio (KCl)</td>
                 <td id="fc-kcl-peso">0.00 kg/ha</td>
                 <td id="fc-kcl-valor">R$ 0,00</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <h3 style="margin-top: 20px; color: var(--primary-color);">Recomendação Teórica para a Cultura (plantio)</h3>
+        <div class="table-container">
+          <table class="table-compact">
+            <thead>
+              <tr>
+                <th>Nutrientes</th>
+                <th>Dose Recomendada (kg/ha)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>N (kg/ha)</td>
+                <td id="dose_n">0 kg/ha</td>
+              </tr>
+              <tr>
+                <td>P₂O₅ (kg/ha)</td>
+                <td id="dose_p2o5">0 kg/ha</td>
+              </tr>
+              <tr>
+                <td>K₂O (kg/ha)</td>
+                <td id="dose_k2o">0 kg/ha</td>
               </tr>
             </tbody>
           </table>
@@ -765,10 +769,10 @@
           <p>📌 <strong>Aplicação de fósforo:</strong> Fertilizantes fosfatados devem ser aplicados em dose única por ocasião do plantio/semeadura.</p>
           <p>📌 <strong>Parcelamento:</strong> Fertilizantes nitrogenados e potássicos devem ser parcelados durante o ano, conforme recomendação técnica específica da cultura.</p>
           <p>📌 <strong>Fator de incorporação do calcário:</strong> Para a aplicação superficial ou incorporada até 20 cm de profundidade — método observado nestes cálculos —, utiliza-se o valor 1,0. Nos casos em que a incorporação for feita de 20 a 30 cm, o valor deve ser multiplicado por 1,5.</p>
-          <p>📌 <strong>Bibliografia de apoio:</strong></p>
+          <p>📌 <strong>Publicações sugeridas:</strong></p>
           <div style="padding-left: 24px; font-size: 0.75rem; word-break: break-all; margin-bottom: 6px;">
             <p style="margin-bottom: 15px;"><a href="https://www.embrapa.br/busca-de-publicacoes/-/publicacao/1125022/recomendacoes-de-calagem-e-adubacao-para-o-estado-do-para" target="_blank" rel="noopener noreferrer" style="color: var(--primary-color); text-decoration: underline;">https://www.embrapa.br/busca-de-publicacoes/-/publicacao/1125022/recomendacoes-de-calagem-e-adubacao-para-o-estado-do-para</a></p>
-            <p style="margin-bottom: 15;"><a href="https://www.embrapa.br/busca-de-publicacoes/-/publicacao/1177228/melhores-espacamentos-e-numero-de-estipes-para-o-cultivo-do-acaizeiro-no-cerrado-do-amapa" target="_blank" rel="noopener noreferrer" style="color: var(--primary-color); text-decoration: underline;">https://www.embrapa.br/busca-de-publicacoes/-/publicacao/1177228/melhores-espacamentos-e-numero-de-estipes-para-o-cultivo-do-acaizeiro-no-cerrado-do-amapa</a></p>
+            <p style="margin-bottom: 15px;"><a href="https://www.embrapa.br/busca-de-publicacoes/-/publicacao/1177228/melhores-espacamentos-e-numero-de-estipes-para-o-cultivo-do-acaizeiro-no-cerrado-do-amapa" target="_blank" rel="noopener noreferrer" style="color: var(--primary-color); text-decoration: underline;">https://www.embrapa.br/busca-de-publicacoes/-/publicacao/1177228/melhores-espacamentos-e-numero-de-estipes-para-o-cultivo-do-acaizeiro-no-cerrado-do-amapa</a></p>
             <p style="margin-bottom: 0;"><a href="https://www.gov.br/agricultura/pt-br/assuntos/insumos-agropecuarios/insumos-agricolas/fertilizantes/legislacao/in-39-2018-fert-minerais-versao-publicada-dou-10-8-18.pdf" target="_blank" rel="noopener noreferrer" style="color: var(--primary-color); text-decoration: underline;">https://www.gov.br/agricultura/pt-br/assuntos/insumos-agropecuarios/insumos-agricolas/fertilizantes/legislacao/in-39-2018-fert-minerais-versao-publicada-dou-10-8-18.pdf</a></p>
           </div>
         </div>
@@ -1173,10 +1177,16 @@
       const nc_neut_100_kgha = nc_neut_100_tha * 1000;
       const nc_neut_comercial_kgha = nc_neut_100_kgha * (100 / prnt);
       
-      const elemSat = document.getElementById('nc_sat_bases_kgha');
-      if (elemSat) elemSat.value = formatNum(nc_sat_comercial_kgha) + " kg/ha";
-      const elemNeut = document.getElementById('nc_al_camg_kgha');
-      if (elemNeut) elemNeut.value = formatNum(nc_neut_comercial_kgha) + " kg/ha";
+      const elemSat = document.getElementById('res-nc-sat') || document.getElementById('nc_sat_bases_kgha');
+      if (elemSat) {
+        if ('value' in elemSat && elemSat.tagName === 'INPUT') elemSat.value = formatNum(nc_sat_comercial_kgha) + " kg/ha";
+        else elemSat.innerText = formatNum(nc_sat_comercial_kgha) + " kg/ha";
+      }
+      const elemNeut = document.getElementById('res-nc-neut') || document.getElementById('nc_al_camg_kgha');
+      if (elemNeut) {
+        if ('value' in elemNeut && elemNeut.tagName === 'INPUT') elemNeut.value = formatNum(nc_neut_comercial_kgha) + " kg/ha";
+        else elemNeut.innerText = formatNum(nc_neut_comercial_kgha) + " kg/ha";
+      }
       
       const nc_final_100_kgha = Math.max(nc_sat_100_kgha, nc_neut_100_kgha);
       const nc_final_comercial_kgha = Math.max(nc_sat_comercial_kgha, nc_neut_comercial_kgha);
@@ -1236,11 +1246,20 @@
       const dose_k2o = dose_k2o_plantio + dose_k2o_cobertura;
       
       const elemDoseN = document.getElementById('dose_n');
-      if (elemDoseN) elemDoseN.value = dose_n;
+      if (elemDoseN) {
+        if ('value' in elemDoseN && elemDoseN.tagName === 'INPUT') elemDoseN.value = dose_n;
+        else elemDoseN.innerText = dose_n + " kg/ha";
+      }
       const elemDoseP = document.getElementById('dose_p2o5');
-      if (elemDoseP) elemDoseP.value = dose_p2o5;
+      if (elemDoseP) {
+        if ('value' in elemDoseP && elemDoseP.tagName === 'INPUT') elemDoseP.value = dose_p2o5;
+        else elemDoseP.innerText = dose_p2o5 + " kg/ha";
+      }
       const elemDoseK = document.getElementById('dose_k2o');
-      if (elemDoseK) elemDoseK.value = dose_k2o;
+      if (elemDoseK) {
+        if ('value' in elemDoseK && elemDoseK.tagName === 'INPUT') elemDoseK.value = dose_k2o;
+        else elemDoseK.innerText = dose_k2o + " kg/ha";
+      }
       
       const listaAnos = getListaAnos(tabelaN, selCultura);
       const culturasSemeio = ["FEIJÃO-CAUPI", "MELANCIA", "MILHO", "SOJA"];
