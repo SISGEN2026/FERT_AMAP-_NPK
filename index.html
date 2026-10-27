@@ -289,7 +289,7 @@
       font-size: 0.8rem;
       color: #444;
     }
-    input, select {
+    input, select, textarea {
       padding: 7px 9px;
       border: 1px solid var(--border-color);
       border-radius: 6px;
@@ -305,7 +305,7 @@
       cursor: not-allowed;
       border-color: #ced4da;
     }
-    input:focus:not([readonly]), select:focus {
+    input:focus:not([readonly]), select:focus, textarea:focus {
       border-color: var(--primary-color);
     }
     .table-container {
@@ -414,10 +414,11 @@
         padding: 0 !important; 
         border-radius: 0 !important; 
       }
-      input, select { 
+      input, select, textarea { 
         border: none !important; 
         background: transparent !important; 
         padding: 0 !important; 
+        resize: none !important;
       }
       .side-bar-container { border: 1px solid #ccc !important; }
       .table-container { border: none !important; }
@@ -700,6 +701,10 @@
             </tbody>
           </table>
           <div id="nota-cobertura" style="padding: 8px 10px; font-size: 0.78rem; color: #003b70; font-weight: 600; background-color: var(--light-blue-bg); border-top: 1px solid var(--border-color); display: none;"></div>
+        </div>
+        <h3 style="margin-top: 20px; color: var(--primary-color);">Observações Técnicas Complementares</h3>
+        <div class="form-group" style="margin-top: 10px;">
+          <textarea id="obs_tecnicas" maxlength="1000" rows="4" placeholder="Digite aqui as observações técnicas complementares (até 1.000 caracteres)..." style="width: 100%; padding: 8px 10px; border: 1px solid var(--border-color); border-radius: 6px; font-size: 0.85rem; font-family: inherit; outline: none; resize: vertical; background-color: #fff;"></textarea>
         </div>
       </section>
       <!-- ABA INSUMOS -->
@@ -1422,11 +1427,7 @@
         notaElem.innerText = "📌As recomendações desta proposta foram elaboradas com base em tabelas oficiais e na literatura científica, constituindo uma diretriz que deve evoluir com o monitoramento contínuo do solo e da cultura. A definição precisa das dosagens requer assistência técnica especializada, alinhada ao histórico da área e às metas de produtividade. Para outras informações, consulte os Dizeres Técnicos.";
         notaElem.style.display = 'block';
       }
-            const notaElem = document.getElementById('nota-cobertura');
-      if (notaElem) {
-        notaElem.innerText = "📌Fertilizantes nitrogenados e potássicos devem ser parcelados durante o ano, conforme recomendação técnica específica da cultura.";
-        notaElem.style.display = 'block';
-      }
+    }
     function compartilharRelatorio() {
       if (navigator.share) {
         navigator.share({
