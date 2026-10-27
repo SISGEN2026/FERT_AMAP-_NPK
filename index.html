@@ -614,6 +614,25 @@
             </tbody>
           </table>
         </div>
+        <h3 style="margin-top: 20px; color: var(--primary-color);">Recomendação Teórica para a Cultura no Plantio</h3>
+        <div class="table-container">
+          <table class="table-compact">
+            <thead>
+              <tr>
+                <th style="text-align: center;">N (kg/ha)</th>
+                <th style="text-align: center;">P₂O₅ (kg/ha)</th>
+                <th style="text-align: center;">K₂O (kg/ha)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td id="dose_n" style="text-align: center;">0</td>
+                <td id="dose_p2o5" style="text-align: center;">0</td>
+                <td id="dose_k2o" style="text-align: center;">0</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
         <h3 style="margin-top: 20px; color: var(--primary-color);">Fertilizantes Calculados Individualmente</h3>
         <div class="table-container">
           <table class="table-compact">
@@ -649,31 +668,6 @@
                 <td>Cloreto de Potássio (KCl)</td>
                 <td id="fc-kcl-peso">0.00 kg/ha</td>
                 <td id="fc-kcl-valor">R$ 0,00</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-        <h3 style="margin-top: 20px; color: var(--primary-color);">Recomendação Teórica para a Cultura no Plantio</h3>
-        <div class="table-container">
-          <table class="table-compact">
-            <thead>
-              <tr>
-                <th>Nutrientes</th>
-                <th>Dose Recomendada (kg/ha)</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>N</td>
-                <td id="dose_n">0</td>
-              </tr>
-              <tr>
-                <td>P₂O₅</td>
-                <td id="dose_p2o5">0</td>
-              </tr>
-              <tr>
-                <td>K₂O</td>
-                <td id="dose_k2o">0</td>
               </tr>
             </tbody>
           </table>
@@ -1248,17 +1242,17 @@
       const elemDoseN = document.getElementById('dose_n');
       if (elemDoseN) {
         if ('value' in elemDoseN && elemDoseN.tagName === 'INPUT') elemDoseN.value = dose_n;
-        else elemDoseN.innerText = dose_n + " kg/ha";
+        else elemDoseN.innerText = dose_n;
       }
       const elemDoseP = document.getElementById('dose_p2o5');
       if (elemDoseP) {
         if ('value' in elemDoseP && elemDoseP.tagName === 'INPUT') elemDoseP.value = dose_p2o5;
-        else elemDoseP.innerText = dose_p2o5 + " kg/ha";
+        else elemDoseP.innerText = dose_p2o5;
       }
       const elemDoseK = document.getElementById('dose_k2o');
       if (elemDoseK) {
         if ('value' in elemDoseK && elemDoseK.tagName === 'INPUT') elemDoseK.value = dose_k2o;
-        else elemDoseK.innerText = dose_k2o + " kg/ha";
+        else elemDoseK.innerText = dose_k2o;
       }
       
       const listaAnos = getListaAnos(tabelaN, selCultura);
