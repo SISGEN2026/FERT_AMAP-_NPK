@@ -596,20 +596,20 @@
               <tr>
                 <td>Saturação por Bases</td>
                 <td id="res-nc-sat">0.00 kg/ha</td>
-                <td>-</td>
+                <td id="res-custo-sat">R$ 0,00</td>
               </tr>
-              <tr>
+              <tr style="display: none;">
                 <td>Neutralização Al + Ca/Mg</td>
                 <td id="res-nc-neut">0.00 kg/ha</td>
                 <td>-</td>
               </tr>
-              <tr>
+              <tr style="display: none;">
                 <td>Necessidade de Calcário (PRNT 100%)</td>
                 <td id="res-nc100">0.00 kg/ha</td>
                 <td>-</td>
               </tr>
               <tr>
-                <td>Calcário Comercial Requerido [Maior valor entre métodos]</td>
+                <td id="label-ncprnt">Calcário Comercial Requerido [Maior valor: Saturação por Bases]</td>
                 <td id="res-ncprnt">0.00 kg/ha</td>
                 <td id="res-custo-calcario">R$ 0,00</td>
               </tr>
@@ -970,7 +970,7 @@
       switchTab('ANALISE');
     }
     const tabelaV2 = {
-      "ABACAXI": 60,
+      "ABACAXI": 50,
       "AÇAÍ": 60,
       "BANANA": 60,
       "CACAU": 60,
@@ -1189,6 +1189,7 @@
       
       const preco_calcario = parseVal('preco_calcario', 0);
       const custo_calcario = nc_final_comercial_kgha * preco_calcario;
+      const custo_sat = nc_sat_comercial_kgha * preco_calcario;
       
       // Atualização da Tabela de Calagem
       const elemV2 = document.getElementById('res-v2');
@@ -1199,6 +1200,17 @@
       if (elemNcPrnt) elemNcPrnt.innerText = formatNum(nc_final_comercial_kgha) + " kg/ha";
       const elemCustoCalc = document.getElementById('res-custo-calcario');
       if (elemCustoCalc) elemCustoCalc.innerText = "R$ " + formatMoeda(custo_calcario);
+      const elemCustoSat = document.getElementById('res-custo-sat');
+      if (elemCustoSat) elemCustoSat.innerText = "R$ " + formatMoeda(custo_sat);
+      
+      const elemLabelNcprnt = document.getElementById('label-ncprnt');
+      if (elemLabelNcprnt) {
+        if (nc_sat_comercial_kgha >= nc_neut_comercial_kgha) {
+          elemLabelNcprnt.innerText = 'Calcário Comercial Requerido [Maior valor: Saturação por Bases]';
+        } else {
+          elemLabelNcprnt.innerText = 'Calcário Comercial Requerido [Maior valor: Neutralização Al + Ca/Mg]';
+        }
+      }
       
       // Análise de Solo e Recomendação
       const selCultura = document.getElementById('cultura').value;
