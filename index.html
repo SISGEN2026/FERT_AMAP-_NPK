@@ -239,8 +239,8 @@
     }
     .form-group-row {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
-      gap: 10px;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 8px;
     }
     .sub-group-title {
       font-size: 0.82rem;
@@ -286,14 +286,14 @@
     }
     label {
       font-weight: 600;
-      font-size: 0.8rem;
+      font-size: 0.75rem;
       color: #444;
     }
     input, select, textarea {
-      padding: 7px 9px;
+      padding: 5px 7px;
       border: 1px solid var(--border-color);
       border-radius: 6px;
-      font-size: 0.88rem;
+      font-size: 0.85rem;
       outline: none;
       width: 100%;
       background-color: #fff;
@@ -523,9 +523,6 @@
                   <label for="v1">V (%):</label>
                   <input type="number" id="v1" value="6.0" step="0.1" oninput="calcular()">
                 </div>
-              </div>
-              <div class="sub-group-title" hidden>Método Neutralização do Al e Elevação de Ca+Mg</div>
-              <div class="form-group-row">
                 <div class="form-group">
                   <label for="solo_al">Al³⁺ (cmol_c/dm³):</label>
                   <input type="number" id="solo_al" value="0.8" step="0.1" oninput="calcular()">
