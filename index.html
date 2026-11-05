@@ -321,6 +321,7 @@
       -webkit-overflow-scrolling: touch;
       border-radius: 6px;
       border: 1px solid var(--border-color);
+      width: 100%;
     }
     table {
       width: 100%;
@@ -332,7 +333,8 @@
       padding: 6px 8px;
       font-size: 0.8rem;
       text-align: left;
-      word-break: break-word;
+      overflow-wrap: break-word;
+      word-break: normal;
       vertical-align: top;
     }
     th {
@@ -345,8 +347,25 @@
     }
     .table-compact th,
     .table-compact td {
-      padding: 5px 6px;
-      font-size: 0.76rem;
+      padding: 6px 6px;
+      font-size: 0.78rem;
+    }
+    /* Estilos específicos para garantir o alinhamento perfeito do Relatório em telas pequenas */
+    .col-nowrap {
+      white-space: nowrap !important;
+    }
+    .text-center {
+      text-align: center !important;
+    }
+    @media (max-width: 520px) {
+      .table-compact th,
+      .table-compact td {
+        padding: 6px 5px;
+        font-size: 0.75rem;
+      }
+      #tab-RELATORIO .table-container table {
+        min-width: 440px;
+      }
     }
     #tab-INSUMOS table th:nth-child(3),
     #tab-INSUMOS table td:nth-child(3) {
@@ -586,36 +605,36 @@
           <table class="table-compact">
             <thead>
               <tr>
-                <th>Parâmetro</th>
-                <th>Valor Calculado</th>
-                <th>Custo Estimado (R$)</th>
+                <th style="width: 50%;">Parâmetro</th>
+                <th class="col-nowrap text-center" style="width: 25%;">Valor Calculado</th>
+                <th class="col-nowrap text-center" style="width: 25%;">Custo Estimado (R$)</th>
               </tr>
             </thead>
             <tbody>
               <tr style="display: none;">
                 <td>Saturação de Bases Recomendada (V2 %)</td>
-                <td id="res-v2">60%</td>
-                <td>-</td>
+                <td id="res-v2" class="col-nowrap text-center">60%</td>
+                <td class="col-nowrap text-center">-</td>
               </tr>
               <tr>
                 <td>Saturação por Bases</td>
-                <td id="res-nc-sat">0.00 kg/ha</td>
-                <td id="res-custo-sat">R$ 0,00</td>
+                <td id="res-nc-sat" class="col-nowrap text-center">0.00 kg/ha</td>
+                <td id="res-custo-sat" class="col-nowrap text-center">R$ 0,00</td>
               </tr>
               <tr style="display: none;">
                 <td>Neutralização Al + Ca/Mg</td>
-                <td id="res-nc-neut">0.00 kg/ha</td>
-                <td>-</td>
+                <td id="res-nc-neut" class="col-nowrap text-center">0.00 kg/ha</td>
+                <td class="col-nowrap text-center">-</td>
               </tr>
               <tr style="display: none;">
                 <td>Necessidade de Calcário (PRNT 100%)</td>
-                <td id="res-nc100">0.00 kg/ha</td>
-                <td>-</td>
+                <td id="res-nc100" class="col-nowrap text-center">0.00 kg/ha</td>
+                <td class="col-nowrap text-center">-</td>
               </tr>
               <tr>
                 <td id="label-ncprnt">Calcário Requerido [Maior valor: Saturação por Bases]</td>
-                <td id="res-ncprnt">0.00 kg/ha</td>
-                <td id="res-custo-calcario">R$ 0,00</td>
+                <td id="res-ncprnt" class="col-nowrap text-center">0.00 kg/ha</td>
+                <td id="res-custo-calcario" class="col-nowrap text-center">R$ 0,00</td>
               </tr>
             </tbody>
           </table>
@@ -644,36 +663,36 @@
           <table class="table-compact">
             <thead>
               <tr>
-                <th>Fertilizante Comercial</th>
-                <th>Quantidade (kg/ha)</th>
-                <th>Valor (R$)</th>
+                <th style="width: 45%;">Fertilizante Comercial</th>
+                <th class="col-nowrap text-center" style="width: 33%;">Quantidade (kg/ha)</th>
+                <th class="col-nowrap text-center" style="width: 22%;">Valor (R$)</th>
               </tr>
             </thead>
             <tbody>
               <tr>
                 <td>Sulfato de Amônio</td>
-                <td id="fc-samonio-peso">0.00 kg/ha</td>
-                <td id="fc-samonio-valor">R$ 0,00</td>
+                <td id="fc-samonio-peso" class="col-nowrap text-center">0.00 kg/ha</td>
+                <td id="fc-samonio-valor" class="col-nowrap text-center">R$ 0,00</td>
               </tr>
               <tr>
                 <td>Ureia</td>
-                <td id="fc-ureia-peso">0.00 kg/ha</td>
-                <td id="fc-ureia-valor">R$ 0,00</td>
+                <td id="fc-ureia-peso" class="col-nowrap text-center">0.00 kg/ha</td>
+                <td id="fc-ureia-valor" class="col-nowrap text-center">R$ 0,00</td>
               </tr>
               <tr>
                 <td>Superfosfato Simples (SFS)</td>
-                <td id="fc-sfs-peso">0.00 kg/ha</td>
-                <td id="fc-sfs-valor">R$ 0,00</td>
+                <td id="fc-sfs-peso" class="col-nowrap text-center">0.00 kg/ha</td>
+                <td id="fc-sfs-valor" class="col-nowrap text-center">R$ 0,00</td>
               </tr>
               <tr>
                 <td>Superfosfato Triplo (SFT)</td>
-                <td id="fc-sft-peso">0.00 kg/ha</td>
-                <td id="fc-sft-valor">R$ 0,00</td>
+                <td id="fc-sft-peso" class="col-nowrap text-center">0.00 kg/ha</td>
+                <td id="fc-sft-valor" class="col-nowrap text-center">R$ 0,00</td>
               </tr>
               <tr>
                 <td>Cloreto de Potássio (KCl)</td>
-                <td id="fc-kcl-peso">0.00 kg/ha</td>
-                <td id="fc-kcl-valor">R$ 0,00</td>
+                <td id="fc-kcl-peso" class="col-nowrap text-center">0.00 kg/ha</td>
+                <td id="fc-kcl-valor" class="col-nowrap text-center">R$ 0,00</td>
               </tr>
             </tbody>
           </table>
@@ -683,24 +702,24 @@
           <table class="table-compact">
             <thead>
               <tr>
-                <th>Grupo / Fontes Utilizadas</th>
-                <th>Formulação N-P-K</th>
-                <th>Qtd (kg/ha)</th>
-                <th>Custo Total (R$)</th>
+                <th style="width: 40%;">Grupo / Fontes Utilizadas</th>
+                <th class="col-nowrap text-center" style="width: 20%;">Formulação N-P-K</th>
+                <th class="col-nowrap text-center" style="width: 20%;">Qtd (kg/ha)</th>
+                <th class="col-nowrap text-center" style="width: 20%;">Custo Total (R$)</th>
               </tr>
             </thead>
             <tbody>
               <tr>
                 <td><strong>Grupo 1:</strong> Sulfato de Amônio + SFT + KCl</td>
-                <td id="g1-formula" style="text-align: center;">0 - 0 - 0</td>
-                <td id="g1-qtd">0.00 kg/ha</td>
-                <td id="g1-custo">R$ 0,00</td>
+                <td id="g1-formula" class="col-nowrap text-center">0 - 0 - 0</td>
+                <td id="g1-qtd" class="col-nowrap text-center">0.00 kg/ha</td>
+                <td id="g1-custo" class="col-nowrap text-center">R$ 0,00</td>
               </tr>
               <tr>
                 <td><strong>Grupo 2:</strong> Ureia + SFS + KCl</td>
-                <td id="g2-formula" style="text-align: center;">0 - 0 - 0</td>
-                <td id="g2-qtd">0.00 kg/ha</td>
-                <td id="g2-custo">R$ 0,00</td>
+                <td id="g2-formula" class="col-nowrap text-center">0 - 0 - 0</td>
+                <td id="g2-qtd" class="col-nowrap text-center">0.00 kg/ha</td>
+                <td id="g2-custo" class="col-nowrap text-center">R$ 0,00</td>
               </tr>
             </tbody>
           </table>
