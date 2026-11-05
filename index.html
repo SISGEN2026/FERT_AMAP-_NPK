@@ -701,7 +701,6 @@
           </table>
         </div>
         <h3 style="margin-top: 20px; color: var(--primary-color);">Formulação e Adubação Agrupada</h3>
-        <div id="nota-cobertura" style="padding: 8px 10px; font-size: 0.78rem; color: #003b70; font-weight: 600; background-color: var(--light-blue-bg); border: 1px solid var(--border-color); border-radius: 6px; margin-top: 10px; margin-bottom: 10px; display: none;"></div>
         <div class="table-container">
           <table class="table-compact">
             <thead>
@@ -728,11 +727,7 @@
             </tbody>
           </table>
         </div>
-      const notaElem = document.getElementById('nota-cobertura');
-      if (notaElem) {
-        notaElem.innerText = "📌As recomendações desta proposta foram elaboradas com base em tabelas oficiais e na literatura científica, constituindo uma diretriz que deve evoluir com o monitoramento contínuo do solo e da cultura. A definição precisa das dosagens requer assistência técnica especializada, alinhada ao histórico da área e às metas de produtividade. Para outras informações, consulte os Dizeres Técnicos.";
-        notaElem.style.display = 'block';
-      }
+        <div id="nota-cobertura" style="padding: 8px 10px; font-size: 0.78rem; color: #003b70; font-weight: 600; background-color: var(--light-blue-bg); border: 1px solid var(--border-color); border-radius: 6px; margin-top: 12px; display: none;"></div>
         <h3 style="margin-top: 20px; color: var(--primary-color);">Observações Técnicas Complementares</h3>
         <div class="form-group" style="margin-top: 10px;">
           <textarea id="obs_tecnicas" maxlength="350" rows="4" placeholder="Inserir recomendações adicionais (até 300 caracteres)." style="width: 100%; padding: 8px 10px; border: 1px solid var(--border-color); border-radius: 6px; font-size: 0.85rem; font-family: inherit; outline: none; resize: vertical; background-color: #fff;"></textarea>
@@ -1481,7 +1476,11 @@
         document.getElementById('g2-qtd').innerHTML = htmlG2Qtd;
         document.getElementById('g2-custo').innerHTML = htmlG2Custo;
       }
-
+      const notaElem = document.getElementById('nota-cobertura');
+      if (notaElem) {
+        notaElem.innerText = "📌As recomendações desta proposta foram elaboradas com base em tabelas oficiais e na literatura científica, constituindo uma diretriz que deve evoluir com o monitoramento contínuo do solo e da cultura. A definição precisa das dosagens requer assistência técnica especializada, alinhada ao histórico da área e às metas de produtividade. Para outras informações, consulte os Dizeres Técnicos.";
+        notaElem.style.display = 'block';
+      }
     }
     function compartilharRelatorio() {
       if (navigator.share) {
