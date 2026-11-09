@@ -350,7 +350,6 @@
       padding: 6px 6px;
       font-size: 0.78rem;
     }
-    /* Estilos específicos para garantir o alinhamento perfeito do Relatório em telas pequenas */
     .col-nowrap {
       white-space: nowrap !important;
     }
@@ -545,16 +544,12 @@
                   <input type="text" id="v2_input" value="60%" readonly>
                 </div>
                 <div class="form-group">
-                  <label for="ctc">CTC (pH 7,0):</label>
-                  <input type="number" id="ctc" value="2.1" step="0.1" oninput="calcular()">
+                  <label for="soloP">P (mg/dm³):</label>
+                  <input type="number" id="soloP" value="5.4" step="0.1" oninput="calcular()">
                 </div>
                 <div class="form-group">
-                  <label for="v1">V (%):</label>
-                  <input type="number" id="v1" value="6.0" step="0.1" oninput="calcular()">
-                </div>
-                <div class="form-group">
-                  <label for="solo_al">Al³⁺ (cmol_c/dm³):</label>
-                  <input type="number" id="solo_al" value="0.8" step="0.1" oninput="calcular()">
+                  <label for="soloK">K (cmol_c/dm³):</label>
+                  <input type="number" id="soloK" value="0.39" step="0.01" oninput="calcular()">
                 </div>
                 <div class="form-group">
                   <label for="solo_ca">Ca (cmol_c/dm³):</label>
@@ -565,12 +560,16 @@
                   <input type="number" id="solo_mg" value="0.6" step="0.1" oninput="calcular()">
                 </div>
                 <div class="form-group">
-                  <label for="soloP">P (mg/dm³):</label>
-                  <input type="number" id="soloP" value="5.4" step="0.1" oninput="calcular()">
+                  <label for="solo_al">Al³⁺ (cmol_c/dm³):</label>
+                  <input type="number" id="solo_al" value="0.8" step="0.1" oninput="calcular()">
                 </div>
                 <div class="form-group">
-                  <label for="soloK">K (cmol_c/dm³):</label>
-                  <input type="number" id="soloK" value="0.39" step="0.01" oninput="calcular()">
+                  <label for="ctc">CTC (pH 7,0):</label>
+                  <input type="number" id="ctc" value="2.1" step="0.1" oninput="calcular()">
+                </div>
+                <div class="form-group">
+                  <label for="v1">V (%):</label>
+                  <input type="number" id="v1" value="6.0" step="0.1" oninput="calcular()">
                 </div>
                 <div class="form-group" style="display: none;">
                   <label for="soloN">N:</label>
