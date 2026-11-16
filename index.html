@@ -460,7 +460,7 @@
     <div class="hero-bg"></div>
     <div class="hero-content">
       <h1 class="hero-title">FertAmapá</h1>
-      <p class="hero-subtitle">Sistema de Cálculos para Calagem e Adubação Mineral de NPK nas Condições do Amapá e Região (Plantio/Semeio)</p>
+      <p class="hero-subtitle">Sistema de Cálculos para Calagem e Adubação Mineral de NPK nas Condições do Amapá e Região</p>
       <div class="hero-buttons">
         <button type="button" class="btn-square" id="btn-start-analise" onclick="openModule('ANALISE')">
           <svg viewBox="0 0 24 24"><path d="M19,3H5C3.9,3 3,3.9 3,5V19C3,20.1 3.9,21 5,21H19C20.1,21 21,20.1 21,19V5C21,3.9 20.1,3 19,3M19,19H5V5H19V19M6.25,7.72H11.25V9.22H6.25V7.72M12.75,7.72H17.75V9.22H12.75V7.72M6.25,11.72H11.25V13.22H6.25V11.72M12.75,11.72H17.75V13.22H12.75V11.72M6.25,15.72H11.25V17.22H6.25V15.72M12.75,15.72H17.75V17.22H12.75V15.72Z"/></svg>
@@ -1025,11 +1025,13 @@
         { ano: 7, pEscala: "0 – 10", kEscala: "0 - 0.10", pMin: 0, pMax: 10, kMin: 0, kMax: 0.10, n: 0, nCobertura: 72, p: 0, pCobertura: 40, k: 0, kCobertura: 80 } ],
       "BANANA": [ 
         { ano: 1, pEscala: "0 – 10", kEscala: "0 - 0.10", pMin: 0, pMax: 10, kMin: 0, kMax: 0.10, n: 67, nCobertura: 200, p: 167, pCobertura: 0, k: 125, kCobertura: 375 }, 
-        { ano: 2, pEscala: "0 – 10", kEscala: "0 - 0.10", pMin: 0, pMax: 10, kMin: 0, kMax: 0.1, n: 0, nCobertura: 222, p: 0, pCobertura: 133, k: 0, kCobertura: 556 } ],
+        { ano: 2+, pEscala: "0 – 10", kEscala: "0 - 0.10", pMin: 0, pMax: 10, kMin: 0, kMax: 0.1, n: 0, nCobertura: 222, p: 0, pCobertura: 133, k: 0, kCobertura: 556 } ],
       "CACAU": [ 
         { ano: 1, pEscala: "0 – 10", kEscala: "0 - 0.15", pMin: 0, pMax: 10, kMin: 0, kMax: 0.15, n: 11.11, nCobertura: 11.11, p: 90, pCobertura: 0, k: 8.3, kCobertura: 8.3 }, 
         { ano: 2, pEscala: "0 – 10", kEscala: "0 - 0.15", pMin: 0, pMax: 10, kMin: 0, kMax: 0.15, n: 0, nCobertura: 56, p: 0, pCobertura: 56, k: 0, kCobertura: 67 },
-        { ano: 3, pEscala: "0 – 10", kEscala: "0 - 0.15", pMin: 0, pMax: 10, kMin: 0, kMax: 0.15, n: 0, nCobertura: 89, p: 0, pCobertura: 89, k: 0, kCobertura: 100 } ],
+        { ano: 3, pEscala: "0 – 10", kEscala: "0 - 0.15", pMin: 0, pMax: 10, kMin: 0, kMax: 0.15, n: 0, nCobertura: 89, p: 0, pCobertura: 89, k: 0, kCobertura: 100 },
+        { ano: 4, pEscala: "0 – 10", kEscala: "0 - 0.15", pMin: 0, pMax: 10, kMin: 0, kMax: 0.15, n: 0, nCobertura: 111, p: 0, pCobertura: 111, k: 0, kCobertura: 133 },
+        { ano: 5, pEscala: "0 – 10", kEscala: "0 - 0.15", pMin: 0, pMax: 10, kMin: 0, kMax: 0.15, n: 0, nCobertura: 130, p: 0, pCobertura: 120, k: 0, kCobertura: 140 }],
       "CAFÉ CANÉFORA": [ { ano: 1, pEscala: "0 – 10", kEscala: "0 - 0.15", pMin: 0, pMax: 10, kMin: 0, kMax: 0.15, n: 8.3, nCobertura: 16.6, p: 66.7, pCobertura: 0, k: 16.7, kCobertura: 16.7 } ],
       "CITROS": [ { ano: 1, pEscala: "0 – 6", kEscala: "0 - 0.10", pMin: 0, pMax: 6, kMin: 0, kMax: 0.10, n: 3.5, nCobertura: 13.7, p: 17.2, pCobertura: 0, k: 1.75, kCobertura: 6.85 } ],
       "COCO-ANÃO": [ { ano: 1, pEscala: "<15", kEscala: "<0.15", pMin: 0, pMax: 14.9, kMin: 0, kMax: 0.149, n: 19, nCobertura: 19, p: 31, pCobertura: 0, k: 25, kCobertura: 25 } ],
@@ -1056,11 +1058,13 @@
       ],
       "BANANA": [ 
         { ano: 1, pEscala: "11 – 20", kEscala: "0.11 – 0.23", pMin: 11, pMax: 20, kMin: 0.11, kMax: 0.23, n: 67, nCobertura: 200, p: 112, pCobertura: 0, k: 97.5, kCobertura: 292.5 }, 
-        { ano: 2, pEscala: "11 – 20", kEscala: "0.11 – 0.23", pMin: 11, pMax: 20, kMin: 0.11, kMax: 0.23, n: 0, nCobertura: 0, p: 0, pCobertura: 78, k: 0, kCobertura: 444 } ],
+        { ano: 2+, pEscala: "11 – 20", kEscala: "0.11 – 0.23", pMin: 11, pMax: 20, kMin: 0.11, kMax: 0.23, n: 0, nCobertura: 222, p: 0, pCobertura: 78, k: 0, kCobertura: 444 } ],
       "CACAU": [ 
         { ano: 1, pEscala: "11 – 20", kEscala: "0.16 – 0.38", pMin: 11, pMax: 20, kMin: 0.16, kMax: 0.38, n: 11.11, nCobertura: 11.11, p: 90, pCobertura: 0, k: 8.3, kCobertura: 8.3 }, 
         { ano: 2, pEscala: "11 – 20", kEscala: "0.16 – 0.38", pMin: 11, pMax: 20, kMin: 0.16, kMax: 0.38, n: 0, nCobertura: 56, p: 0, pCobertura: 33, k: 0, kCobertura: 44 },
-        { ano: 3, pEscala: "11 – 20", kEscala: "0.16 – 0.38", pMin: 11, pMax: 20, kMin: 0.16, kMax: 0.38, n: 0, nCobertura: 89, p: 0, pCobertura: 67, k: 0, kCobertura: 78 } ],
+        { ano: 3, pEscala: "11 – 20", kEscala: "0.16 – 0.38", pMin: 11, pMax: 20, kMin: 0.16, kMax: 0.38, n: 0, nCobertura: 89, p: 0, pCobertura: 67, k: 0, kCobertura: 78 }, 
+        { ano: 4, pEscala: "11 – 20", kEscala: "0.16 – 0.38", pMin: 11, pMax: 20, kMin: 0.16, kMax: 0.38, n: 0, nCobertura: 111, p: 0, pCobertura: 89, k: 0, kCobertura: 111 },
+        { ano: 5, pEscala: "11 – 20", kEscala: "0.16 – 0.38", pMin: 11, pMax: 20, kMin: 0.16, kMax: 0.38, n: 0, nCobertura: 130, p: 0, pCobertura: 90, k: 0, kCobertura: 110 }],
       "CAFÉ CANÉFORA": [ { ano: 1, pEscala: "11 – 20", kEscala: "0.16 – 0.38", pMin: 11, pMax: 20, kMin: 0.16, kMax: 0.38, n: 8.3, nCobertura: 16.6, p: 66.7, pCobertura: 0, k: 16.7, kCobertura: 16.7 } ],
       "CITROS": [ { ano: 1, pEscala: "7 – 15", kEscala: "0.11 – 0.18", pMin: 7, pMax: 15, kMin: 0.11, kMax: 0.18, n: 3.5, nCobertura: 13.7, p: 17.2, pCobertura: 0, k: 1.75, kCobertura: 6.85 } ],
       "COCO-ANÃO": [ { ano: 1, pEscala: "15 – 19", kEscala: "0.15 – 0.19", pMin: 15, pMax: 19, kMin: 0.15, kMax: 0.19, n: 19, nCobertura: 19, p: 20.5, pCobertura: 0, k: 16.4, kCobertura: 16.4 } ],
@@ -1087,11 +1091,13 @@
       ],
       "BANANA": [ 
         { ano: 1, pEscala: ">20", kEscala: ">0.23", pMin: 20.01, pMax: Infinity, kMin: 0.2301, kMax: Infinity, n: 67, nCobertura: 200, p: 90, pCobertura: 0, k: 55.75, kCobertura: 167.25 }, 
-        { ano: 2, pEscala: ">20", kEscala: ">0.23", pMin: 20.001, pMax: Infinity, kMin: 0.231, kMax: Infinity, n: 0, nCobertura: 0, p: 0, pCobertura: 56, k: 0, kCobertura: 389 } ],
+        { ano: 2+, pEscala: ">20", kEscala: ">0.23", pMin: 20.001, pMax: Infinity, kMin: 0.231, kMax: Infinity, n: 0, nCobertura: 222, p: 0, pCobertura: 56, k: 0, kCobertura: 389 } ],
       "CACAU": [ 
         { ano: 1, pEscala: ">20", kEscala: ">0.38", pMin: 20.01, pMax: Infinity, kMin: 0.3801, kMax: Infinity, n: 11.11, nCobertura: 11.11, p: 90, pCobertura: 0, k: 8.3, kCobertura: 8.3 }, 
         { ano: 2, pEscala: ">20", kEscala: ">0.38", pMin: 20.001, pMax: Infinity, kMin: 0.381, kMax: Infinity, n: 0, nCobertura: 56, p: 0, pCobertura: 22, k: 0, kCobertura: 33 },
-        { ano: 3, pEscala: ">20", kEscala: ">0.38", pMin: 20.001, pMax: Infinity, kMin: 0.381, kMax: Infinity, n: 0, nCobertura: 89, p: 0, pCobertura: 44, k: 0, kCobertura: 56 } ],
+        { ano: 3, pEscala: ">20", kEscala: ">0.38", pMin: 20.001, pMax: Infinity, kMin: 0.381, kMax: Infinity, n: 0, nCobertura: 89, p: 0, pCobertura: 44, k: 0, kCobertura: 56 }, 
+        { ano: 4, pEscala: ">20", kEscala: ">0.38", pMin: 20.001, pMax: Infinity, kMin: 0.381, kMax: Infinity, n: 0, nCobertura: 111, p: 0, pCobertura: 56, k: 0, kCobertura: 78 },
+        { ano: 5, pEscala: ">20", kEscala: ">0.38", pMin: 20.001, pMax: Infinity, kMin: 0.381, kMax: Infinity, n: 0, nCobertura: 130, p: 0, pCobertura: 60, k: 0, kCobertura: 80 }],
       "CAFÉ CANÉFORA": [ { ano: 1, pEscala: ">20", kEscala: ">0.38", pMin: 20.01, pMax: Infinity, kMin: 0.3801, kMax: Infinity, n: 8.3, nCobertura: 16.6, p: 66.7, pCobertura: 0, k: 16.7, kCobertura: 16.7 } ],
       "CITROS": [ { ano: 1, pEscala: ">15", kEscala: ">0.18", pMin: 15.01, pMax: Infinity, kMin: 0.1801, kMax: Infinity, n: 3.5, nCobertura: 13.7, p: 17.2, pCobertura: 0, k: 1.75, kCobertura: 6.85 } ],
       "COCO-ANÃO": [ { ano: 1, pEscala: ">19", kEscala: ">0.19", pMin: 19.01, pMax: Infinity, kMin: 0.1901, kMax: Infinity, n: 19, nCobertura: 19, p: 10.2, pCobertura: 0, k: 10.2, kCobertura: 10.2 } ],
