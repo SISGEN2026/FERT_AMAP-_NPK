@@ -726,6 +726,10 @@
             </tbody>
           </table>
         </div>
+        <div id="container-recomendacoes-cultura" style="display: none;">
+          <h3 style="margin-top: 20px; color: var(--primary-color);">Recomendações Adicionais da Cultura</h3>
+          <div id="texto-recomendacoes-cultura" style="padding: 8px 10px; font-size: 0.78rem; color: #333; line-height: 1.4; background-color: #fafafa; border: 1px solid var(--border-color); border-radius: 6px; margin-top: 10px;"></div>
+        </div>
         <div id="nota-cobertura" style="padding: 8px 10px; font-size: 0.78rem; color: #003b70; font-weight: 600; background-color: var(--light-blue-bg); border: 1px solid var(--border-color); border-radius: 6px; margin-top: 12px; display: none;"></div>
         <h3 style="margin-top: 20px; color: var(--primary-color);">Observações Técnicas Complementares</h3>
         <div class="form-group" style="margin-top: 10px;">
@@ -1122,6 +1126,37 @@
       "PIMENTA-DO-REINO": [ { ano: 1, pEscala: ">20", kEscala: ">0.23", pMin: 20.01, pMax: Infinity, kMin: 0.2301, kMax: Infinity, n: 42, nCobertura: 0, p: 9, pCobertura: 0, k: 17, kCobertura: 0 } ],
       "SOJA": [ { ano: 1, pEscala: ">15", kEscala: ">0.23", pMin: 15.01, pMax: Infinity, kMin: 0.2301, kMax: Infinity, n: 5, nCobertura: 0, p: 50, pCobertura: 0, k: 30, kCobertura: 0 } ]
     };
+    const tabelaRecomendacoesCultura = {
+      "AÇAÍ": [
+        "A INSERIR"
+      ],
+      "BANANA": [
+        "As quantidades de N e K₂O indicadas para primeiro ano devem ser aplicadas aos 2, 4, 8 e 12 meses após o plantio, em círculo de 1 m de diâmetro ao redor das plantas, de preferência levemente incorporados.",
+        "As adubações anuais de N, P₂O₅ e K₂O devem ser realizadas 2 meses após a última adubação de formação (0-1). Em áreas sujeitas a secas periódicas, dividir a dose e aplicar em três vezes, no início, em meados e no final do período chuvoso. Em áreas irrigadas ou sem deficit hídrico, parcelar em quatro vezes. A dose de P deve ser aplicada de uma só vez, juntamente com a primeira dose de N e K (Brasil et al., 2020, p. 333)"
+      ],
+      "CACAU": [
+        "As adubações nitrogenadas e potássicas devem ser divididas em, pelo menos, três parcelas e aplicadas em cobertura, na projeção da copa. Aplicar a primeira parcela, com 40% do total, no início do período chuvoso, e as demais, com 30% do total, em intervalos de 50 a 60 dias (Brasil et al., 2020, p. 337)."
+      ],
+      "CAFÉ CANÉFORA": [
+        "As adubações nitrogenadas e potássicas devem ser divididas em pelo menos três parcelas e aplicadas em cobertura, na projeção da copa. A primeira parcela, com 40% do total, no início do período chuvoso, e as demais com 30% do total, em intervalos de 40 a 50 dias (Brasil et al., 2020, p. 270).",
+        "Após o plantio, a adubação fosfatada pode ser dividida em duas parcelas iguais, que devem ser aplicadas juntamente com as duas primeiras aplicações de N e K (Brasil et al., 2020, p. 271)."
+      ],
+      "CITROS": [
+        "A INSERIR"
+      ],
+      "COCO-ANÃO": [
+        "A INSERIR"
+      ],
+      "CUPUAÇU": [
+        "A INSERIR"
+      ],
+      "MARACUJÁ": [
+        "A INSERIR"
+      ],
+      "PIMENTA-DO-REINO": [
+        "A INSERIR"
+      ]
+    };
     function getTabelaN(nivel = 'BAIXO') {
       if (nivel === 'MEDIO') return tabelaNivelMedio;
       if (nivel === 'ALTO') return tabelaNivelAlto;
@@ -1174,6 +1209,20 @@
       const relCultura = document.getElementById('relatorio_cultura');
       if (relCultura) {
         relCultura.value = sel;
+      }
+      const containerRec = document.getElementById('container-recomendacoes-cultura');
+      const textoRec = document.getElementById('texto-recomendacoes-cultura');
+      if (containerRec && textoRec) {
+        const paragrafos = tabelaRecomendacoesCultura[sel];
+        if (paragrafos && paragrafos.length > 0) {
+          textoRec.innerHTML = paragrafos.map((p, idx) =>
+            `<p style="margin-bottom: ${idx < paragrafos.length - 1 ? '8px' : '0'}; text-align: justify;">${p}</p>`
+          ).join('');
+          containerRec.style.display = 'block';
+        } else {
+          textoRec.innerHTML = '';
+          containerRec.style.display = 'none';
+        }
       }
       calcular();
     }
