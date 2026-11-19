@@ -240,14 +240,24 @@
       gap: 4px;
       min-width: 0;
     }
+    .etiqueta-campos {
+      border: 1px dashed #666;
+      border-radius: 6px;
+      padding: 8px 10px;
+      margin-bottom: 14px;
+      background-color: #fafafa;
+    }
     .form-group-inline {
       display: flex;
       flex-direction: row;
       align-items: center;
       gap: 8px;
-      margin-bottom: 8px;
+      margin-bottom: 5px;
       width: 100%;
       min-width: 0;
+    }
+    .etiqueta-campos .form-group-inline:last-child {
+      margin-bottom: 0;
     }
     .form-group-inline label {
       flex: 0 0 auto;
@@ -255,16 +265,25 @@
       max-width: 45%;
       margin: 0;
       white-space: nowrap;
+      font-size: 0.72rem;
     }
     .form-group-inline input {
       flex: 1 1 0%;
       min-width: 0;
       width: auto;
+      font-size: 0.75rem;
+      padding: 2px 6px;
+      height: 22px;
+      line-height: 1.2;
+      border-radius: 4px;
+    }
+    #tab-RELATORIO .form-group-inline input[readonly] {
+      font-weight: normal;
     }
     @media (max-width: 360px) {
       .form-group-inline label {
         min-width: 102px;
-        font-size: 0.72rem;
+        font-size: 0.7rem;
       }
     }
     .form-group-row {
@@ -476,6 +495,11 @@
         padding: 0 !important; 
         border-radius: 0 !important; 
       }
+      .etiqueta-campos {
+        border: 1px dashed #666 !important;
+        background: transparent !important;
+        padding: 6px 8px !important;
+      }
       input, select, textarea { 
         border: none !important; 
         background: transparent !important; 
@@ -540,21 +564,23 @@
       <!-- ABA ANÁLISE DE SOLO -->
       <section id="tab-ANALISE" class="tab-content active">
         <h2>Análise de Solo (0 - 20 cm)</h2>
-        <div class="form-group-inline">
-          <label for="solicitante">Solicitante:</label>
-          <input type="text" id="solicitante" oninput="sincronizarCamposIdentificacao()">
-        </div>
-        <div class="form-group-inline">
-          <label for="procedencia">Procedência:</label>
-          <input type="text" id="procedencia" oninput="sincronizarCamposIdentificacao()">
-        </div>
-        <div class="form-group-inline">
-          <label for="area">Área:</label>
-          <input type="text" id="area" oninput="sincronizarCamposIdentificacao()">
-        </div>
-        <div class="form-group-inline" style="margin-bottom: 12px;">
-          <label for="protocolo">Nº de Protocolo:</label>
-          <input type="text" id="protocolo" oninput="sincronizarCamposIdentificacao()">
+        <div class="etiqueta-campos">
+          <div class="form-group-inline">
+            <label for="solicitante">Solicitante:</label>
+            <input type="text" id="solicitante" oninput="sincronizarCamposIdentificacao()">
+          </div>
+          <div class="form-group-inline">
+            <label for="procedencia">Procedência:</label>
+            <input type="text" id="procedencia" oninput="sincronizarCamposIdentificacao()">
+          </div>
+          <div class="form-group-inline">
+            <label for="area">Área:</label>
+            <input type="text" id="area" oninput="sincronizarCamposIdentificacao()">
+          </div>
+          <div class="form-group-inline">
+            <label for="protocolo">Nº de Protocolo:</label>
+            <input type="text" id="protocolo" oninput="sincronizarCamposIdentificacao()">
+          </div>
         </div>
         <div class="form-group" style="margin-bottom: 16px;">
           <label for="cultura">Cultura Desejada:</label>
@@ -648,21 +674,23 @@
       <section id="tab-RELATORIO" class="tab-content">
         <img src="https://upload.wikimedia.org/wikipedia/commons/e/ec/Embrapa_-_Marca.png" alt="Marca Embrapa" style="width: 150px; height: auto; display: block; margin: 0 auto 20px auto;">
         <h2>Proposta de Correção e Adubação do Solo</h2>
-        <div class="form-group-inline">
-          <label for="relatorio_solicitante">Solicitante:</label>
-          <input type="text" id="relatorio_solicitante" value="" readonly>
-        </div>
-        <div class="form-group-inline">
-          <label for="relatorio_procedencia">Procedência:</label>
-          <input type="text" id="relatorio_procedencia" value="" readonly>
-        </div>
-        <div class="form-group-inline">
-          <label for="relatorio_area">Área:</label>
-          <input type="text" id="relatorio_area" value="" readonly>
-        </div>
-        <div class="form-group-inline" style="margin-bottom: 12px;">
-          <label for="relatorio_protocolo">Nº de Protocolo:</label>
-          <input type="text" id="relatorio_protocolo" value="" readonly>
+        <div class="etiqueta-campos">
+          <div class="form-group-inline">
+            <label for="relatorio_solicitante">Solicitante:</label>
+            <input type="text" id="relatorio_solicitante" value="" readonly>
+          </div>
+          <div class="form-group-inline">
+            <label for="relatorio_procedencia">Procedência:</label>
+            <input type="text" id="relatorio_procedencia" value="" readonly>
+          </div>
+          <div class="form-group-inline">
+            <label for="relatorio_area">Área:</label>
+            <input type="text" id="relatorio_area" value="" readonly>
+          </div>
+          <div class="form-group-inline">
+            <label for="relatorio_protocolo">Nº de Protocolo:</label>
+            <input type="text" id="relatorio_protocolo" value="" readonly>
+          </div>
         </div>
         <div class="form-group" style="margin-bottom: 20px;">
           <label for="relatorio_cultura">Cultura Selecionada:</label>
