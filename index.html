@@ -239,7 +239,33 @@
       flex-direction: column;
       gap: 4px;
       min-width: 0;
+    }
+    .form-group-inline {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 8px;
       width: 100%;
+      min-width: 0;
+    }
+    .form-group-inline label {
+      flex: 0 0 auto;
+      min-width: 108px;
+      max-width: 45%;
+      margin: 0;
+      white-space: nowrap;
+    }
+    .form-group-inline input {
+      flex: 1 1 0%;
+      min-width: 0;
+      width: auto;
+    }
+    @media (max-width: 360px) {
+      .form-group-inline label {
+        min-width: 102px;
+        font-size: 0.72rem;
+      }
     }
     .form-group-row {
       display: grid;
@@ -301,7 +327,6 @@
       font-weight: 600;
       font-size: 0.75rem;
       color: #444;
-      overflow-wrap: break-word;
     }
     input, select, textarea {
       padding: 5px 7px;
@@ -515,21 +540,21 @@
       <!-- ABA ANÁLISE DE SOLO -->
       <section id="tab-ANALISE" class="tab-content active">
         <h2>Análise de Solo (0 - 20 cm)</h2>
-        <div class="form-group" style="margin-bottom: 12px;">
+        <div class="form-group-inline">
           <label for="solicitante">Solicitante:</label>
-          <input type="text" id="solicitante" oninput="sincronizarIdentificacao()">
+          <input type="text" id="solicitante" oninput="sincronizarCamposIdentificacao()">
         </div>
-        <div class="form-group" style="margin-bottom: 12px;">
+        <div class="form-group-inline">
           <label for="procedencia">Procedência:</label>
-          <input type="text" id="procedencia" oninput="sincronizarIdentificacao()">
+          <input type="text" id="procedencia" oninput="sincronizarCamposIdentificacao()">
         </div>
-        <div class="form-group" style="margin-bottom: 12px;">
-          <label for="local">Local:</label>
-          <input type="text" id="local" oninput="sincronizarIdentificacao()">
+        <div class="form-group-inline">
+          <label for="area">Área:</label>
+          <input type="text" id="area" oninput="sincronizarCamposIdentificacao()">
         </div>
-        <div class="form-group" style="margin-bottom: 12px;">
+        <div class="form-group-inline" style="margin-bottom: 12px;">
           <label for="protocolo">Nº de Protocolo:</label>
-          <input type="text" id="protocolo" oninput="sincronizarIdentificacao()">
+          <input type="text" id="protocolo" oninput="sincronizarCamposIdentificacao()">
         </div>
         <div class="form-group" style="margin-bottom: 16px;">
           <label for="cultura">Cultura Desejada:</label>
@@ -613,7 +638,7 @@
         </div>
         
         <div style="margin-top: 20px; text-align: center;">
-          <button type="button" onclick="sincronizarIdentificacao(); switchTab('RELATORIO'); window.scrollTo(0, 0);" style="background-color: var(--primary-color); color: white; border: none; padding: 10px 20px; border-radius: 8px; font-size: 0.88rem; font-weight: bold; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; box-shadow: 0 2px 6px rgba(0,0,0,0.15); transition: background-color 0.2s ease;">
+          <button type="button" onclick="sincronizarCamposIdentificacao(); switchTab('RELATORIO'); window.scrollTo(0, 0);" style="background-color: var(--primary-color); color: white; border: none; padding: 10px 20px; border-radius: 8px; font-size: 0.88rem; font-weight: bold; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; box-shadow: 0 2px 6px rgba(0,0,0,0.15); transition: background-color 0.2s ease;">
             <svg viewBox="0 0 24 24" style="width:18px; height:18px; fill:white;"><path d="M14,2H6A2,2 0 0,0 4,4V20A2,2 0 0,0 6,22H18A2,2 0 0,0 20,20V8L14,2M18,20H6V4H13V9H18V20M8,12V14H16V12H8M8,16V18H13V16H8M8,16V18H13V16H8Z"/></svg>
             Gerar Relatório
           </button>
@@ -623,19 +648,19 @@
       <section id="tab-RELATORIO" class="tab-content">
         <img src="https://upload.wikimedia.org/wikipedia/commons/e/ec/Embrapa_-_Marca.png" alt="Marca Embrapa" style="width: 150px; height: auto; display: block; margin: 0 auto 20px auto;">
         <h2>Proposta de Correção e Adubação do Solo</h2>
-        <div class="form-group" style="margin-bottom: 12px;">
+        <div class="form-group-inline">
           <label for="relatorio_solicitante">Solicitante:</label>
           <input type="text" id="relatorio_solicitante" value="" readonly>
         </div>
-        <div class="form-group" style="margin-bottom: 12px;">
+        <div class="form-group-inline">
           <label for="relatorio_procedencia">Procedência:</label>
           <input type="text" id="relatorio_procedencia" value="" readonly>
         </div>
-        <div class="form-group" style="margin-bottom: 12px;">
-          <label for="relatorio_local">Local:</label>
-          <input type="text" id="relatorio_local" value="" readonly>
+        <div class="form-group-inline">
+          <label for="relatorio_area">Área:</label>
+          <input type="text" id="relatorio_area" value="" readonly>
         </div>
-        <div class="form-group" style="margin-bottom: 12px;">
+        <div class="form-group-inline" style="margin-bottom: 12px;">
           <label for="relatorio_protocolo">Nº de Protocolo:</label>
           <input type="text" id="relatorio_protocolo" value="" readonly>
         </div>
@@ -1039,16 +1064,16 @@
       editorAutenticado = false;
       switchTab('ANALISE');
     }
-    function sincronizarIdentificacao() {
-      const campos = [
+    function sincronizarCamposIdentificacao() {
+      const pares = [
         ['solicitante', 'relatorio_solicitante'],
         ['procedencia', 'relatorio_procedencia'],
-        ['local', 'relatorio_local'],
+        ['area', 'relatorio_area'],
         ['protocolo', 'relatorio_protocolo']
       ];
-      campos.forEach(([origemId, destinoId]) => {
-        const origem = document.getElementById(origemId);
-        const destino = document.getElementById(destinoId);
+      pares.forEach(([idOrigem, idDestino]) => {
+        const origem = document.getElementById(idOrigem);
+        const destino = document.getElementById(idDestino);
         if (origem && destino) {
           destino.value = origem.value;
         }
@@ -1352,7 +1377,7 @@
     };
     
     window.switchTab = function(tabName) {
-      sincronizarIdentificacao();
+      sincronizarCamposIdentificacao();
       document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
       document.querySelectorAll('.tab-button').forEach(el => el.classList.remove('active'));
       
@@ -1367,7 +1392,7 @@
     };
     
     function calcular() {
-      sincronizarIdentificacao();
+      sincronizarCamposIdentificacao();
       const v2 = parseFloat(document.getElementById('v2_input').value) || 60;
       const v1 = parseVal('v1');
       const ctc = parseVal('ctc');
@@ -1898,7 +1923,7 @@
     window.onload = function() {
       carregarPrecos();
       atualizarCultura();
-      sincronizarIdentificacao();
+      sincronizarCamposIdentificacao();
       atualizarDataFooter();
     };
   </script>
