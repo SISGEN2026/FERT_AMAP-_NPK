@@ -171,32 +171,32 @@
       fill: var(--green-header);
       pointer-events: none;
     }
-    .enviar-dropdown-wrapper {
+    .enviar-dropdown {
       position: relative;
       display: inline-block;
     }
-    .enviar-dropdown-menu {
+    .enviar-menu {
       display: none;
       position: absolute;
       right: 0;
       top: calc(100% + 6px);
       background-color: #ffffff;
-      min-width: 195px;
+      min-width: 225px;
       border-radius: 8px;
       box-shadow: 0 6px 18px rgba(0,0,0,0.22);
-      border: 1px solid #e0e0e0;
+      border: 1px solid #d0d7de;
       z-index: 1001;
       overflow: hidden;
     }
-    .enviar-dropdown-menu.show {
+    .enviar-menu.show {
       display: block;
     }
-    .enviar-dropdown-item {
+    .enviar-menu-item {
       width: 100%;
       background: #ffffff;
-      color: #333;
+      color: var(--text-color);
       border: none;
-      border-bottom: 1px solid #f0f0f0;
+      border-bottom: 1px solid #eeeeee;
       padding: 10px 12px;
       font-size: 0.82rem;
       font-weight: 600;
@@ -204,23 +204,22 @@
       cursor: pointer;
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 9px;
       transition: background-color 0.15s ease;
       touch-action: manipulation;
     }
-    .enviar-dropdown-item:last-child {
+    .enviar-menu-item:last-child {
       border-bottom: none;
     }
-    .enviar-dropdown-item:hover,
-    .enviar-dropdown-item:active {
-      background-color: #f2f7f2;
-      color: var(--green-header);
+    .enviar-menu-item:hover,
+    .enviar-menu-item:active {
+      background-color: var(--light-blue-bg);
+      color: var(--primary-color);
     }
-    .enviar-dropdown-item svg {
-      width: 17px;
-      height: 17px;
+    .enviar-menu-item svg {
+      width: 18px;
+      height: 18px;
       flex-shrink: 0;
-      pointer-events: none;
     }
     .nav-tabs {
       display: flex;
@@ -640,19 +639,23 @@
           <svg viewBox="0 0 24 24"><path d="M19,8H5C3.34,8 2,9.34 2,11V17H6V21H18V17H22V11C22,9.34 20.66,8 19,8M16,19H8V15H16V19M19,12C18.45,12 18,11.55 18,11C18,10.45 18.45,10 19,10C19.55,10 20,10.45 20,11C20,11.55 19.55,12 19,12M18,3H6V7H18V3Z"/></svg>
           PDF
         </button>
-        <div class="enviar-dropdown-wrapper">
-          <button type="button" class="btn-action" id="btn-enviar-relatorio" onclick="toggleMenuEnviar(event)" title="Enviar Conteúdo do Relatório">
+        <div class="enviar-dropdown" id="enviar-dropdown-container">
+          <button type="button" class="btn-action" id="btn-enviar-relatorio" onclick="toggleMenuEnviar(event)" title="Enviar Relatório em PDF">
             <svg viewBox="0 0 24 24"><path d="M18,16.08C17.24,16.08 16.56,16.38 16.04,16.85L8.91,12.7C8.96,12.47 9,12.24 9,12C9,11.76 8.96,11.53 8.91,11.3L15.96,7.19C16.5,7.69 17.21,8 18,8A3,3 0 0,0 21,5A3,3 0 0,0 18,2A3,3 0 0,0 15,5C15,5.24 15.04,5.47 15.09,5.7L8.04,9.81C7.5,9.31 6.79,9 6,9A3,3 0 0,0 3,12A3,3 0 0,0 6,15C6.79,15 7.5,14.69 8.04,14.19L15.16,18.34C15.11,18.55 15.08,18.77 15.08,19A3,3 0 0,0 18.08,22A3,3 0 0,0 21.08,19A3,3 0 0,0 18,16.08Z"/></svg>
             Enviar
           </button>
-          <div id="menu-enviar-opcoes" class="enviar-dropdown-menu">
-            <button type="button" class="enviar-dropdown-item" onclick="enviarPorGmail()">
+          <div class="enviar-menu" id="menu-enviar-opcoes" role="menu">
+            <button type="button" class="enviar-menu-item" id="btn-enviar-gmail" onclick="enviarRelatorioGmailPDF()" role="menuitem">
               <svg viewBox="0 0 24 24"><path fill="#d93025" d="M20,18H18V9.25L12,13L6,9.25V18H4V6H5.2L12,10.25L18.8,6H20M20,4H4C2.89,4 2,4.89 2,6V18A2,2 0 0,0 4,20H20A2,2 0 0,0 22,18V6C22,4.89 21.1,4 20,4Z"/></svg>
-              Enviar por Gmail
+              <span>Enviar por Gmail (PDF)</span>
             </button>
-            <button type="button" class="enviar-dropdown-item" onclick="compartilharRelatorio()">
+            <button type="button" class="enviar-menu-item" id="btn-enviar-apps" onclick="compartilharRelatorioPDF()" role="menuitem">
               <svg viewBox="0 0 24 24"><path fill="#2e7d32" d="M18,16.08C17.24,16.08 16.56,16.38 16.04,16.85L8.91,12.7C8.96,12.47 9,12.24 9,12C9,11.76 8.96,11.53 8.91,11.3L15.96,7.19C16.5,7.69 17.21,8 18,8A3,3 0 0,0 21,5A3,3 0 0,0 18,2A3,3 0 0,0 15,5C15,5.24 15.04,5.47 15.09,5.7L8.04,9.81C7.5,9.31 6.79,9 6,9A3,3 0 0,0 3,12A3,3 0 0,0 6,15C6.79,15 7.5,14.69 8.04,14.19L15.16,18.34C15.11,18.55 15.08,18.77 15.08,19A3,3 0 0,0 18.08,22A3,3 0 0,0 21.08,19A3,3 0 0,0 18,16.08Z"/></svg>
-              Compartilhar / Copiar
+              <span>Compartilhar PDF (Apps)</span>
+            </button>
+            <button type="button" class="enviar-menu-item" id="btn-baixar-pdf-envio" onclick="baixarPDFParaEnvio()" role="menuitem">
+              <svg viewBox="0 0 24 24"><path fill="#003b70" d="M5,20H19V18H5M19,9H15V3H9V9H5L12,16L19,9Z"/></svg>
+              <span>Baixar Relatório em PDF</span>
             </button>
           </div>
         </div>
@@ -1974,7 +1977,7 @@
         return null;
       }
     }
-    function baixarPDFNativo() {
+    function gerarBlobPDFNativo() {
       const pageWidth = 595;
       const pageHeight = 842;
       const marginLeft = 40;
@@ -2415,7 +2418,9 @@
       for (let i = 0; i < pdfStr.length; i++) {
         bytes[i] = pdfStr.charCodeAt(i) & 0xFF;
       }
-      const blob = new Blob([bytes], { type: 'application/pdf' });
+      return new Blob([bytes], { type: 'application/pdf' });
+    }
+    function baixarArquivoPDFBlob(blob) {
       const url = URL.createObjectURL(blob);
       const link = document.createElement('a');
       link.href = url;
@@ -2424,6 +2429,10 @@
       link.click();
       document.body.removeChild(link);
       setTimeout(() => URL.revokeObjectURL(url), 4000);
+    }
+    function baixarPDFNativo() {
+      const blob = gerarBlobPDFNativo();
+      baixarArquivoPDFBlob(blob);
     }
     function gerarPDF() {
       sincronizarCamposIdentificacao();
@@ -2461,80 +2470,9 @@
         }, 1000);
       }
     }
-    function gerarTextoRelatorio() {
-      const solicitante = extrairTextoLimpo('relatorio_solicitante') || '-';
-      const procedencia = extrairTextoLimpo('relatorio_procedencia') || '-';
-      const area = extrairTextoLimpo('relatorio_area') || '-';
-      const protocolo = extrairTextoLimpo('relatorio_protocolo') || '-';
-      const cultura = extrairTextoLimpo('relatorio_cultura') || '-';
-      const ncSat = extrairTextoLimpo('res-nc-sat');
-      const custoSat = extrairTextoLimpo('res-custo-sat');
-      const labelCalc = extrairTextoLimpo('label-ncprnt');
-      const ncPrnt = extrairTextoLimpo('res-ncprnt');
-      const custoCalc = extrairTextoLimpo('res-custo-calcario');
-      const doseN = extrairTextoLimpo('dose_n');
-      const doseP = extrairTextoLimpo('dose_p2o5');
-      const doseK = extrairTextoLimpo('dose_k2o');
-      const formatarLinhaFert = (nome, idPeso, idValor) => {
-        const peso = extrairTextoLimpo(idPeso).replace(/\n/g, ' | ');
-        const valor = extrairTextoLimpo(idValor).replace(/\n/g, ' | ');
-        return `• ${nome}: ${peso} (${valor})`;
-      };
-      const g1Formula = extrairTextoLimpo('g1-formula').replace(/\n/g, ' | ');
-      const g1Qtd = extrairTextoLimpo('g1-qtd').replace(/\n/g, ' | ');
-      const g1Custo = extrairTextoLimpo('g1-custo').replace(/\n/g, ' | ');
-      const g2Formula = extrairTextoLimpo('g2-formula').replace(/\n/g, ' | ');
-      const g2Qtd = extrairTextoLimpo('g2-qtd').replace(/\n/g, ' | ');
-      const g2Custo = extrairTextoLimpo('g2-custo').replace(/\n/g, ' | ');
-      const linhas = [
-        '🌱 *FertAmapá - Embrapa*',
-        '*Proposta de Correção e Adubação do Solo*',
-        '',
-        `*Solicitante:* ${solicitante}`,
-        `*Procedência:* ${procedencia}`,
-        `*Área:* ${area}`,
-        `*Nº de Protocolo:* ${protocolo}`,
-        `*Cultura Selecionada:* ${cultura}`,
-        '',
-        '*1. CALAGEM*',
-        `• Saturação por Bases: ${ncSat} | Custo Estimado: ${custoSat}`,
-        `• ${labelCalc}: ${ncPrnt} | Custo Estimado: ${custoCalc}`,
-        '',
-        '*2. RECOMENDAÇÃO TEÓRICA DOS NUTRIENTES (PLANTIO/SEMEIO)*',
-        `• N: ${doseN} kg/ha | P₂O₅: ${doseP} kg/ha | K₂O: ${doseK} kg/ha`,
-        '',
-        '*3. FERTILIZANTES CALCULADOS INDIVIDUALMENTE*',
-        formatarLinhaFert('Sulfato de Amônio', 'fc-samonio-peso', 'fc-samonio-valor'),
-        formatarLinhaFert('Ureia', 'fc-ureia-peso', 'fc-ureia-valor'),
-        formatarLinhaFert('Superfosfato Simples (SFS)', 'fc-sfs-peso', 'fc-sfs-valor'),
-        formatarLinhaFert('Superfosfato Triplo (SFT)', 'fc-sft-peso', 'fc-sft-valor'),
-        formatarLinhaFert('Cloreto de Potássio (KCl)', 'fc-kcl-peso', 'fc-kcl-valor'),
-        '',
-        '*4. FORMULAÇÃO E ADUBAÇÃO AGRUPADA*',
-        `• Grupo 1 (Sulf. de Amônio + SFT + KCl): Formulação ${g1Formula} | Qtd: ${g1Qtd} | Custo Total: ${g1Custo}`,
-        `• Grupo 2 (Ureia + SFS + KCl): Formulação ${g2Formula} | Qtd: ${g2Qtd} | Custo Total: ${g2Custo}`
-      ];
-      const containerRec = document.getElementById('container-recomendacoes-cultura');
-      const recCultura = extrairTextoLimpo('texto-recomendacoes-cultura');
-      if (containerRec && containerRec.style.display !== 'none' && recCultura) {
-        linhas.push('', '*5. RECOMENDAÇÕES ADICIONAIS DA CULTURA*', recCultura);
-      }
-      const notaTxt = extrairTextoLimpo('nota-cobertura');
-      if (notaTxt) {
-        linhas.push('', notaTxt);
-      }
-      const obsTxt = extrairTextoLimpo('obs_tecnicas');
-      if (obsTxt) {
-        linhas.push('', '*OBSERVAÇÕES TÉCNICAS COMPLEMENTARES*', obsTxt);
-      }
-      linhas.push('', '© Embrapa 2026.');
-      return linhas.join('\n');
-    }
     function fecharMenuEnviar() {
       const menu = document.getElementById('menu-enviar-opcoes');
-      if (menu) {
-        menu.classList.remove('show');
-      }
+      if (menu) menu.classList.remove('show');
     }
     function toggleMenuEnviar(event) {
       if (event) event.stopPropagation();
@@ -2544,78 +2482,64 @@
       }
     }
     document.addEventListener('click', function(event) {
-      const wrapper = document.querySelector('.enviar-dropdown-wrapper');
-      if (wrapper && !wrapper.contains(event.target)) {
+      const container = document.getElementById('enviar-dropdown-container');
+      if (container && !container.contains(event.target)) {
         fecharMenuEnviar();
       }
     });
-    function enviarPorGmail() {
-      fecharMenuEnviar();
+    function criarArquivoPDFRelatorio() {
       sincronizarCamposIdentificacao();
       calcular();
       switchTab('RELATORIO');
-      const assunto = 'Relatório FertAmapá - Proposta de Correção e Adubação do Solo';
-      const corpo = gerarTextoRelatorio();
-      const gmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&su=${encodeURIComponent(assunto)}&body=${encodeURIComponent(corpo)}`;
-      if (gmailUrl.length > 8000) {
-        copiarTextoRelatorioFallback(corpo);
-        const gmailUrlCurta = `https://mail.google.com/mail/?view=cm&fs=1&su=${encodeURIComponent(assunto)}`;
-        const winCurta = window.open(gmailUrlCurta, '_blank', 'noopener,noreferrer');
-        if (!winCurta) {
-          window.location.href = gmailUrlCurta;
-        }
-        return;
-      }
-      const win = window.open(gmailUrl, '_blank', 'noopener,noreferrer');
-      if (!win) {
-        window.location.href = gmailUrl;
-      }
+      const blob = gerarBlobPDFNativo();
+      const file = new File([blob], 'Relatorio_FertAmapa.pdf', { type: 'application/pdf' });
+      return { blob, file };
     }
-    function copiarTextoRelatorioFallback(texto) {
-      if (navigator.clipboard && typeof navigator.clipboard.writeText === 'function') {
-        navigator.clipboard.writeText(texto).then(() => {
-          alert('Conteúdo completo do relatório copiado para a área de transferência! Cole (Colar / Ctrl+V) no WhatsApp, e-mail ou aplicativo desejado para enviar.');
-        }).catch(() => {
-          copiarViaTextarea(texto);
-        });
-      } else {
-        copiarViaTextarea(texto);
-      }
+    function abrirGmailComPDF(blob) {
+      baixarArquivoPDFBlob(blob);
+      const assunto = encodeURIComponent('Relatório FertAmapá - Proposta de Correção e Adubação do Solo');
+      const gmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&su=${assunto}`;
+      window.open(gmailUrl, '_blank', 'noopener,noreferrer');
+      alert("O relatório em PDF (Relatorio_FertAmapa.pdf) foi gerado e baixado. Na janela do Gmail aberta, anexe o arquivo 'Relatorio_FertAmapa.pdf' para enviá-lo.");
     }
-    function copiarViaTextarea(texto) {
-      const ta = document.createElement('textarea');
-      ta.value = texto;
-      ta.style.position = 'fixed';
-      ta.style.left = '-9999px';
-      document.body.appendChild(ta);
-      ta.focus();
-      ta.select();
-      try {
-        document.execCommand('copy');
-        alert('Conteúdo completo do relatório copiado para a área de transferência! Cole (Colar / Ctrl+V) no WhatsApp, e-mail ou aplicativo desejado para enviar.');
-      } catch (e) {
-        alert('Não foi possível compartilhar automaticamente neste navegador.');
-      }
-      document.body.removeChild(ta);
-    }
-    function compartilharRelatorio() {
+    function enviarRelatorioGmailPDF() {
       fecharMenuEnviar();
-      sincronizarCamposIdentificacao();
-      calcular();
-      switchTab('RELATORIO');
-      const textoRelatorio = gerarTextoRelatorio();
-      if (navigator.share) {
+      const { blob, file } = criarArquivoPDFRelatorio();
+      if (isTelaPequenaOuMobile() && navigator.canShare && navigator.canShare({ files: [file] })) {
         navigator.share({
-          title: 'Relatório FertAmapá - Proposta de Correção e Adubação do Solo',
-          text: textoRelatorio
+          files: [file],
+          title: 'Relatório FertAmapá - Proposta de Correção e Adubação do Solo'
         }).catch((err) => {
           if (err && err.name !== 'AbortError') {
-            copiarTextoRelatorioFallback(textoRelatorio);
+            abrirGmailComPDF(blob);
           }
         });
       } else {
-        copiarTextoRelatorioFallback(textoRelatorio);
+        abrirGmailComPDF(blob);
       }
+    }
+    function compartilharRelatorioPDF() {
+      fecharMenuEnviar();
+      const { blob, file } = criarArquivoPDFRelatorio();
+      if (navigator.canShare && navigator.canShare({ files: [file] })) {
+        navigator.share({
+          files: [file],
+          title: 'Relatório FertAmapá - Proposta de Correção e Adubação do Solo'
+        }).catch((err) => {
+          if (err && err.name !== 'AbortError') {
+            baixarArquivoPDFBlob(blob);
+            alert("O relatório em PDF (Relatorio_FertAmapa.pdf) foi baixado para que você possa anexá-lo e enviá-lo no aplicativo desejado.");
+          }
+        });
+      } else {
+        baixarArquivoPDFBlob(blob);
+        alert("O relatório em PDF (Relatorio_FertAmapa.pdf) foi baixado para que você possa anexá-lo e enviá-lo no aplicativo desejado.");
+      }
+    }
+    function baixarPDFParaEnvio() {
+      fecharMenuEnviar();
+      const { blob } = criarArquivoPDFRelatorio();
+      baixarArquivoPDFBlob(blob);
     }
     const camposPreco = [
       'preco_calcario',
