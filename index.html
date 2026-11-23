@@ -645,10 +645,6 @@
             Enviar
           </button>
           <div class="enviar-menu" id="menu-enviar-opcoes" role="menu">
-            <button type="button" class="enviar-menu-item" id="btn-enviar-gmail" onclick="enviarRelatorioGmailPDF()" role="menuitem">
-              <svg viewBox="0 0 24 24"><path fill="#d93025" d="M20,18H18V9.25L12,13L6,9.25V18H4V6H5.2L12,10.25L18.8,6H20M20,4H4C2.89,4 2,4.89 2,6V18A2,2 0 0,0 4,20H20A2,2 0 0,0 22,18V6C22,4.89 21.1,4 20,4Z"/></svg>
-              <span>Enviar por Gmail (PDF)</span>
-            </button>
             <button type="button" class="enviar-menu-item" id="btn-enviar-apps" onclick="compartilharRelatorioPDF()" role="menuitem">
               <svg viewBox="0 0 24 24"><path fill="#2e7d32" d="M18,16.08C17.24,16.08 16.56,16.38 16.04,16.85L8.91,12.7C8.96,12.47 9,12.24 9,12C9,11.76 8.96,11.53 8.91,11.3L15.96,7.19C16.5,7.69 17.21,8 18,8A3,3 0 0,0 21,5A3,3 0 0,0 18,2A3,3 0 0,0 15,5C15,5.24 15.04,5.47 15.09,5.7L8.04,9.81C7.5,9.31 6.79,9 6,9A3,3 0 0,0 3,12A3,3 0 0,0 6,15C6.79,15 7.5,14.69 8.04,14.19L15.16,18.34C15.11,18.55 15.08,18.77 15.08,19A3,3 0 0,0 18.08,22A3,3 0 0,0 21.08,19A3,3 0 0,0 18,16.08Z"/></svg>
               <span>Compartilhar PDF (Apps)</span>
@@ -2444,26 +2440,11 @@
       }
       return new Blob([bytes], { type: 'application/pdf' });
     }
-    function obterCulturaSelecionadaTexto() {
-      const sel = document.getElementById('cultura');
-      const rel = document.getElementById('relatorio_cultura');
-      return ((sel && sel.value) || (rel && rel.value) || 'ABACAXI').trim();
-    }
-    function obterNomeArquivoPDFCultura() {
-      const cultura = obterCulturaSelecionadaTexto();
-      const culturaSegura = cultura
-        .normalize('NFD')
-        .replace(/[\u0300-\u036f]/g, '')
-        .replace(/[^a-zA-Z0-9_-]+/g, '_')
-        .replace(/^_+|_+$/g, '') || 'Relatorio';
-      return `Relatorio_FertAmapa_${culturaSegura}.pdf`;
-    }
-    function baixarArquivoPDFBlob(blob, nomeArquivo) {
-      const fileName = nomeArquivo || obterNomeArquivoPDFCultura();
+    function baixarArquivoPDFBlob(blob) {
       const url = URL.createObjectURL(blob);
       const link = document.createElement('a');
       link.href = url;
-      link.download = fileName;
+      link.download = 'Relatorio_FertAmapa.pdf';
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
@@ -2471,7 +2452,7 @@
     }
     function baixarPDFNativo() {
       const blob = gerarBlobPDFNativo();
-      baixarArquivoPDFBlob(blob, obterNomeArquivoPDFCultura());
+      baixarArquivoPDFBlob(blob);
     }
     function gerarPDF() {
       sincronizarCamposIdentificacao();
@@ -2531,61 +2512,36 @@
       calcular();
       switchTab('RELATORIO');
       const blob = gerarBlobPDFNativo();
-      const fileName = obterNomeArquivoPDFCultura();
-      const file = new File([blob], fileName, { type: 'application/pdf' });
-      return { blob, file, fileName };
+      const file = new File([blob], 'Relatorio_FertAmapa.pdf', { type: 'application/pdf' });
+      return { blob, file };
     }
-    function abrirGmailComPDF(blob, fileName) {
-      const nomePdf = fileName || obterNomeArquivoPDFCultura();
-      const cultura = obterCulturaSelecionadaTexto();
-      baixarArquivoPDFBlob(blob, nomePdf);
-      const assunto = encodeURIComponent(`Relatório FertAmapá (${cultura}) - Proposta de Correção e Adubação do Solo`);
-      const corpo = encodeURIComponent(`Segue em anexo o relatório em PDF referente à cultura ${cultura} (${nomePdf}).`);
-      const gmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&su=${assunto}&body=${corpo}`;
+    function abrirGmailComPDF(blob) {
+      baixarArquivoPDFBlob(blob);
+      const assunto = encodeURIComponent('Relatório FertAmapá - Proposta de Correção e Adubação do Solo');
+      const gmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&su=${assunto}`;
       window.open(gmailUrl, '_blank', 'noopener,noreferrer');
-      alert(`O relatório em PDF (${nomePdf}) foi gerado e baixado. Na janela do Gmail aberta, anexe o arquivo '${nomePdf}' para enviá-lo.`);
-    }
-    function enviarRelatorioGmailPDF() {
-      fecharMenuEnviar();
-      const { blob, file, fileName } = criarArquivoPDFRelatorio();
-      const cultura = obterCulturaSelecionadaTexto();
-      if (navigator.canShare && navigator.canShare({ files: [file] })) {
-        navigator.share({
-          files: [file],
-          title: `Relatório FertAmapá (${cultura}) - Proposta de Correção e Adubação do Solo`,
-          text: `Segue em anexo o relatório em PDF referente à cultura ${cultura}.`
-        }).catch((err) => {
-          if (err && err.name !== 'AbortError') {
-            abrirGmailComPDF(blob, fileName);
-          }
-        });
-      } else {
-        abrirGmailComPDF(blob, fileName);
-      }
+      alert("O relatório em PDF (Relatorio_FertAmapa.pdf) foi gerado e baixado. Na janela do Gmail aberta, anexe o arquivo 'Relatorio_FertAmapa.pdf' para enviá-lo.");
     }
     function compartilharRelatorioPDF() {
       fecharMenuEnviar();
-      const { blob, file, fileName } = criarArquivoPDFRelatorio();
-      const cultura = obterCulturaSelecionadaTexto();
+      const { blob, file } = criarArquivoPDFRelatorio();
       if (navigator.canShare && navigator.canShare({ files: [file] })) {
         navigator.share({
           files: [file],
-          title: `Relatório FertAmapá (${cultura}) - Proposta de Correção e Adubação do Solo`
+          title: 'Relatório FertAmapá - Proposta de Correção e Adubação do Solo'
         }).catch((err) => {
           if (err && err.name !== 'AbortError') {
-            baixarArquivoPDFBlob(blob, fileName);
-            alert(`O relatório em PDF (${fileName}) foi baixado para que você possa anexá-lo e enviá-lo no aplicativo desejado.`);
+            abrirGmailComPDF(blob);
           }
         });
       } else {
-        baixarArquivoPDFBlob(blob, fileName);
-        alert(`O relatório em PDF (${fileName}) foi baixado para que você possa anexá-lo e enviá-lo no aplicativo desejado.`);
+        abrirGmailComPDF(blob);
       }
     }
     function baixarPDFParaEnvio() {
       fecharMenuEnviar();
-      const { blob, fileName } = criarArquivoPDFRelatorio();
-      baixarArquivoPDFBlob(blob, fileName);
+      const { blob } = criarArquivoPDFRelatorio();
+      baixarArquivoPDFBlob(blob);
     }
     const camposPreco = [
       'preco_calcario',
