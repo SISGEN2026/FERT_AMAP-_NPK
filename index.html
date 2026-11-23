@@ -171,6 +171,57 @@
       fill: var(--green-header);
       pointer-events: none;
     }
+    .enviar-dropdown-wrapper {
+      position: relative;
+      display: inline-block;
+    }
+    .enviar-dropdown-menu {
+      display: none;
+      position: absolute;
+      right: 0;
+      top: calc(100% + 6px);
+      background-color: #ffffff;
+      min-width: 195px;
+      border-radius: 8px;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.22);
+      border: 1px solid #e0e0e0;
+      z-index: 1001;
+      overflow: hidden;
+    }
+    .enviar-dropdown-menu.show {
+      display: block;
+    }
+    .enviar-dropdown-item {
+      width: 100%;
+      background: #ffffff;
+      color: #333;
+      border: none;
+      border-bottom: 1px solid #f0f0f0;
+      padding: 10px 12px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      text-align: left;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: background-color 0.15s ease;
+      touch-action: manipulation;
+    }
+    .enviar-dropdown-item:last-child {
+      border-bottom: none;
+    }
+    .enviar-dropdown-item:hover,
+    .enviar-dropdown-item:active {
+      background-color: #f2f7f2;
+      color: var(--green-header);
+    }
+    .enviar-dropdown-item svg {
+      width: 17px;
+      height: 17px;
+      flex-shrink: 0;
+      pointer-events: none;
+    }
     .nav-tabs {
       display: flex;
       background-color: #e0e0e0;
@@ -589,10 +640,22 @@
           <svg viewBox="0 0 24 24"><path d="M19,8H5C3.34,8 2,9.34 2,11V17H6V21H18V17H22V11C22,9.34 20.66,8 19,8M16,19H8V15H16V19M19,12C18.45,12 18,11.55 18,11C18,10.45 18.45,10 19,10C19.55,10 20,10.45 20,11C20,11.55 19.55,12 19,12M18,3H6V7H18V3Z"/></svg>
           PDF
         </button>
-        <button type="button" class="btn-action" id="btn-enviar-relatorio" onclick="compartilharRelatorio()" title="Enviar Conteúdo do Relatório">
-          <svg viewBox="0 0 24 24"><path d="M18,16.08C17.24,16.08 16.56,16.38 16.04,16.85L8.91,12.7C8.96,12.47 9,12.24 9,12C9,11.76 8.96,11.53 8.91,11.3L15.96,7.19C16.5,7.69 17.21,8 18,8A3,3 0 0,0 21,5A3,3 0 0,0 18,2A3,3 0 0,0 15,5C15,5.24 15.04,5.47 15.09,5.7L8.04,9.81C7.5,9.31 6.79,9 6,9A3,3 0 0,0 3,12A3,3 0 0,0 6,15C6.79,15 7.5,14.69 8.04,14.19L15.16,18.34C15.11,18.55 15.08,18.77 15.08,19A3,3 0 0,0 18.08,22A3,3 0 0,0 21.08,19A3,3 0 0,0 18,16.08Z"/></svg>
-          Enviar
-        </button>
+        <div class="enviar-dropdown-wrapper">
+          <button type="button" class="btn-action" id="btn-enviar-relatorio" onclick="toggleMenuEnviar(event)" title="Enviar Conteúdo do Relatório">
+            <svg viewBox="0 0 24 24"><path d="M18,16.08C17.24,16.08 16.56,16.38 16.04,16.85L8.91,12.7C8.96,12.47 9,12.24 9,12C9,11.76 8.96,11.53 8.91,11.3L15.96,7.19C16.5,7.69 17.21,8 18,8A3,3 0 0,0 21,5A3,3 0 0,0 18,2A3,3 0 0,0 15,5C15,5.24 15.04,5.47 15.09,5.7L8.04,9.81C7.5,9.31 6.79,9 6,9A3,3 0 0,0 3,12A3,3 0 0,0 6,15C6.79,15 7.5,14.69 8.04,14.19L15.16,18.34C15.11,18.55 15.08,18.77 15.08,19A3,3 0 0,0 18.08,22A3,3 0 0,0 21.08,19A3,3 0 0,0 18,16.08Z"/></svg>
+            Enviar
+          </button>
+          <div id="menu-enviar-opcoes" class="enviar-dropdown-menu">
+            <button type="button" class="enviar-dropdown-item" onclick="enviarPorGmail()">
+              <svg viewBox="0 0 24 24"><path fill="#d93025" d="M20,18H18V9.25L12,13L6,9.25V18H4V6H5.2L12,10.25L18.8,6H20M20,4H4C2.89,4 2,4.89 2,6V18A2,2 0 0,0 4,20H20A2,2 0 0,0 22,18V6C22,4.89 21.1,4 20,4Z"/></svg>
+              Enviar por Gmail
+            </button>
+            <button type="button" class="enviar-dropdown-item" onclick="compartilharRelatorio()">
+              <svg viewBox="0 0 24 24"><path fill="#2e7d32" d="M18,16.08C17.24,16.08 16.56,16.38 16.04,16.85L8.91,12.7C8.96,12.47 9,12.24 9,12C9,11.76 8.96,11.53 8.91,11.3L15.96,7.19C16.5,7.69 17.21,8 18,8A3,3 0 0,0 21,5A3,3 0 0,0 18,2A3,3 0 0,0 15,5C15,5.24 15.04,5.47 15.09,5.7L8.04,9.81C7.5,9.31 6.79,9 6,9A3,3 0 0,0 3,12A3,3 0 0,0 6,15C6.79,15 7.5,14.69 8.04,14.19L15.16,18.34C15.11,18.55 15.08,18.77 15.08,19A3,3 0 0,0 18.08,22A3,3 0 0,0 21.08,19A3,3 0 0,0 18,16.08Z"/></svg>
+              Compartilhar / Copiar
+            </button>
+          </div>
+        </div>
         <button type="button" onclick="showHero()" style="background:none; border:1px solid white; color:white; padding: 5px 8px; border-radius:4px; font-size:0.8rem; cursor:pointer; margin-left: 2px;">
           Início
         </button>
@@ -1772,11 +1835,9 @@
         notaElem.style.display = 'block';
       }
     }
-
     function isTelaPequenaOuMobile() {
       return window.innerWidth <= 768 || /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
     }
-
     function extrairTextoLimpo(id) {
       const el = document.getElementById(id);
       if (!el) return '';
@@ -1787,7 +1848,6 @@
       clone.querySelectorAll('br').forEach(br => br.replaceWith('\n'));
       return (clone.textContent || '').replace(/[ \t]+/g, ' ').replace(/\n\s+/g, '\n').trim();
     }
-
     function codificarWinAnsi(str) {
       let out = '';
       const s = String(str || '')
@@ -1812,14 +1872,12 @@
       }
       return out;
     }
-
     function escaparStringPDF(str) {
       return codificarWinAnsi(str)
         .replace(/\\/g, '\\\\')
         .replace(/\(/g, '\\(')
         .replace(/\)/g, '\\)');
     }
-
     function medirLarguraTextoPDF(str, size, bold = false) {
       const limpo = codificarWinAnsi(str);
       const fatorFonte = bold ? 1.06 : 1.0;
@@ -1836,7 +1894,6 @@
       }
       return unidades * size * fatorFonte;
     }
-
     function quebrarTextoEmLinhas(texto, larguraMaxPt, size, bold = false) {
       const paragrafos = String(texto || '').split('\n');
       const resultado = [];
@@ -1858,7 +1915,6 @@
       });
       return resultado;
     }
-
     function extrairLinhasRicasCelula(id) {
       const el = document.getElementById(id);
       if (!el) return [];
@@ -1896,7 +1952,6 @@
       });
       return linhas;
     }
-
     function extrairImagemEmbrapaJPEG() {
       try {
         const img = document.getElementById('logo-embrapa-relatorio');
@@ -1919,7 +1974,6 @@
         return null;
       }
     }
-
     function baixarPDFNativo() {
       const pageWidth = 595;
       const pageHeight = 842;
@@ -1930,7 +1984,6 @@
       const marginBottom = 46;
       let y = pageHeight - marginTop;
       const paginas = [[]];
-
       function cmd(str) {
         paginas[paginas.length - 1].push(str);
       }
@@ -1989,7 +2042,6 @@
           xCursor += medirLarguraTextoPDF(seg.text, size, seg.bold);
         });
       }
-
       // 1. Logotipo Embrapa centralizado no topo (igual ao relatório original)
       const logoJpeg = extrairImagemEmbrapaJPEG();
       if (logoJpeg) {
@@ -2005,7 +2057,6 @@
         escreverTexto(textoLogo, (pageWidth - wLogo) / 2, y - 16, { bold: true, size: 18, color: [0.00, 0.23, 0.44] });
         y -= 28;
       }
-
       // 2. Título Principal (h2) com linha inferior azul (#64b5f6)
       escreverTexto('Proposta de Correção e Adubação do Solo', marginLeft, y - 12, {
         bold: true, size: 13, color: [0.00, 0.23, 0.44]
@@ -2013,7 +2064,6 @@
       y -= 18;
       cmd(`q 0.392 0.710 0.965 RG 1.5 w ${marginLeft} ${y.toFixed(2)} m ${(pageWidth - marginRight).toFixed(2)} ${y.toFixed(2)} l S Q`);
       y -= 12;
-
       // 3. Quadro tracejado de identificação (.etiqueta-campos)
       const camposId = [
         ['Solicitante:', extrairTextoLimpo('relatorio_solicitante')],
@@ -2048,7 +2098,6 @@
         yId -= rowIdH;
       });
       y -= (boxIdH + 10);
-
       // 4. Cultura Selecionada
       escreverTexto('Cultura Selecionada:', marginLeft, y - 8, { bold: true, size: 8.2, color: [0.27, 0.27, 0.27] });
       y -= 13;
@@ -2061,19 +2110,16 @@
         bold: true, size: 9.0, color: [0.00, 0.23, 0.44]
       });
       y -= 28;
-
       // Função auxiliar para desenhar seções (h3) e tabelas completas
       function desenharTituloSecao(titulo) {
         checarEspaco(34);
         escreverTexto(titulo, marginLeft, y - 10, { bold: true, size: 10.5, color: [0.00, 0.23, 0.44] });
         y -= 16;
       }
-
       function desenharTabela(colWidths, headers, rows, alignments) {
         const cellPadX = 6;
         const cellPadY = 5;
         const headerH = 20;
-
         function renderHeader() {
           desenharRetangulo(marginLeft, y, contentWidth, headerH, {
             fill: [0.890, 0.949, 0.992],
@@ -2092,10 +2138,8 @@
           });
           y -= headerH;
         }
-
         checarEspaco(headerH + 22);
         renderHeader();
-
         rows.forEach((rowCells, rowIdx) => {
           // Preparar linhas quebradas por coluna
           const colunasProcessadas = rowCells.map((cellData, colIdx) => {
@@ -2128,7 +2172,6 @@
             });
             return linhasFinais;
           });
-
           let maxH = 20;
           colunasProcessadas.forEach(linhasCol => {
             let hCol = cellPadY * 2;
@@ -2137,18 +2180,15 @@
             });
             if (hCol > maxH) maxH = hCol;
           });
-
           if (checarEspaco(maxH)) {
             renderHeader();
           }
-
           const bgFill = rowIdx % 2 === 1 ? [0.98, 0.98, 0.98] : [1, 1, 1];
           desenharRetangulo(marginLeft, y, contentWidth, maxH, {
             fill: bgFill,
             stroke: [0.65, 0.65, 0.65],
             lineWidth: 0.6
           });
-
           let xCol = marginLeft;
           colunasProcessadas.forEach((linhasCol, colIdx) => {
             if (colIdx > 0) {
@@ -2169,13 +2209,10 @@
             });
             xCol += colWidths[colIdx];
           });
-
           y -= maxH;
         });
-
         y -= 10;
       }
-
       // 5. Tabela: Calagem
       desenharTituloSecao('Calagem');
       desenharTabela(
@@ -2187,7 +2224,6 @@
         ],
         ['left', 'center', 'center']
       );
-
       // 6. Tabela: Recomendação Teórica dos Nutrientes
       desenharTituloSecao('Recomendação Teórica dos Nutrientes para a Cultura (Plantio/Semeio)');
       desenharTabela(
@@ -2198,7 +2234,6 @@
         ],
         ['center', 'center', 'center']
       );
-
       // 7. Tabela: Fertilizantes Calculados Individualmente
       desenharTituloSecao('Fertilizantes Calculados Individualmente');
       desenharTabela(
@@ -2213,7 +2248,6 @@
         ],
         ['left', 'left', 'right']
       );
-
       // 8. Tabela: Formulação e Adubação Agrupada
       desenharTituloSecao('Formulação e Adubação Agrupada');
       desenharTabela(
@@ -2235,7 +2269,6 @@
         ],
         ['left', 'center', 'center', 'center']
       );
-
       // 9. Recomendações Adicionais da Cultura (quando visível)
       const containerRec = document.getElementById('container-recomendacoes-cultura');
       const textoRecEl = document.getElementById('texto-recomendacoes-cultura');
@@ -2298,7 +2331,6 @@
           }
         }
       }
-
       // 10. Nota Técnica (#nota-cobertura)
       const notaTxt = extrairTextoLimpo('nota-cobertura');
       if (notaTxt) {
@@ -2317,7 +2349,6 @@
         });
         y -= (hNota + 10);
       }
-
       // 11. Observações Técnicas Complementares
       desenharTituloSecao('Observações Técnicas Complementares');
       const obsTxt = extrairTextoLimpo('obs_tecnicas');
@@ -2335,7 +2366,6 @@
         yObs -= 11.5;
       });
       y -= (hObs + 10);
-
       // 12. Rodapé em todas as páginas (© Embrapa 2026. + paginação)
       const totalPaginas = paginas.length;
       paginas.forEach((comandos, idx) => {
@@ -2348,7 +2378,6 @@
         comandos.push(`BT /F1 7.5 Tf 0.4 0.4 0.4 rg ${xCentro.toFixed(2)} 24 Td (${escaparStringPDF(rodapeCentro)}) Tj ET`);
         comandos.push(`BT /F1 7.5 Tf 0.2 0.2 0.2 rg ${xPag.toFixed(2)} 24 Td (${escaparStringPDF(pagStr)}) Tj ET`);
       });
-
       // Montagem binária do arquivo PDF 1.4
       const objetos = [];
       const hasImage = !!logoJpeg;
@@ -2361,7 +2390,6 @@
       if (hasImage) {
         objetos.push(`<< /Type /XObject /Subtype /Image /Width ${logoJpeg.width} /Height ${logoJpeg.height} /ColorSpace /DeviceRGB /BitsPerComponent 8 /Filter /DCTDecode /Length ${logoJpeg.data.length} >>\nstream\n${logoJpeg.data}\nendstream`);
       }
-
       const xObjectRes = hasImage ? ' /XObject << /Im1 5 0 R >>' : '';
       paginas.forEach((comandos, i) => {
         const pageObjNum = firstPageObjNum + i * 2;
@@ -2370,7 +2398,6 @@
         objetos.push(`<< /Type /Page /Parent 2 0 R /MediaBox [0 0 ${pageWidth} ${pageHeight}] /Resources << /Font << /F1 3 0 R /F2 4 0 R >>${xObjectRes} >> /Contents ${contentObjNum} 0 R >>`);
         objetos.push(`<< /Length ${stream.length} >>\nstream\n${stream}\nendstream`);
       });
-
       let pdfStr = '%PDF-1.4\n';
       const offsets = [0];
       objetos.forEach((objContent, idx) => {
@@ -2384,12 +2411,10 @@
         pdfStr += String(offsets[i]).padStart(10, '0') + ' 00000 n \n';
       }
       pdfStr += `trailer\n<< /Size ${objetos.length + 1} /Root 1 0 R >>\nstartxref\n${xrefOffset}\n%%EOF`;
-
       const bytes = new Uint8Array(pdfStr.length);
       for (let i = 0; i < pdfStr.length; i++) {
         bytes[i] = pdfStr.charCodeAt(i) & 0xFF;
       }
-
       const blob = new Blob([bytes], { type: 'application/pdf' });
       const url = URL.createObjectURL(blob);
       const link = document.createElement('a');
@@ -2400,24 +2425,20 @@
       document.body.removeChild(link);
       setTimeout(() => URL.revokeObjectURL(url), 4000);
     }
-
     function gerarPDF() {
       sincronizarCamposIdentificacao();
       calcular();
       switchTab('RELATORIO');
       window.scrollTo(0, 0);
-
       if (isTelaPequenaOuMobile() || typeof window.print !== 'function') {
         baixarPDFNativo();
         return;
       }
-
       let printDisparado = false;
       const onBeforePrint = () => {
         printDisparado = true;
       };
       window.addEventListener('beforeprint', onBeforePrint, { once: true });
-
       const inicio = Date.now();
       try {
         window.print();
@@ -2427,7 +2448,6 @@
         return;
       }
       const duracao = Date.now() - inicio;
-
       if (!printDisparado && duracao < 250) {
         setTimeout(() => {
           window.removeEventListener('beforeprint', onBeforePrint);
@@ -2441,38 +2461,31 @@
         }, 1000);
       }
     }
-
     function gerarTextoRelatorio() {
       const solicitante = extrairTextoLimpo('relatorio_solicitante') || '-';
       const procedencia = extrairTextoLimpo('relatorio_procedencia') || '-';
       const area = extrairTextoLimpo('relatorio_area') || '-';
       const protocolo = extrairTextoLimpo('relatorio_protocolo') || '-';
       const cultura = extrairTextoLimpo('relatorio_cultura') || '-';
-
       const ncSat = extrairTextoLimpo('res-nc-sat');
       const custoSat = extrairTextoLimpo('res-custo-sat');
       const labelCalc = extrairTextoLimpo('label-ncprnt');
       const ncPrnt = extrairTextoLimpo('res-ncprnt');
       const custoCalc = extrairTextoLimpo('res-custo-calcario');
-
       const doseN = extrairTextoLimpo('dose_n');
       const doseP = extrairTextoLimpo('dose_p2o5');
       const doseK = extrairTextoLimpo('dose_k2o');
-
       const formatarLinhaFert = (nome, idPeso, idValor) => {
         const peso = extrairTextoLimpo(idPeso).replace(/\n/g, ' | ');
         const valor = extrairTextoLimpo(idValor).replace(/\n/g, ' | ');
         return `• ${nome}: ${peso} (${valor})`;
       };
-
       const g1Formula = extrairTextoLimpo('g1-formula').replace(/\n/g, ' | ');
       const g1Qtd = extrairTextoLimpo('g1-qtd').replace(/\n/g, ' | ');
       const g1Custo = extrairTextoLimpo('g1-custo').replace(/\n/g, ' | ');
-
       const g2Formula = extrairTextoLimpo('g2-formula').replace(/\n/g, ' | ');
       const g2Qtd = extrairTextoLimpo('g2-qtd').replace(/\n/g, ' | ');
       const g2Custo = extrairTextoLimpo('g2-custo').replace(/\n/g, ' | ');
-
       const linhas = [
         '🌱 *FertAmapá - Embrapa*',
         '*Proposta de Correção e Adubação do Solo*',
@@ -2501,27 +2514,63 @@
         `• Grupo 1 (Sulf. de Amônio + SFT + KCl): Formulação ${g1Formula} | Qtd: ${g1Qtd} | Custo Total: ${g1Custo}`,
         `• Grupo 2 (Ureia + SFS + KCl): Formulação ${g2Formula} | Qtd: ${g2Qtd} | Custo Total: ${g2Custo}`
       ];
-
       const containerRec = document.getElementById('container-recomendacoes-cultura');
       const recCultura = extrairTextoLimpo('texto-recomendacoes-cultura');
       if (containerRec && containerRec.style.display !== 'none' && recCultura) {
         linhas.push('', '*5. RECOMENDAÇÕES ADICIONAIS DA CULTURA*', recCultura);
       }
-
       const notaTxt = extrairTextoLimpo('nota-cobertura');
       if (notaTxt) {
         linhas.push('', notaTxt);
       }
-
       const obsTxt = extrairTextoLimpo('obs_tecnicas');
       if (obsTxt) {
         linhas.push('', '*OBSERVAÇÕES TÉCNICAS COMPLEMENTARES*', obsTxt);
       }
-
       linhas.push('', '© Embrapa 2026.');
       return linhas.join('\n');
     }
-
+    function fecharMenuEnviar() {
+      const menu = document.getElementById('menu-enviar-opcoes');
+      if (menu) {
+        menu.classList.remove('show');
+      }
+    }
+    function toggleMenuEnviar(event) {
+      if (event) event.stopPropagation();
+      const menu = document.getElementById('menu-enviar-opcoes');
+      if (menu) {
+        menu.classList.toggle('show');
+      }
+    }
+    document.addEventListener('click', function(event) {
+      const wrapper = document.querySelector('.enviar-dropdown-wrapper');
+      if (wrapper && !wrapper.contains(event.target)) {
+        fecharMenuEnviar();
+      }
+    });
+    function enviarPorGmail() {
+      fecharMenuEnviar();
+      sincronizarCamposIdentificacao();
+      calcular();
+      switchTab('RELATORIO');
+      const assunto = 'Relatório FertAmapá - Proposta de Correção e Adubação do Solo';
+      const corpo = gerarTextoRelatorio();
+      const gmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&su=${encodeURIComponent(assunto)}&body=${encodeURIComponent(corpo)}`;
+      if (gmailUrl.length > 8000) {
+        copiarTextoRelatorioFallback(corpo);
+        const gmailUrlCurta = `https://mail.google.com/mail/?view=cm&fs=1&su=${encodeURIComponent(assunto)}`;
+        const winCurta = window.open(gmailUrlCurta, '_blank', 'noopener,noreferrer');
+        if (!winCurta) {
+          window.location.href = gmailUrlCurta;
+        }
+        return;
+      }
+      const win = window.open(gmailUrl, '_blank', 'noopener,noreferrer');
+      if (!win) {
+        window.location.href = gmailUrl;
+      }
+    }
     function copiarTextoRelatorioFallback(texto) {
       if (navigator.clipboard && typeof navigator.clipboard.writeText === 'function') {
         navigator.clipboard.writeText(texto).then(() => {
@@ -2533,7 +2582,6 @@
         copiarViaTextarea(texto);
       }
     }
-
     function copiarViaTextarea(texto) {
       const ta = document.createElement('textarea');
       ta.value = texto;
@@ -2550,13 +2598,12 @@
       }
       document.body.removeChild(ta);
     }
-
     function compartilharRelatorio() {
+      fecharMenuEnviar();
       sincronizarCamposIdentificacao();
       calcular();
       switchTab('RELATORIO');
       const textoRelatorio = gerarTextoRelatorio();
-
       if (navigator.share) {
         navigator.share({
           title: 'Relatório FertAmapá - Proposta de Correção e Adubação do Solo',
@@ -2570,7 +2617,6 @@
         copiarTextoRelatorioFallback(textoRelatorio);
       }
     }
-
     const camposPreco = [
       'preco_calcario',
       'preco_samonio',
