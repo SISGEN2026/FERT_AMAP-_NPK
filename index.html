@@ -160,6 +160,7 @@
       gap: 4px;
       transition: background-color 0.2s ease;
       box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      touch-action: manipulation;
     }
     .btn-action:hover {
       background-color: #f0f0f0;
@@ -168,6 +169,7 @@
       width: 16px;
       height: 16px;
       fill: var(--green-header);
+      pointer-events: none;
     }
     .nav-tabs {
       display: flex;
@@ -470,6 +472,7 @@
         }
       }
       html, body { 
+        display: block !important;
         height: auto !important;
         min-height: 0 !important;
         background-color: white !important; 
@@ -494,6 +497,7 @@
         box-shadow: none !important; 
         padding: 0 !important; 
         border-radius: 0 !important; 
+        overflow: visible !important;
       }
       .etiqueta-campos {
         border: 1px dashed #666 !important;
@@ -507,7 +511,10 @@
         resize: none !important;
       }
       .side-bar-container { border: 1px solid #ccc !important; }
-      .table-container { border: none !important; }
+      .table-container { 
+        border: none !important; 
+        overflow: visible !important;
+      }
       th, td { border: 1px solid #999 !important; }
     }
   </style>
@@ -540,7 +547,7 @@
     <header class="app-header">
       <div class="app-title" onclick="showHero()">🌱 FertAmapá</div>
       <div class="header-actions">
-        <button type="button" class="btn-action" onclick="window.print()" title="Imprimir ou Salvar PDF">
+        <button type="button" class="btn-action" id="btn-gerar-pdf" onclick="gerarPDF()" title="Imprimir ou Salvar PDF">
           <svg viewBox="0 0 24 24"><path d="M19,8H5C3.34,8 2,9.34 2,11V17H6V21H18V17H22V11C22,9.34 20.66,8 19,8M16,19H8V15H16V19M19,12C18.45,12 18,11.55 18,11C18,10.45 18.45,10 19,10C19.55,10 20,10.45 20,11C20,11.55 19.55,12 19,12M18,3H6V7H18V3Z"/></svg>
           PDF
         </button>
@@ -1725,6 +1732,256 @@
       if (notaElem) {
         notaElem.innerText = "📌As recomendações desta proposta foram elaboradas com base em tabelas oficiais e na literatura científica, constituindo uma diretriz que deve evoluir com o monitoramento contínuo do solo e da cultura. A definição precisa das dosagens requer assistência técnica especializada, alinhada ao histórico da área e às metas de produtividade. Para outras informações, consulte os Dizeres Técnicos.";
         notaElem.style.display = 'block';
+      }
+    }
+    function isTelaPequenaOuMobile() {
+      return window.innerWidth <= 768 || /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+    }
+    function extrairTextoLimpo(id) {
+      const el = document.getElementById(id);
+      if (!el) return '';
+      if ('value' in el && (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA')) {
+        return (el.value || '').trim();
+      }
+      const clone = el.cloneNode(true);
+      clone.querySelectorAll('br').forEach(br => br.replaceWith('\n'));
+      return (clone.textContent || '').replace(/[ \t]+/g, ' ').replace(/\n\s+/g, '\n').trim();
+    }
+    function normalizarTextoPDF(str) {
+      return String(str || '')
+        .replace(/P₂O₅/g, 'P2O5')
+        .replace(/K₂O/g, 'K2O')
+        .replace(/Al³⁺/g, 'Al3+')
+        .replace(/dm³/g, 'dm3')
+        .replace(/×/g, 'x')
+        .replace(/[–—]/g, '-')
+        .replace(/📌/g, '*')
+        .replace(/[^\x00-\xFF]/g, '');
+    }
+    function escaparStringPDF(str) {
+      return normalizarTextoPDF(str)
+        .replace(/\\/g, '\\\\')
+        .replace(/\(/g, '\\(')
+        .replace(/\)/g, '\\)');
+    }
+    function baixarPDFNativo() {
+      const pageWidth = 595;
+      const pageHeight = 842;
+      const marginLeft = 42;
+      const marginRight = 42;
+      const usableWidth = pageWidth - marginLeft - marginRight;
+      let y = pageHeight - 48;
+      const paginas = [[]];
+
+      function novaPagina() {
+        paginas.push([]);
+        y = pageHeight - 48;
+      }
+      function checarEspaco(alturaNecessaria) {
+        if (y - alturaNecessaria < 52) {
+          novaPagina();
+        }
+      }
+      function desenharLinhaSeparadora() {
+        checarEspaco(10);
+        paginas[paginas.length - 1].push(`0.39 0.71 0.96 RG 1 w ${marginLeft} ${y} m ${pageWidth - marginRight} ${y} l S 0 0 0 RG`);
+        y -= 10;
+      }
+      function escreverBloco(texto, opts = {}) {
+        const font = opts.bold ? 'F2' : 'F1';
+        const size = opts.size || 9.5;
+        const lineHeight = opts.lineHeight || (size + 4);
+        const r = opts.r !== undefined ? opts.r : 0.15;
+        const g = opts.g !== undefined ? opts.g : 0.15;
+        const b = opts.b !== undefined ? opts.b : 0.15;
+        const indent = opts.indent || 0;
+        const maxChars = Math.max(20, Math.floor((usableWidth - indent) / (size * 0.53)));
+
+        const paragrafos = normalizarTextoPDF(texto).split('\n');
+        paragrafos.forEach(paragrafo => {
+          const limpo = paragrafo.trim();
+          if (!limpo) {
+            y -= lineHeight * 0.5;
+            return;
+          }
+          const palavras = limpo.split(/\s+/);
+          let linhaAtual = '';
+          const linhas = [];
+          palavras.forEach(palavra => {
+            const teste = linhaAtual ? `${linhaAtual} ${palavra}` : palavra;
+            if (teste.length <= maxChars) {
+              linhaAtual = teste;
+            } else {
+              if (linhaAtual) linhas.push(linhaAtual);
+              linhaAtual = palavra;
+            }
+          });
+          if (linhaAtual) linhas.push(linhaAtual);
+
+          linhas.forEach(linha => {
+            checarEspaco(lineHeight);
+            const esc = escaparStringPDF(linha);
+            paginas[paginas.length - 1].push(
+              `BT /${font} ${size} Tf ${r} ${g} ${b} rg ${marginLeft + indent} ${y} Td (${esc}) Tj ET`
+            );
+            y -= lineHeight;
+          });
+        });
+        if (opts.spaceAfter) y -= opts.spaceAfter;
+      }
+
+      // Cabeçalho
+      escreverBloco('FertAmapa - Embrapa', { bold: true, size: 11, r: 0.18, g: 0.49, b: 0.20, spaceAfter: 2 });
+      escreverBloco('Proposta de Correcao e Adubacao do Solo', { bold: true, size: 14, r: 0.00, g: 0.23, b: 0.44, spaceAfter: 4 });
+      desenharLinhaSeparadora();
+
+      // Identificação
+      escreverBloco(`Solicitante: ${extrairTextoLimpo('relatorio_solicitante') || '-'}`, { size: 9 });
+      escreverBloco(`Procedencia: ${extrairTextoLimpo('relatorio_procedencia') || '-'}`, { size: 9 });
+      escreverBloco(`Area: ${extrairTextoLimpo('relatorio_area') || '-'}`, { size: 9 });
+      escreverBloco(`N de Protocolo: ${extrairTextoLimpo('relatorio_protocolo') || '-'}`, { size: 9 });
+      escreverBloco(`Cultura Selecionada: ${extrairTextoLimpo('relatorio_cultura') || '-'}`, { bold: true, size: 9.5, r: 0.00, g: 0.23, b: 0.44, spaceAfter: 8 });
+
+      // Calagem
+      escreverBloco('Calagem', { bold: true, size: 11, r: 0.00, g: 0.23, b: 0.44, spaceAfter: 2 });
+      escreverBloco(`- Saturacao por Bases: ${extrairTextoLimpo('res-nc-sat')} | Custo Estimado: ${extrairTextoLimpo('res-custo-sat')}`, { size: 9 });
+      escreverBloco(`- ${extrairTextoLimpo('label-ncprnt')}: ${extrairTextoLimpo('res-ncprnt')} | Custo Estimado: ${extrairTextoLimpo('res-custo-calcario')}`, { bold: true, size: 9, spaceAfter: 8 });
+
+      // Recomendação Teórica
+      escreverBloco('Recomendacao Teorica dos Nutrientes para a Cultura (Plantio/Semeio)', { bold: true, size: 11, r: 0.00, g: 0.23, b: 0.44, spaceAfter: 2 });
+      escreverBloco(`N: ${extrairTextoLimpo('dose_n')} kg/ha   |   P2O5: ${extrairTextoLimpo('dose_p2o5')} kg/ha   |   K2O: ${extrairTextoLimpo('dose_k2o')} kg/ha`, { size: 9.5, spaceAfter: 8 });
+
+      // Fertilizantes Calculados Individualmente
+      escreverBloco('Fertilizantes Calculados Individualmente', { bold: true, size: 11, r: 0.00, g: 0.23, b: 0.44, spaceAfter: 2 });
+      const ferts = [
+        ['Sulfato de Amonio', 'fc-samonio-peso', 'fc-samonio-valor'],
+        ['Ureia', 'fc-ureia-peso', 'fc-ureia-valor'],
+        ['Superfosfato Simples (SFS)', 'fc-sfs-peso', 'fc-sfs-valor'],
+        ['Superfosfato Triplo (SFT)', 'fc-sft-peso', 'fc-sft-valor'],
+        ['Cloreto de Potassio (KCl)', 'fc-kcl-peso', 'fc-kcl-valor']
+      ];
+      ferts.forEach(([nome, idPeso, idValor]) => {
+        const pesoTxt = extrairTextoLimpo(idPeso).replace(/\n/g, ' ; ');
+        const valorTxt = extrairTextoLimpo(idValor).replace(/\n/g, ' ; ');
+        escreverBloco(`- ${nome}: ${pesoTxt} (${valorTxt})`, { size: 8.8, spaceAfter: 2 });
+      });
+      y -= 6;
+
+      // Formulação e Adubação Agrupada
+      escreverBloco('Formulacao e Adubacao Agrupada', { bold: true, size: 11, r: 0.00, g: 0.23, b: 0.44, spaceAfter: 2 });
+      escreverBloco(`Grupo 1 (Sulf. de Amonio + SFT + KCl): Formula ${extrairTextoLimpo('g1-formula').replace(/\n/g, ' ; ')} | Qtd: ${extrairTextoLimpo('g1-qtd').replace(/\n/g, ' ; ')} | Custo: ${extrairTextoLimpo('g1-custo').replace(/\n/g, ' ; ')}`, { size: 8.8, spaceAfter: 3 });
+      escreverBloco(`Grupo 2 (Ureia + SFS + KCl): Formula ${extrairTextoLimpo('g2-formula').replace(/\n/g, ' ; ')} | Qtd: ${extrairTextoLimpo('g2-qtd').replace(/\n/g, ' ; ')} | Custo: ${extrairTextoLimpo('g2-custo').replace(/\n/g, ' ; ')}`, { size: 8.8, spaceAfter: 8 });
+
+      // Recomendações Adicionais da Cultura
+      const recCultura = extrairTextoLimpo('texto-recomendacoes-cultura');
+      if (recCultura) {
+        escreverBloco('Recomendacoes Adicionais da Cultura', { bold: true, size: 11, r: 0.00, g: 0.23, b: 0.44, spaceAfter: 2 });
+        escreverBloco(recCultura, { size: 8.5, spaceAfter: 6 });
+      }
+
+      // Nota técnica
+      const notaTxt = extrairTextoLimpo('nota-cobertura');
+      if (notaTxt) {
+        escreverBloco(notaTxt, { size: 8.5, r: 0.00, g: 0.23, b: 0.44, spaceAfter: 8 });
+      }
+
+      // Observações Técnicas Complementares
+      const obsTxt = extrairTextoLimpo('obs_tecnicas');
+      if (obsTxt) {
+        escreverBloco('Observacoes Tecnicas Complementares', { bold: true, size: 11, r: 0.00, g: 0.23, b: 0.44, spaceAfter: 2 });
+        escreverBloco(obsTxt, { size: 8.8, spaceAfter: 6 });
+      }
+
+      // Rodapé com numeração de páginas
+      const totalPaginas = paginas.length;
+      paginas.forEach((comandos, idx) => {
+        const rodape = escaparStringPDF(`Embrapa 2026 - Pagina ${idx + 1}/${totalPaginas}`);
+        comandos.push(`BT /F1 8 Tf 0.4 0.4 0.4 rg ${marginLeft} 28 Td (${rodape}) Tj ET`);
+      });
+
+      // Montagem do arquivo PDF 1.4
+      const objetos = [];
+      objetos.push('<< /Type /Catalog /Pages 2 0 R >>');
+      const kidsRefs = paginas.map((_, i) => `${5 + i * 2} 0 R`).join(' ');
+      objetos.push(`<< /Type /Pages /Kids [ ${kidsRefs} ] /Count ${totalPaginas} >>`);
+      objetos.push('<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica /Encoding /WinAnsiEncoding >>');
+      objetos.push('<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold /Encoding /WinAnsiEncoding >>');
+
+      paginas.forEach((comandos, i) => {
+        const pageObjNum = 5 + i * 2;
+        const contentObjNum = pageObjNum + 1;
+        const stream = comandos.join('\n');
+        objetos.push(`<< /Type /Page /Parent 2 0 R /MediaBox [0 0 ${pageWidth} ${pageHeight}] /Resources << /Font << /F1 3 0 R /F2 4 0 R >> >> /Contents ${contentObjNum} 0 R >>`);
+        objetos.push(`<< /Length ${stream.length} >>\nstream\n${stream}\nendstream`);
+      });
+
+      let pdfStr = '%PDF-1.4\n';
+      const offsets = [0];
+      objetos.forEach((objContent, idx) => {
+        offsets.push(pdfStr.length);
+        pdfStr += `${idx + 1} 0 obj\n${objContent}\nendobj\n`;
+      });
+      const xrefOffset = pdfStr.length;
+      pdfStr += `xref\n0 ${objetos.length + 1}\n`;
+      pdfStr += '0000000000 65535 f \n';
+      for (let i = 1; i <= objetos.length; i++) {
+        pdfStr += String(offsets[i]).padStart(10, '0') + ' 00000 n \n';
+      }
+      pdfStr += `trailer\n<< /Size ${objetos.length + 1} /Root 1 0 R >>\nstartxref\n${xrefOffset}\n%%EOF`;
+
+      const bytes = new Uint8Array(pdfStr.length);
+      for (let i = 0; i < pdfStr.length; i++) {
+        bytes[i] = pdfStr.charCodeAt(i) & 0xFF;
+      }
+
+      const blob = new Blob([bytes], { type: 'application/pdf' });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = 'Relatorio_FertAmapa.pdf';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      setTimeout(() => URL.revokeObjectURL(url), 4000);
+    }
+    function gerarPDF() {
+      sincronizarCamposIdentificacao();
+      calcular();
+      switchTab('RELATORIO');
+      window.scrollTo(0, 0);
+
+      if (typeof window.print !== 'function') {
+        baixarPDFNativo();
+        return;
+      }
+
+      let printDisparado = false;
+      const onBeforePrint = () => {
+        printDisparado = true;
+      };
+      window.addEventListener('beforeprint', onBeforePrint, { once: true });
+
+      const inicio = Date.now();
+      try {
+        window.print();
+      } catch (e) {
+        window.removeEventListener('beforeprint', onBeforePrint);
+        baixarPDFNativo();
+        return;
+      }
+      const duracao = Date.now() - inicio;
+
+      if (isTelaPequenaOuMobile() && !printDisparado && duracao < 250) {
+        setTimeout(() => {
+          window.removeEventListener('beforeprint', onBeforePrint);
+          if (!printDisparado) {
+            baixarPDFNativo();
+          }
+        }, 300);
+      } else {
+        setTimeout(() => {
+          window.removeEventListener('beforeprint', onBeforePrint);
+        }, 1000);
       }
     }
     function compartilharRelatorio() {
