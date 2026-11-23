@@ -1938,6 +1938,115 @@
       });
       return resultado;
     }
+    function extrairSegmentosRicosNode(node) {
+      const segs = [];
+      function percorrer(n, boldAtual) {
+        if (n.nodeType === Node.TEXT_NODE) {
+          const t = n.textContent.replace(/\u00A0/g, ' ').replace(/\s+/g, ' ');
+          if (t) segs.push({ text: t, bold: boldAtual });
+        } else if (n.nodeType === Node.ELEMENT_NODE) {
+          const tag = n.tagName.toUpperCase();
+          const isBold = boldAtual || tag === 'STRONG' || tag === 'B';
+          n.childNodes.forEach(child => percorrer(child, isBold));
+        }
+      }
+      percorrer(node, false);
+      return segs;
+    }
+    function mesclarSegmentosAdjacentes(segs) {
+      const out = [];
+      segs.forEach(s => {
+        if (!s.text) return;
+        if (out.length > 0 && out[out.length - 1].bold === s.bold) {
+          out[out.length - 1].text += s.text;
+        } else {
+          out.push({ text: s.text, bold: s.bold });
+        }
+      });
+      return out;
+    }
+    function quebrarSegmentosEmLinhas(segments, larguraMaxPt, size) {
+      const tokens = [];
+      segments.forEach(seg => {
+        const partes = String(seg.text || '').split(/(\s+)/);
+        partes.forEach(p => {
+          if (!p) return;
+          if (/^\s+$/.test(p)) {
+            tokens.push({ isSpace: true, text: ' ', bold: seg.bold });
+          } else {
+            tokens.push({ isSpace: false, text: p, bold: seg.bold });
+          }
+        });
+      });
+
+      const itens = [];
+      let clusterAtual = [];
+      tokens.forEach(tok => {
+        if (tok.isSpace) {
+          if (clusterAtual.length > 0) {
+            itens.push({ isSpace: false, pieces: clusterAtual });
+            clusterAtual = [];
+          }
+          if (itens.length > 0 && !itens[itens.length - 1].isSpace) {
+            itens.push({ isSpace: true, text: ' ', bold: tok.bold });
+          }
+        } else {
+          clusterAtual.push({ text: tok.text, bold: tok.bold });
+        }
+      });
+      if (clusterAtual.length > 0) {
+        itens.push({ isSpace: false, pieces: clusterAtual });
+      }
+      if (itens.length > 0 && itens[itens.length - 1].isSpace) {
+        itens.pop();
+      }
+
+      const linhas = [];
+      let linhaAtual = [];
+      let larguraAtual = 0;
+      let espacoPendente = null;
+
+      itens.forEach(item => {
+        if (item.isSpace) {
+          if (linhaAtual.length > 0) {
+            espacoPendente = item;
+          }
+          return;
+        }
+        const larguraCluster = item.pieces.reduce(
+          (acc, p) => acc + medirLarguraTextoPDF(p.text, size, p.bold),
+          0
+        );
+        const larguraEspaco = espacoPendente
+          ? medirLarguraTextoPDF(' ', size, espacoPendente.bold)
+          : 0;
+
+        if (linhaAtual.length === 0) {
+          linhaAtual.push(...item.pieces);
+          larguraAtual = larguraCluster;
+          espacoPendente = null;
+        } else if (larguraAtual + larguraEspaco + larguraCluster <= larguraMaxPt) {
+          if (espacoPendente) {
+            linhaAtual.push({ text: ' ', bold: espacoPendente.bold });
+            larguraAtual += larguraEspaco;
+          }
+          linhaAtual.push(...item.pieces);
+          larguraAtual += larguraCluster;
+          espacoPendente = null;
+        } else {
+          linhas.push(mesclarSegmentosAdjacentes(linhaAtual));
+          linhaAtual = [...item.pieces];
+          larguraAtual = larguraCluster;
+          espacoPendente = null;
+        }
+      });
+
+      if (linhaAtual.length > 0) {
+        linhas.push(mesclarSegmentosAdjacentes(linhaAtual));
+      }
+
+      return linhas;
+    }
     function extrairLinhasRicasCelula(id) {
       const el = document.getElementById(id);
       if (!el) return [];
@@ -2303,7 +2412,8 @@
           if (!txt) return;
           const isRef = txt.startsWith('Referência:') || pNode.tagName === 'DIV' || pNode.innerHTML.includes('font-size: 8px');
           const size = isRef ? 6.8 : 7.8;
-          const linhasQ = quebrarTextoEmLinhas(txt, contentWidth - 16, size, false);
+          const segs = extrairSegmentosRicosNode(pNode);
+          const linhasQ = quebrarSegmentosEmLinhas(segs, contentWidth - 16, size);
           blocosRec.push({ linhas: linhasQ, size: size });
         });
         if (blocosRec.length > 0) {
@@ -2318,7 +2428,7 @@
           let yCursorBox = y - 13;
           const linhasFlat = [];
           blocosRec.forEach((b, idx) => {
-            b.linhas.forEach(l => linhasFlat.push({ text: l, size: b.size, spaceAfter: 0 }));
+            b.linhas.forEach(l => linhasFlat.push({ segments: l, size: b.size, spaceAfter: 0 }));
             if (idx < blocosRec.length - 1 && linhasFlat.length > 0) {
               linhasFlat[linhasFlat.length - 1].spaceAfter = 5;
             }
@@ -2345,7 +2455,7 @@
               lineWidth: 0.6
             });
             desenharNestaPagina.forEach(d => {
-              escreverTexto(d.text, marginLeft + 8, d.yPos, { bold: false, size: d.size, color: [0.2, 0.2, 0.2] });
+              escreverSegmentos(d.segments, marginLeft + 8, d.yPos, d.size, [0.2, 0.2, 0.2], 'left', 0);
             });
             y = yInicioBox - hBox - 10;
             if (idxL < linhasFlat.length) {
@@ -2766,6 +2876,3 @@
   </script>
 </body>
 </html>
-
-
-
