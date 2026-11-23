@@ -2444,11 +2444,26 @@
       }
       return new Blob([bytes], { type: 'application/pdf' });
     }
-    function baixarArquivoPDFBlob(blob) {
+    function obterCulturaSelecionadaTexto() {
+      const sel = document.getElementById('cultura');
+      const rel = document.getElementById('relatorio_cultura');
+      return ((sel && sel.value) || (rel && rel.value) || 'ABACAXI').trim();
+    }
+    function obterNomeArquivoPDFCultura() {
+      const cultura = obterCulturaSelecionadaTexto();
+      const culturaSegura = cultura
+        .normalize('NFD')
+        .replace(/[\u0300-\u036f]/g, '')
+        .replace(/[^a-zA-Z0-9_-]+/g, '_')
+        .replace(/^_+|_+$/g, '') || 'Relatorio';
+      return `Relatorio_FertAmapa_${culturaSegura}.pdf`;
+    }
+    function baixarArquivoPDFBlob(blob, nomeArquivo) {
+      const fileName = nomeArquivo || obterNomeArquivoPDFCultura();
       const url = URL.createObjectURL(blob);
       const link = document.createElement('a');
       link.href = url;
-      link.download = 'Relatorio_FertAmapa.pdf';
+      link.download = fileName;
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
@@ -2456,7 +2471,7 @@
     }
     function baixarPDFNativo() {
       const blob = gerarBlobPDFNativo();
-      baixarArquivoPDFBlob(blob);
+      baixarArquivoPDFBlob(blob, obterNomeArquivoPDFCultura());
     }
     function gerarPDF() {
       sincronizarCamposIdentificacao();
@@ -2516,54 +2531,61 @@
       calcular();
       switchTab('RELATORIO');
       const blob = gerarBlobPDFNativo();
-      const file = new File([blob], 'Relatorio_FertAmapa.pdf', { type: 'application/pdf' });
-      return { blob, file };
+      const fileName = obterNomeArquivoPDFCultura();
+      const file = new File([blob], fileName, { type: 'application/pdf' });
+      return { blob, file, fileName };
     }
-    function abrirGmailComPDF(blob) {
-      baixarArquivoPDFBlob(blob);
-      const assunto = encodeURIComponent('Relatório FertAmapá - Proposta de Correção e Adubação do Solo');
-      const gmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&su=${assunto}`;
+    function abrirGmailComPDF(blob, fileName) {
+      const nomePdf = fileName || obterNomeArquivoPDFCultura();
+      const cultura = obterCulturaSelecionadaTexto();
+      baixarArquivoPDFBlob(blob, nomePdf);
+      const assunto = encodeURIComponent(`Relatório FertAmapá (${cultura}) - Proposta de Correção e Adubação do Solo`);
+      const corpo = encodeURIComponent(`Segue em anexo o relatório em PDF referente à cultura ${cultura} (${nomePdf}).`);
+      const gmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&su=${assunto}&body=${corpo}`;
       window.open(gmailUrl, '_blank', 'noopener,noreferrer');
-      alert("O relatório em PDF (Relatorio_FertAmapa.pdf) foi gerado e baixado. Na janela do Gmail aberta, anexe o arquivo 'Relatorio_FertAmapa.pdf' para enviá-lo.");
+      alert(`O relatório em PDF (${nomePdf}) foi gerado e baixado. Na janela do Gmail aberta, anexe o arquivo '${nomePdf}' para enviá-lo.`);
     }
     function enviarRelatorioGmailPDF() {
       fecharMenuEnviar();
-      const { blob, file } = criarArquivoPDFRelatorio();
-      if (isTelaPequenaOuMobile() && navigator.canShare && navigator.canShare({ files: [file] })) {
+      const { blob, file, fileName } = criarArquivoPDFRelatorio();
+      const cultura = obterCulturaSelecionadaTexto();
+      if (navigator.canShare && navigator.canShare({ files: [file] })) {
         navigator.share({
           files: [file],
-          title: 'Relatório FertAmapá - Proposta de Correção e Adubação do Solo'
+          title: `Relatório FertAmapá (${cultura}) - Proposta de Correção e Adubação do Solo`,
+          text: `Segue em anexo o relatório em PDF referente à cultura ${cultura}.`
         }).catch((err) => {
           if (err && err.name !== 'AbortError') {
-            abrirGmailComPDF(blob);
+            abrirGmailComPDF(blob, fileName);
           }
         });
       } else {
-        abrirGmailComPDF(blob);
+        abrirGmailComPDF(blob, fileName);
       }
     }
     function compartilharRelatorioPDF() {
       fecharMenuEnviar();
-      const { blob, file } = criarArquivoPDFRelatorio();
+      const { blob, file, fileName } = criarArquivoPDFRelatorio();
+      const cultura = obterCulturaSelecionadaTexto();
       if (navigator.canShare && navigator.canShare({ files: [file] })) {
         navigator.share({
           files: [file],
-          title: 'Relatório FertAmapá - Proposta de Correção e Adubação do Solo'
+          title: `Relatório FertAmapá (${cultura}) - Proposta de Correção e Adubação do Solo`
         }).catch((err) => {
           if (err && err.name !== 'AbortError') {
-            baixarArquivoPDFBlob(blob);
-            alert("O relatório em PDF (Relatorio_FertAmapa.pdf) foi baixado para que você possa anexá-lo e enviá-lo no aplicativo desejado.");
+            baixarArquivoPDFBlob(blob, fileName);
+            alert(`O relatório em PDF (${fileName}) foi baixado para que você possa anexá-lo e enviá-lo no aplicativo desejado.`);
           }
         });
       } else {
-        baixarArquivoPDFBlob(blob);
-        alert("O relatório em PDF (Relatorio_FertAmapa.pdf) foi baixado para que você possa anexá-lo e enviá-lo no aplicativo desejado.");
+        baixarArquivoPDFBlob(blob, fileName);
+        alert(`O relatório em PDF (${fileName}) foi baixado para que você possa anexá-lo e enviá-lo no aplicativo desejado.`);
       }
     }
     function baixarPDFParaEnvio() {
       fecharMenuEnviar();
-      const { blob } = criarArquivoPDFRelatorio();
-      baixarArquivoPDFBlob(blob);
+      const { blob, fileName } = criarArquivoPDFRelatorio();
+      baixarArquivoPDFBlob(blob, fileName);
     }
     const camposPreco = [
       'preco_calcario',
