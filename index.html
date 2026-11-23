@@ -461,18 +461,27 @@
     }
     @media print {
       @page {
-        size: portrait;
+        size: A4 portrait;
         margin: 12mm 15mm;
         @bottom-left { content: ""; }
-        @bottom-center { content: ""; }
+        @bottom-center {
+          content: "© Embrapa 2026.";
+          font-size: 0.75rem;
+          color: #666;
+        }
         @bottom-right {
           content: counter(page) "/" counter(pages);
           font-size: 0.75rem;
           color: #333;
         }
       }
+      * {
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+      }
       html, body { 
         display: block !important;
+        width: 100% !important;
         height: auto !important;
         min-height: 0 !important;
         background-color: white !important; 
@@ -485,15 +494,22 @@
       }
       #app { 
         display: block !important; 
+        width: 100% !important;
         min-height: 0 !important;
         height: auto !important;
       }
       .main-content { 
+        width: 100% !important;
         max-width: 100% !important; 
         padding: 0 !important; 
         margin: 0 !important; 
       }
-      .tab-content { 
+      .tab-content {
+        display: none !important;
+      }
+      #tab-RELATORIO {
+        display: block !important;
+        width: 100% !important;
         box-shadow: none !important; 
         padding: 0 !important; 
         border-radius: 0 !important; 
@@ -501,8 +517,12 @@
       }
       .etiqueta-campos {
         border: 1px dashed #666 !important;
-        background: transparent !important;
-        padding: 6px 8px !important;
+        background-color: #fafafa !important;
+        padding: 8px 10px !important;
+      }
+      .form-group-inline label {
+        min-width: 115px !important;
+        font-size: 0.75rem !important;
       }
       input, select, textarea { 
         border: none !important; 
@@ -510,10 +530,28 @@
         padding: 0 !important; 
         resize: none !important;
       }
+      #relatorio_cultura {
+        background-color: #e9ecef !important;
+        border: 1px solid #ced4da !important;
+        padding: 5px 7px !important;
+      }
+      #obs_tecnicas {
+        border: 1px solid #ccc !important;
+        padding: 8px 10px !important;
+      }
       .side-bar-container { border: 1px solid #ccc !important; }
       .table-container { 
-        border: none !important; 
+        border: 1px solid #ccc !important; 
         overflow: visible !important;
+      }
+      .table-compact th,
+      .table-compact td {
+        padding: 6px 8px !important;
+        font-size: 0.8rem !important;
+      }
+      th {
+        background-color: #e3f2fd !important;
+        color: #003b70 !important;
       }
       th, td { border: 1px solid #999 !important; }
     }
@@ -547,11 +585,11 @@
     <header class="app-header">
       <div class="app-title" onclick="showHero()">🌱 FertAmapá</div>
       <div class="header-actions">
-        <button type="button" class="btn-action" id="btn-gerar-pdf" onclick="gerarPDF()" title="Imprimir ou Salvar PDF">
+        <button type="button" class="btn-action" id="btn-gerar-pdf" onclick="gerarPDF()" title="Gerar Relatório em PDF">
           <svg viewBox="0 0 24 24"><path d="M19,8H5C3.34,8 2,9.34 2,11V17H6V21H18V17H22V11C22,9.34 20.66,8 19,8M16,19H8V15H16V19M19,12C18.45,12 18,11.55 18,11C18,10.45 18.45,10 19,10C19.55,10 20,10.45 20,11C20,11.55 19.55,12 19,12M18,3H6V7H18V3Z"/></svg>
           PDF
         </button>
-        <button type="button" class="btn-action" onclick="compartilharRelatorio()" title="Compartilhar Relatório">
+        <button type="button" class="btn-action" id="btn-enviar-relatorio" onclick="compartilharRelatorio()" title="Enviar Conteúdo do Relatório">
           <svg viewBox="0 0 24 24"><path d="M18,16.08C17.24,16.08 16.56,16.38 16.04,16.85L8.91,12.7C8.96,12.47 9,12.24 9,12C9,11.76 8.96,11.53 8.91,11.3L15.96,7.19C16.5,7.69 17.21,8 18,8A3,3 0 0,0 21,5A3,3 0 0,0 18,2A3,3 0 0,0 15,5C15,5.24 15.04,5.47 15.09,5.7L8.04,9.81C7.5,9.31 6.79,9 6,9A3,3 0 0,0 3,12A3,3 0 0,0 6,15C6.79,15 7.5,14.69 8.04,14.19L15.16,18.34C15.11,18.55 15.08,18.77 15.08,19A3,3 0 0,0 18.08,22A3,3 0 0,0 21.08,19A3,3 0 0,0 18,16.08Z"/></svg>
           Enviar
         </button>
@@ -679,7 +717,7 @@
       </section>
       <!-- ABA RELATÓRIO -->
       <section id="tab-RELATORIO" class="tab-content">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/e/ec/Embrapa_-_Marca.png" alt="Marca Embrapa" style="width: 150px; height: auto; display: block; margin: 0 auto 20px auto;">
+        <img id="logo-embrapa-relatorio" src="https://upload.wikimedia.org/wikipedia/commons/e/ec/Embrapa_-_Marca.png" crossorigin="anonymous" alt="Marca Embrapa" style="width: 150px; height: auto; display: block; margin: 0 auto 20px auto;">
         <h2>Proposta de Correção e Adubação do Solo</h2>
         <div class="etiqueta-campos">
           <div class="form-group-inline">
@@ -1734,9 +1772,11 @@
         notaElem.style.display = 'block';
       }
     }
+
     function isTelaPequenaOuMobile() {
       return window.innerWidth <= 768 || /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
     }
+
     function extrairTextoLimpo(id) {
       const el = document.getElementById(id);
       if (!el) return '';
@@ -1747,171 +1787,587 @@
       clone.querySelectorAll('br').forEach(br => br.replaceWith('\n'));
       return (clone.textContent || '').replace(/[ \t]+/g, ' ').replace(/\n\s+/g, '\n').trim();
     }
-    function normalizarTextoPDF(str) {
-      return String(str || '')
+
+    function codificarWinAnsi(str) {
+      let out = '';
+      const s = String(str || '')
         .replace(/P₂O₅/g, 'P2O5')
         .replace(/K₂O/g, 'K2O')
         .replace(/Al³⁺/g, 'Al3+')
         .replace(/dm³/g, 'dm3')
-        .replace(/×/g, 'x')
-        .replace(/[–—]/g, '-')
-        .replace(/📌/g, '*')
-        .replace(/[^\x00-\xFF]/g, '');
+        .replace(/📌/g, '');
+      for (let i = 0; i < s.length; i++) {
+        const code = s.charCodeAt(i);
+        if (code === 0x2013) {
+          out += String.fromCharCode(0x96);
+        } else if (code === 0x2014) {
+          out += String.fromCharCode(0x97);
+        } else if (code === 0x2022) {
+          out += String.fromCharCode(0x95);
+        } else if (code >= 0x20 && code <= 0xFF) {
+          out += String.fromCharCode(code);
+        } else if (code === 0x0A || code === 0x0D) {
+          out += s[i];
+        }
+      }
+      return out;
     }
+
     function escaparStringPDF(str) {
-      return normalizarTextoPDF(str)
+      return codificarWinAnsi(str)
         .replace(/\\/g, '\\\\')
         .replace(/\(/g, '\\(')
         .replace(/\)/g, '\\)');
     }
+
+    function medirLarguraTextoPDF(str, size, bold = false) {
+      const limpo = codificarWinAnsi(str);
+      const fatorFonte = bold ? 1.06 : 1.0;
+      let unidades = 0;
+      for (let i = 0; i < limpo.length; i++) {
+        const ch = limpo[i];
+        if (ch === ' ') unidades += 0.28;
+        else if ('ilI1.,:;|!()\'"`'.includes(ch)) unidades += 0.29;
+        else if ('tfjr-–/\\[]'.includes(ch)) unidades += 0.36;
+        else if ('MWm@%'.includes(ch)) unidades += 0.84;
+        else if ('wOQGDUHNKVXYABCERSZ'.includes(ch)) unidades += 0.68;
+        else if (ch >= 'A' && ch <= 'Z') unidades += 0.62;
+        else unidades += 0.53;
+      }
+      return unidades * size * fatorFonte;
+    }
+
+    function quebrarTextoEmLinhas(texto, larguraMaxPt, size, bold = false) {
+      const paragrafos = String(texto || '').split('\n');
+      const resultado = [];
+      paragrafos.forEach(paragrafo => {
+        const limpo = paragrafo.replace(/\u00A0/g, ' ').trim();
+        if (!limpo) return;
+        const palavras = limpo.split(/\s+/);
+        let linhaAtual = '';
+        palavras.forEach(palavra => {
+          const teste = linhaAtual ? `${linhaAtual} ${palavra}` : palavra;
+          if (medirLarguraTextoPDF(teste, size, bold) <= larguraMaxPt) {
+            linhaAtual = teste;
+          } else {
+            if (linhaAtual) resultado.push(linhaAtual);
+            linhaAtual = palavra;
+          }
+        });
+        if (linhaAtual) resultado.push(linhaAtual);
+      });
+      return resultado;
+    }
+
+    function extrairLinhasRicasCelula(id) {
+      const el = document.getElementById(id);
+      if (!el) return [];
+      const html = el.innerHTML || '';
+      const blocosHtml = html.split(/<br\s*\/?>/i);
+      const linhas = [];
+      blocosHtml.forEach(bloco => {
+        const temp = document.createElement('div');
+        temp.innerHTML = bloco;
+        const txtTotal = (temp.textContent || '').replace(/\u00A0/g, ' ').trim();
+        if (!txtTotal) return;
+        const isSmall = bloco.includes('0.68rem') || bloco.includes('#555');
+        const isShaded = bloco.includes('#e0e0e0') || bloco.includes('border-top');
+        const fontSize = isSmall ? 6.8 : 8.0;
+        const color = isSmall ? [0.33, 0.33, 0.33] : [0.15, 0.15, 0.15];
+        const segments = [];
+        function coletarNos(node, boldAtual) {
+          if (node.nodeType === Node.TEXT_NODE) {
+            const t = node.textContent.replace(/\u00A0/g, ' ');
+            if (t) segments.push({ text: t, bold: boldAtual });
+          } else if (node.nodeType === Node.ELEMENT_NODE) {
+            const tag = node.tagName.toUpperCase();
+            const isBold = boldAtual || tag === 'STRONG' || tag === 'B';
+            node.childNodes.forEach(child => coletarNos(child, isBold));
+          }
+        }
+        coletarNos(temp, false);
+        linhas.push({
+          segments: segments.length ? segments : [{ text: txtTotal, bold: false }],
+          fullText: txtTotal,
+          size: fontSize,
+          color: color,
+          shaded: isShaded
+        });
+      });
+      return linhas;
+    }
+
+    function extrairImagemEmbrapaJPEG() {
+      try {
+        const img = document.getElementById('logo-embrapa-relatorio');
+        if (!img || !img.complete || !img.naturalWidth || !img.naturalHeight) return null;
+        const w = img.naturalWidth;
+        const h = img.naturalHeight;
+        const canvas = document.createElement('canvas');
+        canvas.width = w;
+        canvas.height = h;
+        const ctx = canvas.getContext('2d');
+        ctx.fillStyle = '#FFFFFF';
+        ctx.fillRect(0, 0, w, h);
+        ctx.drawImage(img, 0, 0, w, h);
+        const dataUrl = canvas.toDataURL('image/jpeg', 0.92);
+        const base64 = dataUrl.split(',')[1];
+        if (!base64) return null;
+        const binStr = atob(base64);
+        return { data: binStr, width: w, height: h };
+      } catch (e) {
+        return null;
+      }
+    }
+
     function baixarPDFNativo() {
       const pageWidth = 595;
       const pageHeight = 842;
-      const marginLeft = 42;
-      const marginRight = 42;
-      const usableWidth = pageWidth - marginLeft - marginRight;
-      let y = pageHeight - 48;
+      const marginLeft = 40;
+      const marginRight = 40;
+      const contentWidth = pageWidth - marginLeft - marginRight;
+      const marginTop = 36;
+      const marginBottom = 46;
+      let y = pageHeight - marginTop;
       const paginas = [[]];
 
+      function cmd(str) {
+        paginas[paginas.length - 1].push(str);
+      }
       function novaPagina() {
         paginas.push([]);
-        y = pageHeight - 48;
+        y = pageHeight - marginTop;
       }
       function checarEspaco(alturaNecessaria) {
-        if (y - alturaNecessaria < 52) {
+        if (y - alturaNecessaria < marginBottom) {
           novaPagina();
+          return true;
         }
+        return false;
       }
-      function desenharLinhaSeparadora() {
-        checarEspaco(10);
-        paginas[paginas.length - 1].push(`0.39 0.71 0.96 RG 1 w ${marginLeft} ${y} m ${pageWidth - marginRight} ${y} l S 0 0 0 RG`);
+      function desenharRetangulo(x, yTop, w, h, opts = {}) {
+        const yBot = yTop - h;
+        cmd('q');
+        if (opts.fill) {
+          cmd(`${opts.fill[0]} ${opts.fill[1]} ${opts.fill[2]} rg`);
+        }
+        if (opts.stroke) {
+          cmd(`${opts.stroke[0]} ${opts.stroke[1]} ${opts.stroke[2]} RG`);
+          cmd(`${opts.lineWidth || 0.7} w`);
+          if (opts.dashed) {
+            cmd('[3 2] 0 d');
+          }
+        }
+        if (opts.fill && opts.stroke) {
+          cmd(`${x.toFixed(2)} ${yBot.toFixed(2)} ${w.toFixed(2)} ${h.toFixed(2)} re B`);
+        } else if (opts.fill) {
+          cmd(`${x.toFixed(2)} ${yBot.toFixed(2)} ${w.toFixed(2)} ${h.toFixed(2)} re f`);
+        } else if (opts.stroke) {
+          cmd(`${x.toFixed(2)} ${yBot.toFixed(2)} ${w.toFixed(2)} ${h.toFixed(2)} re S`);
+        }
+        cmd('Q');
+      }
+      function escreverTexto(texto, x, yBase, opts = {}) {
+        const font = opts.bold ? 'F2' : 'F1';
+        const size = opts.size || 8.5;
+        const color = opts.color || [0.2, 0.2, 0.2];
+        const esc = escaparStringPDF(texto);
+        cmd(`BT /${font} ${size} Tf ${color[0]} ${color[1]} ${color[2]} rg ${x.toFixed(2)} ${yBase.toFixed(2)} Td (${esc}) Tj ET`);
+      }
+      function escreverSegmentos(segments, xStart, yBase, size, color, align = 'left', cellWidth = 0) {
+        const textoCompleto = segments.map(s => s.text).join('');
+        const larguraTotal = medirLarguraTextoPDF(textoCompleto, size, segments.some(s => s.bold));
+        let xCursor = xStart;
+        if (align === 'center' && cellWidth > 0) {
+          xCursor = xStart + Math.max(0, (cellWidth - larguraTotal) / 2);
+        } else if (align === 'right' && cellWidth > 0) {
+          xCursor = xStart + Math.max(0, cellWidth - larguraTotal);
+        }
+        segments.forEach(seg => {
+          if (!seg.text) return;
+          escreverTexto(seg.text, xCursor, yBase, { bold: seg.bold, size: size, color: color });
+          xCursor += medirLarguraTextoPDF(seg.text, size, seg.bold);
+        });
+      }
+
+      // 1. Logotipo Embrapa centralizado no topo (igual ao relatório original)
+      const logoJpeg = extrairImagemEmbrapaJPEG();
+      if (logoJpeg) {
+        const logoW = 112;
+        const logoH = Math.round((logoJpeg.height / logoJpeg.width) * logoW);
+        const logoX = (pageWidth - logoW) / 2;
+        const logoY = y - logoH;
+        cmd(`q ${logoW} 0 0 ${logoH} ${logoX.toFixed(2)} ${logoY.toFixed(2)} cm /Im1 Do Q`);
+        y -= (logoH + 14);
+      } else {
+        const textoLogo = 'Embrapa';
+        const wLogo = medirLarguraTextoPDF(textoLogo, 18, true);
+        escreverTexto(textoLogo, (pageWidth - wLogo) / 2, y - 16, { bold: true, size: 18, color: [0.00, 0.23, 0.44] });
+        y -= 28;
+      }
+
+      // 2. Título Principal (h2) com linha inferior azul (#64b5f6)
+      escreverTexto('Proposta de Correção e Adubação do Solo', marginLeft, y - 12, {
+        bold: true, size: 13, color: [0.00, 0.23, 0.44]
+      });
+      y -= 18;
+      cmd(`q 0.392 0.710 0.965 RG 1.5 w ${marginLeft} ${y.toFixed(2)} m ${(pageWidth - marginRight).toFixed(2)} ${y.toFixed(2)} l S Q`);
+      y -= 12;
+
+      // 3. Quadro tracejado de identificação (.etiqueta-campos)
+      const camposId = [
+        ['Solicitante:', extrairTextoLimpo('relatorio_solicitante')],
+        ['Procedência:', extrairTextoLimpo('relatorio_procedencia')],
+        ['Área:', extrairTextoLimpo('relatorio_area')],
+        ['Nº de Protocolo:', extrairTextoLimpo('relatorio_protocolo')]
+      ];
+      const boxIdPad = 8;
+      const rowIdH = 18;
+      const boxIdH = boxIdPad * 2 + camposId.length * rowIdH - 3;
+      desenharRetangulo(marginLeft, y, contentWidth, boxIdH, {
+        fill: [0.98, 0.98, 0.98],
+        stroke: [0.4, 0.4, 0.4],
+        lineWidth: 0.7,
+        dashed: true
+      });
+      let yId = y - boxIdPad - 11;
+      const labelColW = 92;
+      const inputColX = marginLeft + boxIdPad + labelColW;
+      const inputColW = contentWidth - boxIdPad * 2 - labelColW;
+      camposId.forEach(([rotulo, valor]) => {
+        escreverTexto(rotulo, marginLeft + boxIdPad, yId, { bold: true, size: 8.0, color: [0.27, 0.27, 0.27] });
+        desenharRetangulo(inputColX, yId + 10, inputColW, 14, {
+          fill: [0.914, 0.925, 0.937],
+          stroke: [0.808, 0.831, 0.855],
+          lineWidth: 0.5
+        });
+        if (valor) {
+          const valCortado = quebrarTextoEmLinhas(valor, inputColW - 10, 8.0, false)[0] || valor;
+          escreverTexto(valCortado, inputColX + 5, yId, { bold: false, size: 8.0, color: [0.286, 0.314, 0.341] });
+        }
+        yId -= rowIdH;
+      });
+      y -= (boxIdH + 10);
+
+      // 4. Cultura Selecionada
+      escreverTexto('Cultura Selecionada:', marginLeft, y - 8, { bold: true, size: 8.2, color: [0.27, 0.27, 0.27] });
+      y -= 13;
+      desenharRetangulo(marginLeft, y, contentWidth, 18, {
+        fill: [0.914, 0.925, 0.937],
+        stroke: [0.808, 0.831, 0.855],
+        lineWidth: 0.6
+      });
+      escreverTexto(extrairTextoLimpo('relatorio_cultura') || 'ABACAXI', marginLeft + 7, y - 12.5, {
+        bold: true, size: 9.0, color: [0.00, 0.23, 0.44]
+      });
+      y -= 28;
+
+      // Função auxiliar para desenhar seções (h3) e tabelas completas
+      function desenharTituloSecao(titulo) {
+        checarEspaco(34);
+        escreverTexto(titulo, marginLeft, y - 10, { bold: true, size: 10.5, color: [0.00, 0.23, 0.44] });
+        y -= 16;
+      }
+
+      function desenharTabela(colWidths, headers, rows, alignments) {
+        const cellPadX = 6;
+        const cellPadY = 5;
+        const headerH = 20;
+
+        function renderHeader() {
+          desenharRetangulo(marginLeft, y, contentWidth, headerH, {
+            fill: [0.890, 0.949, 0.992],
+            stroke: [0.65, 0.65, 0.65],
+            lineWidth: 0.6
+          });
+          let xCol = marginLeft;
+          headers.forEach((hText, i) => {
+            if (i > 0) {
+              cmd(`q 0.65 0.65 0.65 RG 0.6 w ${xCol.toFixed(2)} ${y.toFixed(2)} m ${xCol.toFixed(2)} ${(y - headerH).toFixed(2)} l S Q`);
+            }
+            const innerW = colWidths[i] - cellPadX * 2;
+            const align = alignments[i] || 'left';
+            escreverSegmentos([{ text: hText, bold: true }], xCol + cellPadX, y - 13, 8.0, [0.00, 0.23, 0.44], align, innerW);
+            xCol += colWidths[i];
+          });
+          y -= headerH;
+        }
+
+        checarEspaco(headerH + 22);
+        renderHeader();
+
+        rows.forEach((rowCells, rowIdx) => {
+          // Preparar linhas quebradas por coluna
+          const colunasProcessadas = rowCells.map((cellData, colIdx) => {
+            const innerW = colWidths[colIdx] - cellPadX * 2;
+            const itens = Array.isArray(cellData) ? cellData : [{
+              segments: [{ text: String(cellData || ''), bold: false }],
+              fullText: String(cellData || ''),
+              size: 8.0,
+              color: [0.15, 0.15, 0.15],
+              shaded: false
+            }];
+            const linhasFinais = [];
+            itens.forEach(item => {
+              const textoItem = item.fullText || item.segments.map(s => s.text).join('');
+              const temBold = item.segments.some(s => s.bold);
+              if (medirLarguraTextoPDF(textoItem, item.size, temBold) <= innerW) {
+                linhasFinais.push(item);
+              } else {
+                const quebradas = quebrarTextoEmLinhas(textoItem, innerW, item.size, temBold);
+                quebradas.forEach((qTxt, qIdx) => {
+                  linhasFinais.push({
+                    segments: [{ text: qTxt, bold: qIdx === 0 && item.segments[0] ? item.segments[0].bold : false }],
+                    fullText: qTxt,
+                    size: item.size,
+                    color: item.color,
+                    shaded: item.shaded
+                  });
+                });
+              }
+            });
+            return linhasFinais;
+          });
+
+          let maxH = 20;
+          colunasProcessadas.forEach(linhasCol => {
+            let hCol = cellPadY * 2;
+            linhasCol.forEach(l => {
+              hCol += (l.size + 3.2);
+            });
+            if (hCol > maxH) maxH = hCol;
+          });
+
+          if (checarEspaco(maxH)) {
+            renderHeader();
+          }
+
+          const bgFill = rowIdx % 2 === 1 ? [0.98, 0.98, 0.98] : [1, 1, 1];
+          desenharRetangulo(marginLeft, y, contentWidth, maxH, {
+            fill: bgFill,
+            stroke: [0.65, 0.65, 0.65],
+            lineWidth: 0.6
+          });
+
+          let xCol = marginLeft;
+          colunasProcessadas.forEach((linhasCol, colIdx) => {
+            if (colIdx > 0) {
+              cmd(`q 0.65 0.65 0.65 RG 0.6 w ${xCol.toFixed(2)} ${y.toFixed(2)} m ${xCol.toFixed(2)} ${(y - maxH).toFixed(2)} l S Q`);
+            }
+            const innerW = colWidths[colIdx] - cellPadX * 2;
+            const align = alignments[colIdx] || 'left';
+            let yText = y - cellPadY - 8.5;
+            linhasCol.forEach(linhaObj => {
+              if (linhaObj.shaded) {
+                desenharRetangulo(xCol + 1, yText + 8.5, colWidths[colIdx] - 2, linhaObj.size + 3, {
+                  fill: [0.878, 0.878, 0.878]
+                });
+                cmd(`q 0.75 0.75 0.75 RG 0.5 w ${(xCol + 1).toFixed(2)} ${(yText + 8.5).toFixed(2)} m ${(xCol + colWidths[colIdx] - 1).toFixed(2)} ${(yText + 8.5).toFixed(2)} l S Q`);
+              }
+              escreverSegmentos(linhaObj.segments, xCol + cellPadX, yText, linhaObj.size, linhaObj.color, align, innerW);
+              yText -= (linhaObj.size + 3.2);
+            });
+            xCol += colWidths[colIdx];
+          });
+
+          y -= maxH;
+        });
+
         y -= 10;
       }
-      function escreverBloco(texto, opts = {}) {
-        const font = opts.bold ? 'F2' : 'F1';
-        const size = opts.size || 9.5;
-        const lineHeight = opts.lineHeight || (size + 4);
-        const r = opts.r !== undefined ? opts.r : 0.15;
-        const g = opts.g !== undefined ? opts.g : 0.15;
-        const b = opts.b !== undefined ? opts.b : 0.15;
-        const indent = opts.indent || 0;
-        const maxChars = Math.max(20, Math.floor((usableWidth - indent) / (size * 0.53)));
 
-        const paragrafos = normalizarTextoPDF(texto).split('\n');
-        paragrafos.forEach(paragrafo => {
-          const limpo = paragrafo.trim();
-          if (!limpo) {
-            y -= lineHeight * 0.5;
-            return;
-          }
-          const palavras = limpo.split(/\s+/);
-          let linhaAtual = '';
-          const linhas = [];
-          palavras.forEach(palavra => {
-            const teste = linhaAtual ? `${linhaAtual} ${palavra}` : palavra;
-            if (teste.length <= maxChars) {
-              linhaAtual = teste;
-            } else {
-              if (linhaAtual) linhas.push(linhaAtual);
-              linhaAtual = palavra;
+      // 5. Tabela: Calagem
+      desenharTituloSecao('Calagem');
+      desenharTabela(
+        [contentWidth * 0.50, contentWidth * 0.25, contentWidth * 0.25],
+        ['Parâmetro', 'Valor Calculado', 'Custo Estimado (R$)'],
+        [
+          ['Saturação por Bases', extrairTextoLimpo('res-nc-sat'), extrairTextoLimpo('res-custo-sat')],
+          [extrairTextoLimpo('label-ncprnt'), extrairTextoLimpo('res-ncprnt'), extrairTextoLimpo('res-custo-calcario')]
+        ],
+        ['left', 'center', 'center']
+      );
+
+      // 6. Tabela: Recomendação Teórica dos Nutrientes
+      desenharTituloSecao('Recomendação Teórica dos Nutrientes para a Cultura (Plantio/Semeio)');
+      desenharTabela(
+        [contentWidth / 3, contentWidth / 3, contentWidth / 3],
+        ['N (kg/ha)', 'P₂O₅ (kg/ha)', 'K₂O (kg/ha)'],
+        [
+          [extrairTextoLimpo('dose_n'), extrairTextoLimpo('dose_p2o5'), extrairTextoLimpo('dose_k2o')]
+        ],
+        ['center', 'center', 'center']
+      );
+
+      // 7. Tabela: Fertilizantes Calculados Individualmente
+      desenharTituloSecao('Fertilizantes Calculados Individualmente');
+      desenharTabela(
+        [contentWidth * 0.45, contentWidth * 0.33, contentWidth * 0.22],
+        ['Fertilizante Comercial', 'Quantidade (kg/ha)', 'Valor (R$)'],
+        [
+          ['Sulfato de Amônio', extrairLinhasRicasCelula('fc-samonio-peso'), extrairLinhasRicasCelula('fc-samonio-valor')],
+          ['Ureia', extrairLinhasRicasCelula('fc-ureia-peso'), extrairLinhasRicasCelula('fc-ureia-valor')],
+          ['Superfosfato Simples (SFS)', extrairLinhasRicasCelula('fc-sfs-peso'), extrairLinhasRicasCelula('fc-sfs-valor')],
+          ['Superfosfato Triplo (SFT)', extrairLinhasRicasCelula('fc-sft-peso'), extrairLinhasRicasCelula('fc-sft-valor')],
+          ['Cloreto de Potássio (KCl)', extrairLinhasRicasCelula('fc-kcl-peso'), extrairLinhasRicasCelula('fc-kcl-valor')]
+        ],
+        ['left', 'left', 'right']
+      );
+
+      // 8. Tabela: Formulação e Adubação Agrupada
+      desenharTituloSecao('Formulação e Adubação Agrupada');
+      desenharTabela(
+        [contentWidth * 0.40, contentWidth * 0.20, contentWidth * 0.20, contentWidth * 0.20],
+        ['Grupo / Fontes Utilizadas', 'Formulação N-P-K', 'Qtd (kg/ha)', 'Custo Total (R$)'],
+        [
+          [
+            [{ segments: [{ text: 'Grupo 1: ', bold: true }, { text: 'Sulf. de Amônio + SFT + KCl', bold: false }], size: 8.0, color: [0.15, 0.15, 0.15] }],
+            extrairLinhasRicasCelula('g1-formula'),
+            extrairLinhasRicasCelula('g1-qtd'),
+            extrairLinhasRicasCelula('g1-custo')
+          ],
+          [
+            [{ segments: [{ text: 'Grupo 2: ', bold: true }, { text: 'Ureia + SFS + KCl', bold: false }], size: 8.0, color: [0.15, 0.15, 0.15] }],
+            extrairLinhasRicasCelula('g2-formula'),
+            extrairLinhasRicasCelula('g2-qtd'),
+            extrairLinhasRicasCelula('g2-custo')
+          ]
+        ],
+        ['left', 'center', 'center', 'center']
+      );
+
+      // 9. Recomendações Adicionais da Cultura (quando visível)
+      const containerRec = document.getElementById('container-recomendacoes-cultura');
+      const textoRecEl = document.getElementById('texto-recomendacoes-cultura');
+      if (containerRec && containerRec.style.display !== 'none' && textoRecEl) {
+        const paragrafosNodes = Array.from(textoRecEl.querySelectorAll('p'));
+        const blocosRec = [];
+        paragrafosNodes.forEach(pNode => {
+          const txt = (pNode.textContent || '').replace(/\s+/g, ' ').trim();
+          if (!txt) return;
+          const isRef = txt.startsWith('Referência:') || pNode.innerHTML.includes('font-size: 8px');
+          const size = isRef ? 6.8 : 7.8;
+          const linhasQ = quebrarTextoEmLinhas(txt, contentWidth - 16, size, false);
+          blocosRec.push({ linhas: linhasQ, size: size });
+        });
+        if (blocosRec.length > 0) {
+          desenharTituloSecao('Recomendações Adicionais da Cultura');
+          let alturaRec = 14;
+          blocosRec.forEach((b, idx) => {
+            alturaRec += b.linhas.length * (b.size + 3.2) + (idx < blocosRec.length - 1 ? 5 : 0);
+          });
+          checarEspaco(Math.min(alturaRec, 90));
+          // Desenhar bloco paginado se necessário
+          let yInicioBox = y;
+          let yCursorBox = y - 13;
+          const linhasFlat = [];
+          blocosRec.forEach((b, idx) => {
+            b.linhas.forEach(l => linhasFlat.push({ text: l, size: b.size, spaceAfter: 0 }));
+            if (idx < blocosRec.length - 1 && linhasFlat.length > 0) {
+              linhasFlat[linhasFlat.length - 1].spaceAfter = 5;
             }
           });
-          if (linhaAtual) linhas.push(linhaAtual);
-
-          linhas.forEach(linha => {
-            checarEspaco(lineHeight);
-            const esc = escaparStringPDF(linha);
-            paginas[paginas.length - 1].push(
-              `BT /${font} ${size} Tf ${r} ${g} ${b} rg ${marginLeft + indent} ${y} Td (${esc}) Tj ET`
-            );
-            y -= lineHeight;
-          });
-        });
-        if (opts.spaceAfter) y -= opts.spaceAfter;
+          let idxL = 0;
+          while (idxL < linhasFlat.length) {
+            yInicioBox = y;
+            yCursorBox = y - 13;
+            const desenharNestaPagina = [];
+            while (idxL < linhasFlat.length) {
+              const itemL = linhasFlat[idxL];
+              const step = itemL.size + 3.2 + itemL.spaceAfter;
+              if (yCursorBox - step < marginBottom + 8 && desenharNestaPagina.length > 0) {
+                break;
+              }
+              desenharNestaPagina.push({ ...itemL, yPos: yCursorBox });
+              yCursorBox -= step;
+              idxL++;
+            }
+            const hBox = (yInicioBox - yCursorBox) + 4;
+            desenharRetangulo(marginLeft, yInicioBox, contentWidth, hBox, {
+              fill: [0.98, 0.98, 0.98],
+              stroke: [0.8, 0.8, 0.8],
+              lineWidth: 0.6
+            });
+            desenharNestaPagina.forEach(d => {
+              escreverTexto(d.text, marginLeft + 8, d.yPos, { bold: false, size: d.size, color: [0.2, 0.2, 0.2] });
+            });
+            y = yInicioBox - hBox - 10;
+            if (idxL < linhasFlat.length) {
+              novaPagina();
+            }
+          }
+        }
       }
 
-      // Cabeçalho
-      escreverBloco('FertAmapa - Embrapa', { bold: true, size: 11, r: 0.18, g: 0.49, b: 0.20, spaceAfter: 2 });
-      escreverBloco('Proposta de Correcao e Adubacao do Solo', { bold: true, size: 14, r: 0.00, g: 0.23, b: 0.44, spaceAfter: 4 });
-      desenharLinhaSeparadora();
-
-      // Identificação
-      escreverBloco(`Solicitante: ${extrairTextoLimpo('relatorio_solicitante') || '-'}`, { size: 9 });
-      escreverBloco(`Procedencia: ${extrairTextoLimpo('relatorio_procedencia') || '-'}`, { size: 9 });
-      escreverBloco(`Area: ${extrairTextoLimpo('relatorio_area') || '-'}`, { size: 9 });
-      escreverBloco(`N de Protocolo: ${extrairTextoLimpo('relatorio_protocolo') || '-'}`, { size: 9 });
-      escreverBloco(`Cultura Selecionada: ${extrairTextoLimpo('relatorio_cultura') || '-'}`, { bold: true, size: 9.5, r: 0.00, g: 0.23, b: 0.44, spaceAfter: 8 });
-
-      // Calagem
-      escreverBloco('Calagem', { bold: true, size: 11, r: 0.00, g: 0.23, b: 0.44, spaceAfter: 2 });
-      escreverBloco(`- Saturacao por Bases: ${extrairTextoLimpo('res-nc-sat')} | Custo Estimado: ${extrairTextoLimpo('res-custo-sat')}`, { size: 9 });
-      escreverBloco(`- ${extrairTextoLimpo('label-ncprnt')}: ${extrairTextoLimpo('res-ncprnt')} | Custo Estimado: ${extrairTextoLimpo('res-custo-calcario')}`, { bold: true, size: 9, spaceAfter: 8 });
-
-      // Recomendação Teórica
-      escreverBloco('Recomendacao Teorica dos Nutrientes para a Cultura (Plantio/Semeio)', { bold: true, size: 11, r: 0.00, g: 0.23, b: 0.44, spaceAfter: 2 });
-      escreverBloco(`N: ${extrairTextoLimpo('dose_n')} kg/ha   |   P2O5: ${extrairTextoLimpo('dose_p2o5')} kg/ha   |   K2O: ${extrairTextoLimpo('dose_k2o')} kg/ha`, { size: 9.5, spaceAfter: 8 });
-
-      // Fertilizantes Calculados Individualmente
-      escreverBloco('Fertilizantes Calculados Individualmente', { bold: true, size: 11, r: 0.00, g: 0.23, b: 0.44, spaceAfter: 2 });
-      const ferts = [
-        ['Sulfato de Amonio', 'fc-samonio-peso', 'fc-samonio-valor'],
-        ['Ureia', 'fc-ureia-peso', 'fc-ureia-valor'],
-        ['Superfosfato Simples (SFS)', 'fc-sfs-peso', 'fc-sfs-valor'],
-        ['Superfosfato Triplo (SFT)', 'fc-sft-peso', 'fc-sft-valor'],
-        ['Cloreto de Potassio (KCl)', 'fc-kcl-peso', 'fc-kcl-valor']
-      ];
-      ferts.forEach(([nome, idPeso, idValor]) => {
-        const pesoTxt = extrairTextoLimpo(idPeso).replace(/\n/g, ' ; ');
-        const valorTxt = extrairTextoLimpo(idValor).replace(/\n/g, ' ; ');
-        escreverBloco(`- ${nome}: ${pesoTxt} (${valorTxt})`, { size: 8.8, spaceAfter: 2 });
-      });
-      y -= 6;
-
-      // Formulação e Adubação Agrupada
-      escreverBloco('Formulacao e Adubacao Agrupada', { bold: true, size: 11, r: 0.00, g: 0.23, b: 0.44, spaceAfter: 2 });
-      escreverBloco(`Grupo 1 (Sulf. de Amonio + SFT + KCl): Formula ${extrairTextoLimpo('g1-formula').replace(/\n/g, ' ; ')} | Qtd: ${extrairTextoLimpo('g1-qtd').replace(/\n/g, ' ; ')} | Custo: ${extrairTextoLimpo('g1-custo').replace(/\n/g, ' ; ')}`, { size: 8.8, spaceAfter: 3 });
-      escreverBloco(`Grupo 2 (Ureia + SFS + KCl): Formula ${extrairTextoLimpo('g2-formula').replace(/\n/g, ' ; ')} | Qtd: ${extrairTextoLimpo('g2-qtd').replace(/\n/g, ' ; ')} | Custo: ${extrairTextoLimpo('g2-custo').replace(/\n/g, ' ; ')}`, { size: 8.8, spaceAfter: 8 });
-
-      // Recomendações Adicionais da Cultura
-      const recCultura = extrairTextoLimpo('texto-recomendacoes-cultura');
-      if (recCultura) {
-        escreverBloco('Recomendacoes Adicionais da Cultura', { bold: true, size: 11, r: 0.00, g: 0.23, b: 0.44, spaceAfter: 2 });
-        escreverBloco(recCultura, { size: 8.5, spaceAfter: 6 });
-      }
-
-      // Nota técnica
+      // 10. Nota Técnica (#nota-cobertura)
       const notaTxt = extrairTextoLimpo('nota-cobertura');
       if (notaTxt) {
-        escreverBloco(notaTxt, { size: 8.5, r: 0.00, g: 0.23, b: 0.44, spaceAfter: 8 });
+        const linhasNota = quebrarTextoEmLinhas(notaTxt, contentWidth - 16, 7.8, true);
+        const hNota = 14 + linhasNota.length * 11;
+        checarEspaco(hNota + 6);
+        desenharRetangulo(marginLeft, y, contentWidth, hNota, {
+          fill: [0.890, 0.949, 0.992],
+          stroke: [0.8, 0.8, 0.8],
+          lineWidth: 0.6
+        });
+        let yNota = y - 13;
+        linhasNota.forEach(ln => {
+          escreverTexto(ln, marginLeft + 8, yNota, { bold: true, size: 7.8, color: [0.00, 0.23, 0.44] });
+          yNota -= 11;
+        });
+        y -= (hNota + 10);
       }
 
-      // Observações Técnicas Complementares
+      // 11. Observações Técnicas Complementares
+      desenharTituloSecao('Observações Técnicas Complementares');
       const obsTxt = extrairTextoLimpo('obs_tecnicas');
-      if (obsTxt) {
-        escreverBloco('Observacoes Tecnicas Complementares', { bold: true, size: 11, r: 0.00, g: 0.23, b: 0.44, spaceAfter: 2 });
-        escreverBloco(obsTxt, { size: 8.8, spaceAfter: 6 });
-      }
+      const linhasObs = obsTxt ? quebrarTextoEmLinhas(obsTxt, contentWidth - 16, 8.2, false) : [];
+      const hObs = Math.max(52, 16 + linhasObs.length * 11.5);
+      checarEspaco(hObs + 4);
+      desenharRetangulo(marginLeft, y, contentWidth, hObs, {
+        fill: [1, 1, 1],
+        stroke: [0.8, 0.8, 0.8],
+        lineWidth: 0.6
+      });
+      let yObs = y - 14;
+      linhasObs.forEach(lo => {
+        escreverTexto(lo, marginLeft + 8, yObs, { bold: false, size: 8.2, color: [0.2, 0.2, 0.2] });
+        yObs -= 11.5;
+      });
+      y -= (hObs + 10);
 
-      // Rodapé com numeração de páginas
+      // 12. Rodapé em todas as páginas (© Embrapa 2026. + paginação)
       const totalPaginas = paginas.length;
       paginas.forEach((comandos, idx) => {
-        const rodape = escaparStringPDF(`Embrapa 2026 - Pagina ${idx + 1}/${totalPaginas}`);
-        comandos.push(`BT /F1 8 Tf 0.4 0.4 0.4 rg ${marginLeft} 28 Td (${rodape}) Tj ET`);
+        const rodapeCentro = '© Embrapa 2026.';
+        const wCentro = medirLarguraTextoPDF(rodapeCentro, 7.5, false);
+        const xCentro = (pageWidth - wCentro) / 2;
+        const pagStr = `${idx + 1}/${totalPaginas}`;
+        const wPag = medirLarguraTextoPDF(pagStr, 7.5, false);
+        const xPag = pageWidth - marginRight - wPag;
+        comandos.push(`BT /F1 7.5 Tf 0.4 0.4 0.4 rg ${xCentro.toFixed(2)} 24 Td (${escaparStringPDF(rodapeCentro)}) Tj ET`);
+        comandos.push(`BT /F1 7.5 Tf 0.2 0.2 0.2 rg ${xPag.toFixed(2)} 24 Td (${escaparStringPDF(pagStr)}) Tj ET`);
       });
 
-      // Montagem do arquivo PDF 1.4
+      // Montagem binária do arquivo PDF 1.4
       const objetos = [];
+      const hasImage = !!logoJpeg;
+      const firstPageObjNum = hasImage ? 6 : 5;
       objetos.push('<< /Type /Catalog /Pages 2 0 R >>');
-      const kidsRefs = paginas.map((_, i) => `${5 + i * 2} 0 R`).join(' ');
+      const kidsRefs = paginas.map((_, i) => `${firstPageObjNum + i * 2} 0 R`).join(' ');
       objetos.push(`<< /Type /Pages /Kids [ ${kidsRefs} ] /Count ${totalPaginas} >>`);
       objetos.push('<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica /Encoding /WinAnsiEncoding >>');
       objetos.push('<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold /Encoding /WinAnsiEncoding >>');
+      if (hasImage) {
+        objetos.push(`<< /Type /XObject /Subtype /Image /Width ${logoJpeg.width} /Height ${logoJpeg.height} /ColorSpace /DeviceRGB /BitsPerComponent 8 /Filter /DCTDecode /Length ${logoJpeg.data.length} >>\nstream\n${logoJpeg.data}\nendstream`);
+      }
 
+      const xObjectRes = hasImage ? ' /XObject << /Im1 5 0 R >>' : '';
       paginas.forEach((comandos, i) => {
-        const pageObjNum = 5 + i * 2;
+        const pageObjNum = firstPageObjNum + i * 2;
         const contentObjNum = pageObjNum + 1;
         const stream = comandos.join('\n');
-        objetos.push(`<< /Type /Page /Parent 2 0 R /MediaBox [0 0 ${pageWidth} ${pageHeight}] /Resources << /Font << /F1 3 0 R /F2 4 0 R >> >> /Contents ${contentObjNum} 0 R >>`);
+        objetos.push(`<< /Type /Page /Parent 2 0 R /MediaBox [0 0 ${pageWidth} ${pageHeight}] /Resources << /Font << /F1 3 0 R /F2 4 0 R >>${xObjectRes} >> /Contents ${contentObjNum} 0 R >>`);
         objetos.push(`<< /Length ${stream.length} >>\nstream\n${stream}\nendstream`);
       });
 
@@ -1944,13 +2400,14 @@
       document.body.removeChild(link);
       setTimeout(() => URL.revokeObjectURL(url), 4000);
     }
+
     function gerarPDF() {
       sincronizarCamposIdentificacao();
       calcular();
       switchTab('RELATORIO');
       window.scrollTo(0, 0);
 
-      if (typeof window.print !== 'function') {
+      if (isTelaPequenaOuMobile() || typeof window.print !== 'function') {
         baixarPDFNativo();
         return;
       }
@@ -1971,7 +2428,7 @@
       }
       const duracao = Date.now() - inicio;
 
-      if (isTelaPequenaOuMobile() && !printDisparado && duracao < 250) {
+      if (!printDisparado && duracao < 250) {
         setTimeout(() => {
           window.removeEventListener('beforeprint', onBeforePrint);
           if (!printDisparado) {
@@ -1984,16 +2441,136 @@
         }, 1000);
       }
     }
-    function compartilharRelatorio() {
-      if (navigator.share) {
-        navigator.share({
-          title: 'Relatório',
-          text: 'Confira os resultados de calagem e adubação gerados pelo FertAmapá.'
-        }).catch(() => {});
+
+    function gerarTextoRelatorio() {
+      const solicitante = extrairTextoLimpo('relatorio_solicitante') || '-';
+      const procedencia = extrairTextoLimpo('relatorio_procedencia') || '-';
+      const area = extrairTextoLimpo('relatorio_area') || '-';
+      const protocolo = extrairTextoLimpo('relatorio_protocolo') || '-';
+      const cultura = extrairTextoLimpo('relatorio_cultura') || '-';
+
+      const ncSat = extrairTextoLimpo('res-nc-sat');
+      const custoSat = extrairTextoLimpo('res-custo-sat');
+      const labelCalc = extrairTextoLimpo('label-ncprnt');
+      const ncPrnt = extrairTextoLimpo('res-ncprnt');
+      const custoCalc = extrairTextoLimpo('res-custo-calcario');
+
+      const doseN = extrairTextoLimpo('dose_n');
+      const doseP = extrairTextoLimpo('dose_p2o5');
+      const doseK = extrairTextoLimpo('dose_k2o');
+
+      const formatarLinhaFert = (nome, idPeso, idValor) => {
+        const peso = extrairTextoLimpo(idPeso).replace(/\n/g, ' | ');
+        const valor = extrairTextoLimpo(idValor).replace(/\n/g, ' | ');
+        return `• ${nome}: ${peso} (${valor})`;
+      };
+
+      const g1Formula = extrairTextoLimpo('g1-formula').replace(/\n/g, ' | ');
+      const g1Qtd = extrairTextoLimpo('g1-qtd').replace(/\n/g, ' | ');
+      const g1Custo = extrairTextoLimpo('g1-custo').replace(/\n/g, ' | ');
+
+      const g2Formula = extrairTextoLimpo('g2-formula').replace(/\n/g, ' | ');
+      const g2Qtd = extrairTextoLimpo('g2-qtd').replace(/\n/g, ' | ');
+      const g2Custo = extrairTextoLimpo('g2-custo').replace(/\n/g, ' | ');
+
+      const linhas = [
+        '🌱 *FertAmapá - Embrapa*',
+        '*Proposta de Correção e Adubação do Solo*',
+        '',
+        `*Solicitante:* ${solicitante}`,
+        `*Procedência:* ${procedencia}`,
+        `*Área:* ${area}`,
+        `*Nº de Protocolo:* ${protocolo}`,
+        `*Cultura Selecionada:* ${cultura}`,
+        '',
+        '*1. CALAGEM*',
+        `• Saturação por Bases: ${ncSat} | Custo Estimado: ${custoSat}`,
+        `• ${labelCalc}: ${ncPrnt} | Custo Estimado: ${custoCalc}`,
+        '',
+        '*2. RECOMENDAÇÃO TEÓRICA DOS NUTRIENTES (PLANTIO/SEMEIO)*',
+        `• N: ${doseN} kg/ha | P₂O₅: ${doseP} kg/ha | K₂O: ${doseK} kg/ha`,
+        '',
+        '*3. FERTILIZANTES CALCULADOS INDIVIDUALMENTE*',
+        formatarLinhaFert('Sulfato de Amônio', 'fc-samonio-peso', 'fc-samonio-valor'),
+        formatarLinhaFert('Ureia', 'fc-ureia-peso', 'fc-ureia-valor'),
+        formatarLinhaFert('Superfosfato Simples (SFS)', 'fc-sfs-peso', 'fc-sfs-valor'),
+        formatarLinhaFert('Superfosfato Triplo (SFT)', 'fc-sft-peso', 'fc-sft-valor'),
+        formatarLinhaFert('Cloreto de Potássio (KCl)', 'fc-kcl-peso', 'fc-kcl-valor'),
+        '',
+        '*4. FORMULAÇÃO E ADUBAÇÃO AGRUPADA*',
+        `• Grupo 1 (Sulf. de Amônio + SFT + KCl): Formulação ${g1Formula} | Qtd: ${g1Qtd} | Custo Total: ${g1Custo}`,
+        `• Grupo 2 (Ureia + SFS + KCl): Formulação ${g2Formula} | Qtd: ${g2Qtd} | Custo Total: ${g2Custo}`
+      ];
+
+      const containerRec = document.getElementById('container-recomendacoes-cultura');
+      const recCultura = extrairTextoLimpo('texto-recomendacoes-cultura');
+      if (containerRec && containerRec.style.display !== 'none' && recCultura) {
+        linhas.push('', '*5. RECOMENDAÇÕES ADICIONAIS DA CULTURA*', recCultura);
+      }
+
+      const notaTxt = extrairTextoLimpo('nota-cobertura');
+      if (notaTxt) {
+        linhas.push('', notaTxt);
+      }
+
+      const obsTxt = extrairTextoLimpo('obs_tecnicas');
+      if (obsTxt) {
+        linhas.push('', '*OBSERVAÇÕES TÉCNICAS COMPLEMENTARES*', obsTxt);
+      }
+
+      linhas.push('', '© Embrapa 2026.');
+      return linhas.join('\n');
+    }
+
+    function copiarTextoRelatorioFallback(texto) {
+      if (navigator.clipboard && typeof navigator.clipboard.writeText === 'function') {
+        navigator.clipboard.writeText(texto).then(() => {
+          alert('Conteúdo completo do relatório copiado para a área de transferência! Cole (Colar / Ctrl+V) no WhatsApp, e-mail ou aplicativo desejado para enviar.');
+        }).catch(() => {
+          copiarViaTextarea(texto);
+        });
       } else {
-        alert("A função de compartilhamento não é suportada neste navegador.");
+        copiarViaTextarea(texto);
       }
     }
+
+    function copiarViaTextarea(texto) {
+      const ta = document.createElement('textarea');
+      ta.value = texto;
+      ta.style.position = 'fixed';
+      ta.style.left = '-9999px';
+      document.body.appendChild(ta);
+      ta.focus();
+      ta.select();
+      try {
+        document.execCommand('copy');
+        alert('Conteúdo completo do relatório copiado para a área de transferência! Cole (Colar / Ctrl+V) no WhatsApp, e-mail ou aplicativo desejado para enviar.');
+      } catch (e) {
+        alert('Não foi possível compartilhar automaticamente neste navegador.');
+      }
+      document.body.removeChild(ta);
+    }
+
+    function compartilharRelatorio() {
+      sincronizarCamposIdentificacao();
+      calcular();
+      switchTab('RELATORIO');
+      const textoRelatorio = gerarTextoRelatorio();
+
+      if (navigator.share) {
+        navigator.share({
+          title: 'Relatório FertAmapá - Proposta de Correção e Adubação do Solo',
+          text: textoRelatorio
+        }).catch((err) => {
+          if (err && err.name !== 'AbortError') {
+            copiarTextoRelatorioFallback(textoRelatorio);
+          }
+        });
+      } else {
+        copiarTextoRelatorioFallback(textoRelatorio);
+      }
+    }
+
     const camposPreco = [
       'preco_calcario',
       'preco_samonio',
