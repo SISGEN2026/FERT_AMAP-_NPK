@@ -1234,7 +1234,8 @@
     };
     
     const tabelaNivelBaixo = {
-      "ABACAXI": [ { ano: 1, pEscala: "0 – 10", kEscala: "0 - 0.10", pMin: 0, pMax: 10, kMin: 0, kMax: 0.10, n: 60, nCobertura: 60, p: 80, pCobertura: 0, k: 160, kCobertura: 160 } ],
+      "ABACAXI": [ 
+        { ano: 1, pEscala: "0 – 10", kEscala: "0 - 0.10", pMin: 0, pMax: 10, kMin: 0, kMax: 0.10, n: 0, nCobertura: 120, p: 80, pCobertura: 0, k: 0, kCobertura: 320 } ],
       "AÇAÍ": [
         { ano: 1, pEscala: "0 – 10", kEscala: "0 - 0.10", pMin: 0, pMax: 10, kMin: 0, kMax: 0.10, n: 0, nCobertura: 90, p: 40, pCobertura: 0, k: 0, kCobertura: 100 },
         { ano: 2, pEscala: "0 – 10", kEscala: "0 - 0.10", pMin: 0, pMax: 10, kMin: 0, kMax: 0.10, n: 0, nCobertura: 120, p: 0, pCobertura: 50, k: 0, kCobertura: 125 },
@@ -1293,7 +1294,8 @@
       "SOJA": [ { ano: 1, pEscala: "0 – 8", kEscala: "0 - 0.10", pMin: 0, pMax: 8, kMin: 0, kMax: 0.10, n: 5, nCobertura: 0, p: 100, pCobertura: 0, k: 45, kCobertura: 45 } ]
     };
     const tabelaNivelMedio = {
-      "ABACAXI": [ { ano: 1, pEscala: "11 – 20", kEscala: "0.11 – 0.15", pMin: 11, pMax: 20, kMin: 0.11, kMax: 0.15, n: 60, nCobertura: 60, p: 70, pCobertura: 0, k: 140, kCobertura: 140 } ],
+      "ABACAXI": [ 
+        { ano: 1, pEscala: "11 – 20", kEscala: "0.11 – 0.15", pMin: 11, pMax: 20, kMin: 0.11, kMax: 0.15, n: 0, nCobertura: 120, p: 70, pCobertura: 0, k: 0, kCobertura: 280 } ],
       "AÇAÍ": [
         { ano: 1, pEscala: "11 – 20", kEscala: "0.11 – 0.23", pMin: 11, pMax: 20, kMin: 0.11, kMax: 0.23, n: 0, nCobertura: 90, p: 32, pCobertura: 0, k: 0, kCobertura: 67 },
         { ano: 2, pEscala: "11 – 20", kEscala: "0.11 – 0.23", pMin: 11, pMax: 20, kMin: 0.11, kMax: 0.23, n: 0, nCobertura: 120, p: 0, pCobertura: 40, k: 0, kCobertura: 84 },
@@ -1352,7 +1354,8 @@
       "SOJA": [ { ano: 1, pEscala: "9 – 15", kEscala: "0.11 – 0.23", pMin: 9, pMax: 15, kMin: 0.11, kMax: 0.23, n: 5, nCobertura: 0, p: 75, pCobertura: 0, k: 30, kCobertura: 30 } ]
     };
     const tabelaNivelAlto = {
-      "ABACAXI": [ { ano: 1, pEscala: ">20", kEscala: ">0.15", pMin: 20.01, pMax: Infinity, kMin: 0.1501, kMax: Infinity, n: 60, nCobertura: 60, p: 60, pCobertura: 0, k: 125, kCobertura: 125 } ],
+      "ABACAXI": [ 
+        { ano: 1, pEscala: ">20", kEscala: ">0.15", pMin: 20.01, pMax: Infinity, kMin: 0.1501, kMax: Infinity, n: 0, nCobertura: 120, p: 60, pCobertura: 0, k: 0, kCobertura: 250 } ],
       "AÇAÍ": [
         { ano: 1, pEscala: ">20", kEscala: ">0.23", pMin: 20.01, pMax: Infinity, kMin: 0.2301, kMax: Infinity, n: 0, nCobertura: 90, p: 16, pCobertura: 0, k: 0, kCobertura: 34 },
         { ano: 2, pEscala: ">20", kEscala: ">0.23", pMin: 20.01, pMax: Infinity, kMin: 0.2301, kMax: Infinity, n: 0, nCobertura: 120, p: 0, pCobertura: 20, k: 0, kCobertura: 42 },
@@ -1412,7 +1415,11 @@
     };
     const tabelaRecomendacoesCultura = {
       "ABACAXI": [
-        "A INSERIR"
+        "Os cálculos de adubação da cultura basearam-se em uma densidade de 31250 plantas por hectare, no espaçamento de 1,20 m entre fileiras duplas, 0,40 m entre as fileiras simples e 0,40 m entre plantas na fileira.",
+        "A adubação fosfatada deve ser aplicada em dose única na cova ou no sulco de plantio. Já o nitrogênio (N) e o potássio (K) devem ser divididos em duas aplicações iguais em cobertura, na base ou nas folhas mais velhas ("adubação de colher"), evitando o centro da planta para não danificar as gemas terminais. A primeira parcela ocorre de 2 a 3 meses após o plantio, e a segunda aos 12 meses, junto com a indução floral.",
+        "<div align='left' style='font-size: 8px; line-height: 1.0;'><span style='font-size: 8px; line-height: 1.0;'><strong>Referência:</strong>",
+        "",
+        "<div align='left' style='font-size: 8px; line-height: 1.0;'><span style='font-size: 8px; line-height: 1.0;'</strong> RODRIGUES, J. E. L. F.; VELOSO, C. A. C.; BOTELHO, S. M. Abacaxizeiro. <i>In</i>: BRASIL, E. C.; CRAVO, M. S.; VIÉGAS, I. J. M. (ed. téc.). <strong>Recomendações de calagem e adubação para o estado do Pará</strong>. 2. ed. rev. e atual. Brasília, DF: Embrapa, 2020. Disponível em: https://www.embrapa.br/busca-de-publicacoes/-/publicacao/1125022/recomendacoes-de-calagem-e-adubacao-para-o-estado-do-para. Acesso em: 16 nov. 2026.</span></div>"
       ],
       "AÇAÍ": [
         "Os cálculos de adubação da cultura basearam-se em uma densidade de 1.000 plantas por hectare, no espaçamento de 5 m × 2 m, conduzidas com um estipe por cova.",
@@ -1477,6 +1484,15 @@
         "",
         "<div align='left' style='font-size: 8px; line-height: 1.0;'><span style='font-size: 8px; line-height: 1.0;'>VIÉGAS, I. J. M.; FRAZÃO, D. A. C.; BOTELHO, S. M. Cupuaçuzeiro. <i>In</i>: BRASIL, E. C.; CRAVO, M. S.; VIÉGAS, I. J. M. (ed. téc.). <strong>Recomendações de calagem e adubação para o estado do Pará</strong>. 2. ed. rev. e atual. Brasília, DF: Embrapa, 2020. Disponível em: https://www.embrapa.br/busca-de-publicacoes/-/publicacao/1125022/recomendacoes-de-calagem-e-adubacao-para-o-estado-do-para. Acesso em: 16 nov. 2026.</span></div>"
       ],
+      "FEIJÃO-CAUPI": [
+        "A INSERIR"
+      ],
+      "FORRAGEIRA": [
+        "A INSERIR"
+      ],
+      "MANDIOCA": [
+        "A INSERIR"
+      ],
       "MARACUJÁ": [
         "Os cálculos de adubação da cultura basearam-se em uma densidade de 800 plantas por hectare, no espaçamento de 2,5 m × 5,0 m.",
         "A adubação das covas deve ser feita no momento da abertura. Recomenda-se misturar à terra de cada uma 30 g de FTE BR 12, 611 g de superfosfato simples ou 268 g de superfosfato triplo, e uma das seguintes opções: 20 L de esterco de curral, 5 L de esterco de galinha, 10 L de cama de aviário ou de 1 L a 2 L de torta de mamona.",
@@ -1485,6 +1501,12 @@
         "<div align='left' style='font-size: 8px; line-height: 1.0;'><span style='font-size: 8px; line-height: 1.0;'><strong>Referência:</strong>",
         "",
         "<div align='left' style='font-size: 8px; line-height: 1.0;'><span style='font-size: 8px; line-height: 1.0;'</strong> BRASIL, E. C.; CARVALHO, J. E. U.; DOHARA, R. H. Maracujazeiro. <i>In</i>: BRASIL, E. C.; CRAVO, M. S.; VIÉGAS, I. J. M. (ed. téc.). <strong>Recomendações de calagem e adubação para o estado do Pará</strong>. 2. ed. rev. e atual. Brasília, DF: Embrapa, 2020. Disponível em: https://www.embrapa.br/busca-de-publicacoes/-/publicacao/1125022/recomendacoes-de-calagem-e-adubacao-para-o-estado-do-para. Acesso em: 16 nov. 2026.</span></div>"
+      ],
+      "MELANCIA": [
+        "A INSERIR"
+      ],
+      "MILHO": [
+        "A INSERIR"
       ],
       "PIMENTA-DO-REINO": [
         "Os cálculos de adubação da cultura basearam-se em uma densidade de 1666 plantas por hectare, no espaçamento de 2,5 m × 2,5 m.",
@@ -1495,6 +1517,9 @@
         "<div align='left' style='font-size: 8px; line-height: 1.0;'><span style='font-size: 8px; line-height: 1.0;'><strong>Referência:</strong>",
         "",
         "<div align='left' style='font-size: 8px; line-height: 1.0;'><span style='font-size: 8px; line-height: 1.0;'</strong> OLIVEIRA, R. F.; BOTELHO, S. M.; BRASIL, E. C.; RODRIGUES, J. E. L. F.; NAKAYAMA, L. H. I. Pimenteira-do-reino. <i>In</i>: BRASIL, E. C.; CRAVO, M. S.; VIÉGAS, I. J. M. (ed. téc.). <strong>Recomendações de calagem e adubação para o estado do Pará</strong>. 2. ed. rev. e atual. Brasília, DF: Embrapa, 2020. Disponível em: https://www.embrapa.br/busca-de-publicacoes/-/publicacao/1125022/recomendacoes-de-calagem-e-adubacao-para-o-estado-do-para. Acesso em: 16 nov. 2026.</span></div>"     
+      ],
+      "SOJA": [
+        "A INSERIR"
       ]
     };
     function getTabelaN(nivel = 'BAIXO') {
