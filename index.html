@@ -1967,9 +1967,13 @@
         document.getElementById('g2-custo').innerHTML = htmlG2Custo;
       }
       const notaElem = document.getElementById('nota-cobertura');
-      if (notaElem) {
-        notaElem.innerText = "📌As recomendações desta proposta foram elaboradas com base em tabelas oficiais e na literatura científica, constituindo uma diretriz que deve evoluir com o monitoramento contínuo do solo e da cultura. A definição precisa das dosagens requer assistência técnica especializada, alinhada ao histórico da área e às metas de produtividade. Para outras informações, consulte os Dizeres Técnicos.";
-        notaElem.style.display = 'block';
+        if (notaElem) {
+        notaElem.innerHTML = `
+        <p>📌Os parâmetros de cálculo e as recomendações desta proposta foram adaptados às condições do Amapá e região, fundamentando-se em tabelas oficiais e na literatura científica. Trata-se de uma diretriz inicial que deve ser ajustada continuamente por meio do monitoramento do solo e da cultura.</p>
+        <p>⚠️ A definição precisa das dosagens requer assistência técnica especializada, alinhada ao histórico da área e às metas de produtividade.</p>
+        <p>⚠️ Para outras informações, referências e links de acesso, consulte os Dizeres Técnicos.</p>
+  `;
+  notaElem.style.display = 'block';
       }
     }
     function isTelaPequenaOuMobile() {
